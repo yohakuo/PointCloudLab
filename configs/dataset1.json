@@ -1,0 +1,26 @@
+{
+  "schema_version": "pointcloudlab.dataset.v1",
+  "dataset_id": "20260916_formal",
+  "description": "INSPIRE 2 与 FAST-LIVO2 当前正式配准数据",
+  "units": {
+    "source": "mm",
+    "target": "m"
+  },
+  "inputs": {
+    "source_full": "data/raw/20260916_181134_pc.ply",
+    "target_full": "data/raw/09161837.pcd",
+    "source_roi": "data/processed/20260916_181134_pc_roi.ply",
+    "target_roi": "data/processed/09161837roi.pcd",
+    "target_board_manual": null,
+    "target_object_manual": null
+  },
+  "output_root": "outputs",
+  "target_selection_mode": "automatic",
+  "approvals": {
+    "stage3_reviewed": true
+  },
+  "selection": {
+    "parent_candidate_id":  null,
+    "refined_candidate_id": null
+  }
+}

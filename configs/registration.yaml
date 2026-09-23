@@ -1,0 +1,237 @@
+{
+  "project": {
+    "transform_direction": "INSPIRE_TO_FAST",
+    "source_role": "INSPIRE_2",
+    "target_role": "FAST_LIVO2",
+    "source_native_unit": "mm",
+    "target_native_unit": "m",
+    "source_to_m_scale": 0.001
+  },
+  "inspection": {
+    "random_seed": 42,
+    "nearest_neighbor_sample_size": 10000,
+    "duplicate_exact_limit": 2000000,
+    "plane_distance_threshold_m": 0.003,
+    "plane_ransac_n": 3,
+    "plane_num_iterations": 2000,
+    "protrusion_sigma_multiplier": 3.0,
+    "protrusion_min_height_m": 0.002,
+    "abnormal_offset_ratio": 1000.0
+  },
+  "segmentation": {
+    "random_seed": 42,
+    "target_selection_mode": "manual_files",
+    "target_manual_files": {
+      "board_file": "data/processed/target_board_manual.pcd",
+      "object_file": "data/processed/target_object_manual.pcd"
+    },
+    "source_plane": {
+      "distance_threshold_m": 0.0005,
+      "ransac_n": 3,
+      "num_iterations": 2000
+    },
+    "target_plane": {
+      "distance_threshold_m": 0.003,
+      "ransac_n": 3,
+      "num_iterations": 2000
+    },
+    "source_object": {
+      "side": "auto",
+      "threshold_sigma_multiplier": 4.0,
+      "minimum_threshold_m": 0.002,
+      "cluster_eps_m": 0.001,
+      "cluster_min_points": 12,
+      "minimum_cluster_points": 500,
+      "maximum_object_extent_m": 0.35,
+      "centrality_limit": 0.8,
+      "auto_score_ratio": 1.5
+    },
+    "target_object": {
+      "side": "auto",
+      "threshold_sigma_multiplier": 4.0,
+      "minimum_threshold_m": 0.004,
+      "cluster_eps_m": 0.004,
+      "cluster_min_points": 3,
+      "minimum_cluster_points": 30,
+      "maximum_object_extent_m": 0.35,
+      "centrality_limit": 0.8,
+      "auto_score_ratio": 1.5
+    },
+    "target_heightmap": {
+      "enabled": true,
+      "side": "negative",
+      "plane_outer_fraction": 0.20,
+      "minimum_refit_points": 1000,
+      "minimum_refit_inlier_ratio": 0.20,
+      "grid_size_m": 0.004,
+      "minimum_points_per_cell": 1,
+      "cell_depth_quantile": 0.75,
+      "high_threshold_sigma_multiplier": 4.0,
+      "high_threshold_minimum_m": 0.004,
+      "low_threshold_sigma_multiplier": 2.0,
+      "low_threshold_minimum_m": 0.002,
+      "morphology_close_radius_cells": 1,
+      "maximum_gap_cells": 2,
+      "connectivity": 8,
+      "strong_anchor_depth_multiplier": 2.0,
+      "minimum_strong_anchor_cells": 3,
+      "strong_anchor_open_radius_cells": 1,
+      "minimum_object_points": 30,
+      "minimum_occupied_cells": 15,
+      "minimum_projection_extent_m": 0.025,
+      "maximum_projection_extent_m": 0.12,
+      "minimum_aspect_ratio": 0.60,
+      "maximum_aspect_ratio": 1.67,
+      "source_extent_minimum_ratio": 0.50,
+      "source_extent_maximum_ratio": 2.00,
+      "maximum_roi_boundary_fraction": 0.25,
+      "maximum_object_depth_m": 0.08,
+      "allow_plane_refit_fallback": true,
+      "minimum_best_score_ratio": 1.08
+    },
+    "target_manual_validation": {
+      "known_manual_concerns": [],
+      "acknowledged_manual_limitations": [
+        "target_object_depth_is_mixed_with_board_due_to_FAST_noise_or_return_fusion",
+        "target_object_planar_orientation_is_highly_symmetric_and_may_be_ambiguous"
+      ],
+      "target_full_aabb_margin_m": 0.01,
+      "target_roi_aabb_margin_m": 0.02,
+      "minimum_target_roi_fraction": 0.9,
+      "minimum_board_plane_inlier_ratio": 0.3,
+      "minimum_projection_extent_m": 0.01,
+      "minimum_object_points": 30,
+      "object_cluster_eps_m": 0.004,
+      "object_cluster_min_points": 3,
+      "minimum_largest_component_ratio": 0.5,
+      "maximum_object_roi_boundary_fraction": 0.25,
+      "overlap_minimum_count": 5,
+      "overlap_ratio_threshold": 0.01
+    }
+  },
+  "coarse_registration": {
+    "schema_version": "pointcloudlab.stage3.v1",
+    "plane_fit": {
+      "source_distance_threshold_m": 0.0005,
+      "target_distance_threshold_m": 0.003,
+      "ransac_n": 3,
+      "num_iterations": 3000,
+      "random_seed": 42,
+      "repeat_seeds": [42, 314159, 271828]
+    },
+    "geometry": {
+      "contour_sample_count": 600,
+      "contour_outlier_percentile": 98.0,
+      "contour_angle_step_deg": 1.0,
+      "pca_degeneracy_eigenvalue_ratio": 0.12,
+      "square_obb_aspect_tolerance": 0.15,
+      "translation_methods": ["robust_centroid", "obb_center", "contour_search"],
+      "search_window_m": 0.012,
+      "search_step_m": 0.003,
+      "search_trim_fraction": 0.8,
+      "search_peaks_per_direction": 2,
+      "search_nms_distance_m": 0.004,
+      "minimum_valid_points": 30
+    },
+    "coarse_gates": {
+      "maximum_board_normal_angle_deg": 40.0,
+      "maximum_board_plane_distance_m": 0.03,
+      "maximum_object_trimmed_chamfer_m": 0.08,
+      "minimum_object_overlap_ratio_at_15mm": 0.01,
+      "aabb_disconnection_margin_m": 0.10,
+      "diagnostic_sample_limit": 1800,
+      "trim_fraction": 0.8
+    },
+    "deduplication": {
+      "rotation_threshold_deg": 3.0,
+      "translation_threshold_m": 0.006,
+      "algorithm": "deterministic_greedy_SE3",
+      "representative_rule": "lowest coarse rank, then stable candidate_id",
+      "minimum_per_generator": 2,
+      "maximum_canonical_candidates": 16
+    }
+  },
+  "refinement": {
+    "schema_version": "pointcloudlab.stage4.v3",
+    "random_seed": 42,
+    "sampling": {
+      "method": "independent_region_voxel_then_explicit_region_correspondence",
+      "maximum_points_per_region": 1400,
+      "maximum_board_to_object_ratio": 1.0
+    },
+    "normal_estimation": {
+      "radius_ratio": 4.0,
+      "max_nn": 100,
+      "orientation": "flip_each_finite_unit_normal_toward_the_deterministic_region_PCA_plane_normal"
+    },
+    "covariance_estimation": {
+      "radius_ratio": 4.0,
+      "max_nn": 100,
+      "gicp_epsilon": 0.001,
+      "source": "Open3D estimate_covariances on each independently voxelized and balanced region"
+    },
+    "gicp_levels": [
+      {"voxel_size_m": 0.005, "max_correspondence_distance_m": 0.015, "max_iterations": 12},
+      {"voxel_size_m": 0.004, "max_correspondence_distance_m": 0.010, "max_iterations": 12},
+      {"voxel_size_m": 0.003, "max_correspondence_distance_m": 0.007, "max_iterations": 12}
+    ],
+    "robust_point_to_plane_levels": [
+      {"voxel_size_m": 0.005, "max_correspondence_distance_m": 0.006, "max_iterations": 12, "huber_k_m": 0.004},
+      {"voxel_size_m": 0.004, "max_correspondence_distance_m": 0.004, "max_iterations": 12, "huber_k_m": 0.003},
+      {"voxel_size_m": 0.003, "max_correspondence_distance_m": 0.0025, "max_iterations": 12, "huber_k_m": 0.002}
+    ],
+    "convergence": {
+      "relative_fitness": 1e-6,
+      "relative_rmse": 1e-6,
+      "translation_step_m": 1e-6,
+      "rotation_step_deg": 0.001,
+      "patience": 2
+    },
+    "sanity_gates": {
+      "minimum_correspondence_absolute": {"board": 50, "object": 20},
+      "minimum_correspondence_ratio": {"board": 0.05, "object": 0.05},
+      "maximum_step_rotation_deg": 0.5,
+      "maximum_step_translation_by_voxel_m": {
+        "0.005": 0.0025,
+        "0.004": 0.002,
+        "0.003": 0.0015
+      },
+      "translation_backtracking_factor": 0.5,
+      "translation_backtracking_max_attempts": 6,
+      "maximum_parent_rotation_drift_deg": 3.0,
+      "maximum_parent_translation_drift_m": 0.006,
+      "object_trim_fraction": 0.9,
+      "object_overlap_thresholds_m": [0.0025, 0.005],
+      "minimum_object_trimmed_improvement_m": 0.00005,
+      "minimum_object_overlap_improvement": 0.005,
+      "maximum_object_trimmed_worsening_m": 0.0003,
+      "maximum_object_overlap_drop": 0.02,
+      "maximum_object_centroid_inplane_shift_m": 0.005,
+      "maximum_board_normal_worsening_deg": 1.8,
+      "maximum_board_plane_distance_worsening_m": 0.0015,
+      "maximum_board_normal_angle_deg": 3.0,
+      "maximum_board_plane_distance_m": 0.003
+    }
+  },
+  "export": {
+    "schema_version": "pointcloudlab.stage5.v1",
+    "selected_parent_candidate_id": null,
+    "selected_refined_candidate_id": null,
+    "source_to_m_scale": 0.001,
+    "matrix_atol": 1e-12,
+    "rigid_atol": 1e-10,
+    "point_roundtrip_atol_m": 1e-12,
+    "ply_roundtrip_atol_m": 2e-7,
+    "roi_correspondence_atol_m": 1e-12,
+    "stage4_metric_atol": 1e-12,
+    "random_seeds": {
+      "verification": 42,
+      "visualization": 314159
+    },
+    "verification_sample_count": 2048,
+    "visualization_sample_count": 50000,
+    "distance_colormap_sample_count": 12000,
+    "distance_colormap_clip_m": 0.015,
+    "image_dpi": 180
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "schema_version": "pointcloudlab.dataset.v1",
+  "dataset_id": "replace_with_unique_name",
+  "description": "新数据说明",
+  "units": {
+    "source": "mm",
+    "target": "m"
+  },
+  "inputs": {
+    "source_full": "data/raw/new/source_full.ply",
+    "target_full": "data/raw/new/target_full.pcd",
+    "source_roi": "data/processed/new/source_roi.ply",
+    "target_roi": "data/processed/new/target_roi.pcd",
+    "target_board_manual": "data/processed/new/target_board_manual.pcd",
+    "target_object_manual": "data/processed/new/target_object_manual.pcd"
+  },
+  "output_root": "outputs/replace_with_unique_name",
+  "target_selection_mode": "manual_files",
+  "approvals": {
+    "stage3_reviewed": false
+  },
+  "selection": {
+    "parent_candidate_id": null,
+    "refined_candidate_id": null
+  }
+}
