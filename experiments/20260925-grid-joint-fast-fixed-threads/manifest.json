@@ -1,0 +1,210 @@
+{
+  "schema": "pointcloudlab.experiment.v1",
+  "id": "20260925-grid-joint-fast-fixed-threads",
+  "status": "success",
+  "started_at_utc": "2026-09-25T03:42:21.263311+00:00",
+  "finished_at_utc": "2026-09-25T03:42:38.578754+00:00",
+  "elapsed_s": 17.313,
+  "code_commit": "a2d185db737a8c8cd133204c625a5db2782e7175",
+  "command": [
+    ".\\.venv\\Scripts\\python.exe",
+    "scripts/03_generate_candidates.py",
+    "--dataset",
+    "configs/dataset.json",
+    "--shape-method",
+    "occupancy_grid",
+    "--search-method",
+    "joint",
+    "--joint-angle-step-deg",
+    "10",
+    "--geometry-search-step-m",
+    "0.006",
+    "--output-dir",
+    "D:\\Aproject\\PointCloudLab\\outputs\\20260925-grid-joint-fast-fixed-threads"
+  ],
+  "cwd": ".",
+  "environment": {
+    "python": "3.12.14",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "variables": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "PYTHONHASHSEED": null,
+      "CUDA_VISIBLE_DEVICES": null
+    }
+  },
+  "configs": {
+    "registration": {
+      "path": "configs/registration.yaml",
+      "size_bytes": 9518,
+      "sha256": "2ebdfb1d9de4e3c422e2d0644a3d150862c720649d995091984f05a1772b5350",
+      "snapshot": "experiments/20260925-grid-joint-fast-fixed-threads/configs/registration.yaml"
+    },
+    "dataset": {
+      "path": "configs/dataset.json",
+      "size_bytes": 750,
+      "sha256": "052fb8cce81c6009ad91a493cdba9f4b311769c41286904c292f80ef14ecd75f",
+      "snapshot": "experiments/20260925-grid-joint-fast-fixed-threads/configs/dataset.json"
+    },
+    "requirements_lock": {
+      "path": "requirements-lock.txt",
+      "size_bytes": 1309,
+      "sha256": "4288659d513d91a1722cc4a431b42a8543a825af89435e338004181b862cb486",
+      "snapshot": "experiments/20260925-grid-joint-fast-fixed-threads/configs/requirements_lock.txt"
+    }
+  },
+  "inputs": {
+    "source_board": {
+      "path": "outputs/stage_02_segmentation/source_board_points.ply",
+      "size_bytes": 82292031,
+      "sha256": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310"
+    },
+    "source_object": {
+      "path": "outputs/stage_02_segmentation/source_object_points.ply",
+      "size_bytes": 12624959,
+      "sha256": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2"
+    },
+    "target_board": {
+      "path": "outputs/stage_02_segmentation/target_board_points.pcd",
+      "size_bytes": 817446,
+      "sha256": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef"
+    },
+    "target_object": {
+      "path": "outputs/stage_02_segmentation/target_object_points.pcd",
+      "size_bytes": 107604,
+      "sha256": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
+    },
+    "stage2_report": {
+      "path": "outputs/stage_02_segmentation/segmentation_report.json",
+      "size_bytes": 73295,
+      "sha256": "8233fab8603653fe349b5d3f4a235273507bda7873cde1a19883eccc23001f2e"
+    },
+    "dataset.source_full": {
+      "path": "data/raw/20260916_181134_pc.ply",
+      "size_bytes": 53328472,
+      "sha256": "ab2e22214117cd289296f927ff687ce1f194275cb402b23763a2158aa847e8e4"
+    },
+    "dataset.target_full": {
+      "path": "data/raw/09171118.pcd",
+      "size_bytes": 17940858,
+      "sha256": "70062acf355475c4886c14af142bd6fa41803c5ae28a345677b35da3881ca456"
+    },
+    "dataset.source_roi": {
+      "path": "data/processed/20260916_181134_pc_roi.ply",
+      "size_bytes": 33821097,
+      "sha256": "c1f996525b75fff74924b7495788506231787d82328d0c81b31309d95799197d"
+    },
+    "dataset.target_roi": {
+      "path": "data/processed/09171118roi.pcd",
+      "size_bytes": 2732971,
+      "sha256": "2cf5fc16cdcfc15dcc44b198e37db2fdd042dd15a6dc43d5558d83ef89646383"
+    }
+  },
+  "output_directory": "outputs/20260925-grid-joint-fast-fixed-threads",
+  "outputs": [
+    {
+      "path": "outputs/20260925-grid-joint-fast-fixed-threads/candidate_comparison.png",
+      "size_bytes": 485230,
+      "sha256": "96b768ae8c1bbee050446a71e7256b12db94077d487670734786c273c5e700a7"
+    },
+    {
+      "path": "outputs/20260925-grid-joint-fast-fixed-threads/candidate_matrices/s3_can_35d1dbd3d8c2.txt",
+      "size_bytes": 256,
+      "sha256": "1918b697a3a453d3248570c375ba33a9a410a301d70bf8b3b9e75259a9321c16"
+    },
+    {
+      "path": "outputs/20260925-grid-joint-fast-fixed-threads/candidate_matrices/s3_can_71cfb34c8d62.txt",
+      "size_bytes": 258,
+      "sha256": "ddaa2ff636059fb4260a2e4c35a1f09016b9a2e24aab5b09e29954a2ed1eb258"
+    },
+    {
+      "path": "outputs/20260925-grid-joint-fast-fixed-threads/candidate_matrices/s3_can_c5434cf6fd9d.txt",
+      "size_bytes": 259,
+      "sha256": "a38249bcd7e59f2ce0be0de1b560268ca04be77b02ca8665b1e85dde04ee8042"
+    },
+    {
+      "path": "outputs/20260925-grid-joint-fast-fixed-threads/candidate_matrices/s3_can_e31526f8513b.txt",
+      "size_bytes": 256,
+      "sha256": "3b91280e37b250a281c87e05febb42e180bf0c121150665d27339caa9f047901"
+    },
+    {
+      "path": "outputs/20260925-grid-joint-fast-fixed-threads/candidate_report.json",
+      "size_bytes": 64648,
+      "sha256": "05a671e90cec1db83e948219e46e5b6918f5235863029f13c73ffdcc4bb52deb"
+    },
+    {
+      "path": "outputs/20260925-grid-joint-fast-fixed-threads/candidate_summary.csv",
+      "size_bytes": 1324,
+      "sha256": "b6fef773c1988fa1102aef81928222b7449705df1dcf594e44ede2a330646d9a"
+    },
+    {
+      "path": "outputs/20260925-grid-joint-fast-fixed-threads/canonical_candidates.json",
+      "size_bytes": 15392,
+      "sha256": "2a30e902f8d7e813d42764ece952388b9502b6fa7cac161f8fa05baf8ceb72f4"
+    },
+    {
+      "path": "outputs/20260925-grid-joint-fast-fixed-threads/geometry_candidates.png",
+      "size_bytes": 780128,
+      "sha256": "89024c18ab2a0a5bdddf7fdbabebf8c761680e2862ac2a58391288dbbd7bbc31"
+    },
+    {
+      "path": "outputs/20260925-grid-joint-fast-fixed-threads/raw_candidates.json",
+      "size_bytes": 28838,
+      "sha256": "32d2f95d3bb81356b6836be9d6cdeb91e046c25b276bf231210f4b80c1abd980"
+    },
+    {
+      "path": "outputs/20260925-grid-joint-fast-fixed-threads/runner.log",
+      "size_bytes": 363,
+      "sha256": "d2961aaae6834b14c0ba7c107ebc36d90bd11ba3ac538bd11d40390bb9559733"
+    },
+    {
+      "path": "outputs/20260925-grid-joint-fast-fixed-threads/shape_grid_preview.png",
+      "size_bytes": 145049,
+      "sha256": "9f4033808faf6c65efb4c9362029d0ec5ba034bfd901922744d75be87e6e0cf2"
+    },
+    {
+      "path": "outputs/20260925-grid-joint-fast-fixed-threads/shape_grids.json",
+      "size_bytes": 289879,
+      "sha256": "f120db3ad5043b887c54675380623ba5d5efaa44540b6c900273687405573ed8"
+    },
+    {
+      "path": "outputs/20260925-grid-joint-fast-fixed-threads/stage_03_candidates.log",
+      "size_bytes": 363,
+      "sha256": "d2961aaae6834b14c0ba7c107ebc36d90bd11ba3ac538bd11d40390bb9559733"
+    }
+  ],
+  "results": {
+    "candidate_report.json": {
+      "path": "outputs/20260925-grid-joint-fast-fixed-threads/candidate_report.json",
+      "size_bytes": 64648,
+      "sha256": "05a671e90cec1db83e948219e46e5b6918f5235863029f13c73ffdcc4bb52deb",
+      "snapshot": "experiments/20260925-grid-joint-fast-fixed-threads/results/candidate_report.json"
+    },
+    "candidate_summary.csv": {
+      "path": "outputs/20260925-grid-joint-fast-fixed-threads/candidate_summary.csv",
+      "size_bytes": 1324,
+      "sha256": "b6fef773c1988fa1102aef81928222b7449705df1dcf594e44ede2a330646d9a",
+      "snapshot": "experiments/20260925-grid-joint-fast-fixed-threads/results/candidate_summary.csv"
+    }
+  },
+  "result_summary": {
+    "candidate_report.json": {
+      "status": "success",
+      "candidate_counts": {
+        "raw_total": 8,
+        "geometry_valid": 8,
+        "deduplicated_canonical": 4
+      },
+      "elapsed_s": 14.59940110007301
+    }
+  },
+  "inputs_and_configs_unchanged_during_run": true,
+  "exit_code": 0,
+  "error": null,
+  "archive": {
+    "path": "archives/experiments/20260925-grid-joint-fast-fixed-threads.zip",
+    "size_bytes": 1814073,
+    "sha256": "deb24b6893ec90d3c081da3063889dffae66a62393d807decea4e6d1d6a369ac"
+  }
+}

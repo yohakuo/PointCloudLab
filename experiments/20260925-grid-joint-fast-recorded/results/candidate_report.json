@@ -12,7 +12,7 @@
   "warnings": [
     "source object projection orientation is degenerate: robust OBB approximately square"
   ],
-  "created_at": "2026-09-24T11:35:10.611560+00:00",
+  "created_at": "2026-09-25T03:41:33.869506+00:00",
   "dataset": {
     "id": "20260916_formal",
     "manifest": "D:\\Aproject\\PointCloudLab\\configs\\dataset.json"
@@ -24,7 +24,7 @@
     "numpy": "2.5.3",
     "scipy": "1.18.1",
     "matplotlib": "3.11.1",
-    "OMP_NUM_THREADS": "1"
+    "OMP_NUM_THREADS": null
   },
   "config_path": "D:\\Aproject\\PointCloudLab\\configs\\registration.yaml",
   "config": {
@@ -53,16 +53,16 @@
         "contour_search"
       ],
       "search_window_m": 0.012,
-      "search_step_m": 0.003,
+      "search_step_m": 0.006,
       "search_trim_fraction": 0.8,
       "search_peaks_per_direction": 2,
       "search_nms_distance_m": 0.004,
       "minimum_valid_points": 30,
       "joint_search": {
         "angle_start_deg": 0.0,
-        "angle_step_deg": 5.0,
+        "angle_step_deg": 10.0,
         "translation_window_m": 0.012,
-        "translation_step_m": 0.003,
+        "translation_step_m": 0.006,
         "seeds_per_branch": 2,
         "nms_angle_deg": 6.0,
         "nms_translation_m": 0.004,
@@ -118,10 +118,12 @@
     }
   },
   "cli_overrides": {
+    "geometry_search_step_m": 0.006,
     "shape_method": "occupancy_grid",
-    "search_method": "joint"
+    "search_method": "joint",
+    "joint_angle_step_deg": 10.0
   },
-  "config_fingerprint": "142a591205a157fde803bf216e59c83d5930eba81531fd689f6964b4fc44f395",
+  "config_fingerprint": "0bcf04cdeeceb51d04d7a4e4657cea1204a03755a61497b55d7c373df413fd0f",
   "preconditions": {
     "stage2_status": "success",
     "parameter_search_required": false,
@@ -337,15 +339,15 @@
   "planes": {
     "source": {
       "plane_model_ax_by_cz_d": [
-        -0.13711798312656,
-        -0.07194932133911414,
-        0.9879382338294967,
-        0.32164843904716456
+        -0.13711241082472095,
+        -0.07195789610618464,
+        0.9879383826867972,
+        0.3216481006852746
       ],
       "unit_normal": [
-        -0.13711798312656,
-        -0.07194932133911414,
-        0.9879382338294967
+        -0.13711241082472095,
+        -0.07195789610618464,
+        0.9879383826867972
       ],
       "normal_norm": 1.0,
       "normal_sign_rule": "normalize; force largest-absolute normal component positive",
@@ -355,28 +357,28 @@
         "num_iterations": 3000,
         "random_seed": 42
       },
-      "plane_inlier_count": 1611834,
-      "plane_inlier_ratio": 0.998927839242819,
+      "plane_inlier_count": 1611775,
+      "plane_inlier_ratio": 0.9988912742227765,
       "absolute_residual_m": {
-        "p50": 7.1320044071288e-05,
-        "p90": 0.00017470779507277044,
-        "p95": 0.00022842887044773605
+        "p50": 7.131869572518656e-05,
+        "p90": 0.0001746288951645192,
+        "p95": 0.00022838739583483882
       },
-      "residual_median_m": 7.1320044071288e-05,
-      "residual_mad_m": 4.032528438668859e-05,
-      "mad_robust_noise_sigma_m": 5.9786266631704495e-05,
+      "residual_median_m": 7.131869572518656e-05,
+      "residual_mad_m": 4.0339699100777615e-05,
+      "mad_robust_noise_sigma_m": 5.980763788681289e-05,
       "oriented_plane_model": [
-        -0.13711798312656,
-        -0.07194932133911414,
-        0.9879382338294967,
-        0.32164843904716456
+        -0.13711241082472095,
+        -0.07195789610618464,
+        0.9879383826867972,
+        0.3216481006852746
       ],
       "object_side_orientation": {
         "rule": "orient normal so the observed object signed-distance median is non-negative",
         "pre_orientation_object_signed_distance_m": {
-          "median": 0.0319994788743615,
-          "p25": 0.01563305322227551,
-          "p75": 0.050564212229263994
+          "median": 0.03199977582040592,
+          "p25": 0.01563310078443364,
+          "p75": 0.05056403792413172
         },
         "sign_evidence_weak": false,
         "weak_epsilon_m": 0.0005,
@@ -384,10 +386,10 @@
       },
       "coverage": {
         "robust_extent_uv_m": [
-          0.2821298794448869,
-          0.19964913206769438
+          0.2821920247535388,
+          0.19959732277000808
         ],
-        "robust_area_m2": 0.05632698556153492
+        "robust_area_m2": 0.05632477264785419
       },
       "repeat_stability": {
         "seeds": [
@@ -396,48 +398,48 @@
           271828
         ],
         "normal_angle_to_mean_deg": {
-          "p95": 0.00041447303808760284,
-          "max": 0.00042828727605150963
+          "p95": 0.0003550958694036945,
+          "max": 0.00035875564551896634
         },
         "inlier_ratios": [
-          0.998927839242819,
-          0.9991373134254359,
-          0.9988361168196613
+          0.9988912742227765,
+          0.9992910104588352,
+          0.998759888049064
         ]
       },
       "frame": {
         "origin": [
-          0.06546725458652275,
-          0.0007678374268532849,
-          -0.3164331990107183
+          0.06546707521197855,
+          0.000768105742209927,
+          -0.31643317678368627
         ],
         "u": [
-          0.9866232216448539,
-          0.07885169186338922,
-          0.14267806138790476
+          0.9866237347878503,
+          0.07885374190495398,
+          0.14267337993073856
         ],
         "v": [
-          -0.08816619088082467,
-          0.9942865310609021,
-          0.06017488626033271
+          -0.08816911449655665,
+          0.9942857479495311,
+          0.06018354154862142
         ],
         "n": [
-          -0.13711798312656,
-          -0.07194932133911414,
-          0.9879382338294967
+          -0.13711241082472095,
+          -0.07195789610618464,
+          0.9879383826867972
         ],
         "determinant": 1.0000000000000002,
         "source": "continuous object-projection PCA; not inherited from world axes",
         "pca_eigenvalues": [
-          0.0004269670799468468,
-          0.0002806090639658567
+          0.00042696716556150027,
+          0.00028060784909163174
         ],
-        "pca_relative_gap": 0.3427852470481102,
+        "pca_relative_gap": 0.34278822418907284,
         "robust_obb_extent_uv_m": [
-          0.05181206833257259,
-          0.04990666725292517
+          0.05181221306875154,
+          0.049906644009862916
         ],
-        "robust_obb_aspect_ratio": 1.0381792891517063,
+        "robust_obb_aspect_ratio": 1.0381826728022832,
         "orientation_degenerate": true,
         "degeneracy_evidence": [
           "robust OBB approximately square"
@@ -447,15 +449,15 @@
     },
     "target": {
       "plane_model_ax_by_cz_d": [
-        0.9093461170627672,
-        -0.015903294626956624,
-        0.41573636430179683,
-        -1.5825052510301005
+        0.9076905997948842,
+        -0.015909605835704815,
+        0.419338359187609,
+        -1.5814088581872694
       ],
       "unit_normal": [
-        0.9093461170627672,
-        -0.015903294626956624,
-        0.41573636430179683
+        0.9076905997948842,
+        -0.015909605835704815,
+        0.419338359187609
       ],
       "normal_norm": 1.0,
       "normal_sign_rule": "normalize; force largest-absolute normal component positive",
@@ -465,28 +467,28 @@
         "num_iterations": 3000,
         "random_seed": 42
       },
-      "plane_inlier_count": 44187,
-      "plane_inlier_ratio": 0.865071751600462,
+      "plane_inlier_count": 45380,
+      "plane_inlier_ratio": 0.8884277295953327,
       "absolute_residual_m": {
-        "p50": 0.001250510189754639,
-        "p90": 0.0023219257916741844,
-        "p95": 0.00251206109832629
+        "p50": 0.0012820830648692105,
+        "p90": 0.0023907271880347913,
+        "p95": 0.0025798118123976366
       },
-      "residual_median_m": 0.001250510189754639,
-      "residual_mad_m": 0.0006370203615218006,
-      "mad_robust_noise_sigma_m": 0.0009444463879922216,
+      "residual_median_m": 0.0012820830648692105,
+      "residual_mad_m": 0.0006556334943096376,
+      "mad_robust_noise_sigma_m": 0.0009720422186634686,
       "oriented_plane_model": [
-        -0.9093461170627672,
-        0.015903294626956624,
-        -0.41573636430179683,
-        1.5825052510301005
+        -0.9076905997948842,
+        0.015909605835704815,
+        -0.419338359187609,
+        1.5814088581872694
       ],
       "object_side_orientation": {
         "rule": "orient normal so the observed object signed-distance median is non-negative",
         "pre_orientation_object_signed_distance_m": {
-          "median": -0.025063559471658392,
-          "p25": -0.04202015813729276,
-          "p75": -0.010149498785166078
+          "median": -0.024730970003438046,
+          "p25": -0.04170000468647134,
+          "p75": -0.009847278844318907
         },
         "sign_evidence_weak": false,
         "weak_epsilon_m": 0.003,
@@ -494,10 +496,10 @@
       },
       "coverage": {
         "robust_extent_uv_m": [
-          0.36929120167925195,
-          0.4553820181260727
+          0.37165645244298995,
+          0.4495948128294729
         ],
-        "robust_area_m2": 0.16816857269690028
+        "robust_area_m2": 0.16709481317297195
       },
       "repeat_stability": {
         "seeds": [
@@ -506,48 +508,48 @@
           271828
         ],
         "normal_angle_to_mean_deg": {
-          "p95": 0.13763554318895263,
-          "max": 0.13894925957884988
+          "p95": 0.1769231171244029,
+          "max": 0.18469842192470295
         },
         "inlier_ratios": [
-          0.865071751600462,
-          0.8772489672859688,
-          0.8433994400830087
+          0.8884277295953327,
+          0.8504865013019048,
+          0.8745081148808708
         ]
       },
       "frame": {
         "origin": [
-          1.5214113795115956,
-          0.05291325989904684,
-          0.480730657549329
+          1.5210847968235244,
+          0.052918002982459786,
+          0.48070105386787326
         ],
         "u": [
-          -0.40974809887451313,
-          -0.20737026599037636,
-          0.8883152977697744
+          -0.4132948407318783,
+          -0.2070093426007168,
+          0.8867550432337166
         ],
         "v": [
-          -0.07208422054507019,
-          0.9781332516600634,
-          0.1950876909118587
+          -0.07269903485201838,
+          0.9782095974371606,
+          0.19447579235836387
         ],
         "n": [
-          -0.9093461170627672,
-          0.015903294626956624,
-          -0.41573636430179683
+          -0.9076905997948842,
+          0.015909605835704815,
+          -0.419338359187609
         ],
-        "determinant": 1.0,
+        "determinant": 1.0000000000000002,
         "source": "continuous object-projection PCA; not inherited from world axes",
         "pca_eigenvalues": [
-          0.0005965321864343306,
-          0.00040830291570173366
+          0.0005965485163465449,
+          0.0004083280890587146
         ],
-        "pca_relative_gap": 0.3155391695755854,
+        "pca_relative_gap": 0.3155157076587043,
         "robust_obb_extent_uv_m": [
-          0.09246380329088767,
-          0.0745557757026791
+          0.09246561473249201,
+          0.07455262503056628
         ],
-        "robust_obb_aspect_ratio": 1.240196382096861,
+        "robust_obb_aspect_ratio": 1.2402730915857285,
         "orientation_degenerate": false,
         "degeneracy_evidence": [],
         "degeneracy_handling": "full-circle joint search with four protected direction branches"
@@ -558,8 +560,8 @@
     "executed": true,
     "shape_method": "occupancy_grid",
     "search_method": "joint",
-    "search_elapsed_s": 16.537505900021642,
-    "shape_grids_file": "D:\\Aproject\\PointCloudLab\\outputs\\stage_03_grid_joint\\shape_grids.json",
+    "search_elapsed_s": 9.493144399952143,
+    "shape_grids_file": "D:\\Aproject\\PointCloudLab\\outputs\\20260925-grid-joint-fast-recorded\\shape_grids.json",
     "shape_summaries": {
       "source": {
         "grid_size_m": 0.003,
@@ -576,13 +578,13 @@
       },
       "observed_object_side": {
         "grid_size_m": 0.003,
-        "observed_cells": 907,
-        "unknown_cells_in_grid": 487,
-        "envelope_cells": 415,
-        "outer_contour_cells": 76,
+        "observed_cells": 905,
+        "unknown_cells_in_grid": 489,
+        "envelope_cells": 422,
+        "outer_contour_cells": 80,
         "sparse_relief_outline": true,
-        "outline_height_threshold_m": 0.03272040589221936,
-        "reliable_outline_support_cells": 412,
+        "outline_height_threshold_m": 0.03214492963414006,
+        "reliable_outline_support_cells": 421,
         "crop_downweighted_cells": 0,
         "point_count": 6714,
         "height_reference": "signed distance from fitted board plane"
@@ -594,66 +596,36 @@
         "method": "joint",
         "pca_role": "coordinate frame and supplemental seeds only",
         "angle_coverage_deg": 360.0,
-        "coarse_angle_count": 72,
-        "translations_per_coarse_angle": 81,
+        "coarse_angle_count": 36,
+        "translations_per_coarse_angle": 25,
         "angle_profile": [
           {
             "angle_deg": 0.0,
             "shift_uv_m": [
-              -0.0029999999999999983,
-              0.009000000000000008
+              1.734723475976807e-18,
+              0.012000000000000009
             ],
-            "score_m": 0.0032301500103865716,
-            "direction_branch_deg": 0,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 5.0,
-            "shift_uv_m": [
-              -0.008153668070607436,
-              0.01060790180267197
-            ],
-            "score_m": 0.003653495266208402,
+            "score_m": 0.0035012827495443373,
             "direction_branch_deg": 0,
             "translation_boundary": false
           },
           {
             "angle_deg": 10.0,
             "shift_uv_m": [
-              0.00036888260646614386,
+              -0.005631117393533856,
               0.01049807484560553
             ],
-            "score_m": 0.0036401530222846677,
-            "direction_branch_deg": 0,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 15.0,
-            "shift_uv_m": [
-              -0.00023309177590586164,
-              0.010475732463025154
-            ],
-            "score_m": 0.003603020509799182,
+            "score_m": 0.003658029767495686,
             "direction_branch_deg": 0,
             "translation_boundary": false
           },
           {
             "angle_deg": 20.0,
             "shift_uv_m": [
-              -0.0008060476473692206,
+              -0.006806047647369221,
               0.01039208251213067
             ],
-            "score_m": 0.003581531430286937,
-            "direction_branch_deg": 0,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 25.0,
-            "shift_uv_m": [
-              -0.0011273164657770738,
-              0.013029453617552788
-            ],
-            "score_m": 0.0036024782251717867,
+            "score_m": 0.0036936791773444725,
             "direction_branch_deg": 0,
             "translation_boundary": false
           },
@@ -663,57 +635,27 @@
               -0.0017009618943233428,
               0.009897114317029982
             ],
-            "score_m": 0.0036429131174077374,
-            "direction_branch_deg": 0,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 35.0,
-            "shift_uv_m": [
-              -0.002065096448819007,
-              0.009538550096446689
-            ],
-            "score_m": 0.0037761859766645553,
+            "score_m": 0.003839703538754679,
             "direction_branch_deg": 0,
             "translation_boundary": false
           },
           {
             "angle_deg": 40.0,
             "shift_uv_m": [
-              -0.005501855744481375,
+              -0.008501855744481375,
               0.009241396745076015
             ],
-            "score_m": 0.0038934619579476873,
+            "score_m": 0.004126167053898107,
             "direction_branch_deg": 0,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 45.0,
-            "shift_uv_m": [
-              -0.005742640687119286,
-              0.005742640687119292
-            ],
-            "score_m": 0.003977034479965008,
-            "direction_branch_deg": 90,
             "translation_boundary": false
           },
           {
             "angle_deg": 50.0,
             "shift_uv_m": [
-              -0.00624139674507601,
-              0.005356725658119243
+              -0.00324139674507601,
+              0.008356725658119242
             ],
-            "score_m": 0.0040849207103031,
-            "direction_branch_deg": 90,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 55.0,
-            "shift_uv_m": [
-              -0.0035385500964466837,
-              0.007944008698337559
-            ],
-            "score_m": 0.004071153485643467,
+            "score_m": 0.004296327658717175,
             "direction_branch_deg": 90,
             "translation_boundary": false
           },
@@ -723,17 +665,7 @@
               -0.0038971143170299753,
               0.007553847577293377
             ],
-            "score_m": 0.00403211546173846,
-            "direction_branch_deg": 90,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 65.0,
-            "shift_uv_m": [
-              -0.0040294536175527786,
-              0.0070357095704442025
-            ],
-            "score_m": 0.003947975224539448,
+            "score_m": 0.004206764695459894,
             "direction_branch_deg": 90,
             "translation_boundary": false
           },
@@ -743,17 +675,7 @@
               -0.004392082512130661,
               0.00629819407253881
             ],
-            "score_m": 0.0038089182450002767,
-            "direction_branch_deg": 90,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 75.0,
-            "shift_uv_m": [
-              -0.004475732463025147,
-              0.0058727367653243915
-            ],
-            "score_m": 0.0037306642350353105,
+            "score_m": 0.003943108470087595,
             "direction_branch_deg": 90,
             "translation_boundary": false
           },
@@ -761,99 +683,49 @@
             "angle_deg": 80.0,
             "shift_uv_m": [
               -0.004498074845605519,
-              0.002452660738469314
+              0.005452660738469314
             ],
-            "score_m": 0.0037364036361581462,
-            "direction_branch_deg": 90,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 85.0,
-            "shift_uv_m": [
-              -0.007607901802671961,
-              0.0018922008423644659
-            ],
-            "score_m": 0.0037161191707768154,
+            "score_m": 0.003735990573214841,
             "direction_branch_deg": 90,
             "translation_boundary": false
           },
           {
             "angle_deg": 90.0,
             "shift_uv_m": [
-              -0.008999999999999998,
+              -0.005999999999999998,
               0.003000000000000006
             ],
-            "score_m": 0.0032153002693387175,
-            "direction_branch_deg": 90,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 95.0,
-            "shift_uv_m": [
-              -0.007607901802671961,
-              0.003846331929392567
-            ],
-            "score_m": 0.0036466188798072977,
+            "score_m": 0.003366493777497801,
             "direction_branch_deg": 90,
             "translation_boundary": false
           },
           {
             "angle_deg": 100.0,
             "shift_uv_m": [
-              -0.004498074845605521,
+              -0.010498074845605521,
               0.0033688826064661465
             ],
-            "score_m": 0.0036401986074953265,
-            "direction_branch_deg": 90,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 105.0,
-            "shift_uv_m": [
-              -0.004475732463025144,
-              0.005766908224094142
-            ],
-            "score_m": 0.003577041300485231,
+            "score_m": 0.0036744028226088064,
             "direction_branch_deg": 90,
             "translation_boundary": false
           },
           {
             "angle_deg": 110.0,
             "shift_uv_m": [
-              -0.004392082512130661,
-              0.005193952352630783
+              -0.010392082512130661,
+              0.002193952352630782
             ],
-            "score_m": 0.0035377628644398754,
-            "direction_branch_deg": 90,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 115.0,
-            "shift_uv_m": [
-              -0.0040294536175527786,
-              0.004872683534222931
-            ],
-            "score_m": 0.0036116808143087055,
+            "score_m": 0.003789704679955989,
             "direction_branch_deg": 90,
             "translation_boundary": false
           },
           {
             "angle_deg": 120.0,
             "shift_uv_m": [
-              -0.0038971143170299736,
-              0.0042990381056766626
+              -0.009897114317029974,
+              0.0012990381056766616
             ],
-            "score_m": 0.0037150012998203507,
-            "direction_branch_deg": 90,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 125.0,
-            "shift_uv_m": [
-              -0.00353855009644668,
-              0.003934903551180995
-            ],
-            "score_m": 0.0038734833319534444,
+            "score_m": 0.00392585807060605,
             "direction_branch_deg": 90,
             "translation_boundary": false
           },
@@ -861,39 +733,19 @@
             "angle_deg": 130.0,
             "shift_uv_m": [
               -0.009241396745076007,
-              -0.0025018557444813723
+              0.0004981442555186278
             ],
-            "score_m": 0.0039375477122685475,
+            "score_m": 0.004076439248125525,
             "direction_branch_deg": 90,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 135.0,
-            "shift_uv_m": [
-              -0.0057426406871192845,
-              -0.0027426406871192835
-            ],
-            "score_m": 0.004012132836046306,
-            "direction_branch_deg": 180,
             "translation_boundary": false
           },
           {
             "angle_deg": 140.0,
             "shift_uv_m": [
-              -0.005356725658119235,
-              -0.003241396745076003
+              -0.008356725658119235,
+              -0.00024139674507600312
             ],
-            "score_m": 0.004098536686368049,
-            "direction_branch_deg": 180,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 145.0,
-            "shift_uv_m": [
-              -0.0019440086983375463,
-              -0.000538550096446681
-            ],
-            "score_m": 0.004147548677782929,
+            "score_m": 0.004356861924751755,
             "direction_branch_deg": 180,
             "translation_boundary": false
           },
@@ -903,17 +755,7 @@
               -0.0015538475772933647,
               -0.0008971143170299727
             ],
-            "score_m": 0.004086895303560947,
-            "direction_branch_deg": 180,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 155.0,
-            "shift_uv_m": [
-              -0.0010357095704441946,
-              -0.001029453617552775
-            ],
-            "score_m": 0.003977367863007763,
+            "score_m": 0.00424445944494015,
             "direction_branch_deg": 180,
             "translation_boundary": false
           },
@@ -923,17 +765,7 @@
               -0.00029819407253880124,
               -0.0013920825121306584
             ],
-            "score_m": 0.003825299079698986,
-            "direction_branch_deg": 180,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 165.0,
-            "shift_uv_m": [
-              0.00012726323467561213,
-              -0.0014757324630251404
-            ],
-            "score_m": 0.0038008302302609447,
+            "score_m": 0.003939656883993828,
             "direction_branch_deg": 180,
             "translation_boundary": false
           },
@@ -941,19 +773,9 @@
             "angle_deg": 170.0,
             "shift_uv_m": [
               0.0005473392615306981,
-              -0.00449807484560552
+              -0.00149807484560552
             ],
-            "score_m": 0.003779983840042439,
-            "direction_branch_deg": 180,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 175.0,
-            "shift_uv_m": [
-              -0.0018922008423644578,
-              -0.004607901802671959
-            ],
-            "score_m": 0.0037109406960401546,
+            "score_m": 0.0037451750669741813,
             "direction_branch_deg": 180,
             "translation_boundary": false
           },
@@ -963,77 +785,37 @@
               -0.002999999999999999,
               -0.002999999999999994
             ],
-            "score_m": 0.0032281504122121632,
-            "direction_branch_deg": 180,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 185.0,
-            "shift_uv_m": [
-              -0.00684633192939256,
-              -0.0016079018026719585
-            ],
-            "score_m": 0.0036017301435495933,
+            "score_m": 0.003408549549538057,
             "direction_branch_deg": 180,
             "translation_boundary": false
           },
           {
             "angle_deg": 190.0,
             "shift_uv_m": [
-              -0.00636888260646614,
+              -0.0033688826064661396,
               -0.0014980748456055164
             ],
-            "score_m": 0.0036009029638736224,
-            "direction_branch_deg": 180,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 195.0,
-            "shift_uv_m": [
-              -0.0027669082240941324,
-              -0.001475732463025143
-            ],
-            "score_m": 0.003626689988490408,
+            "score_m": 0.0036250273009430537,
             "direction_branch_deg": 180,
             "translation_boundary": false
           },
           {
             "angle_deg": 200.0,
             "shift_uv_m": [
-              0.0038060476473692267,
-              0.0016079174878693425
+              -0.0021939523526307734,
+              -0.0013920825121306584
             ],
-            "score_m": 0.0036200427947883362,
-            "direction_branch_deg": 180,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 205.0,
-            "shift_uv_m": [
-              0.004127316465777079,
-              0.001970546382447225
-            ],
-            "score_m": 0.003684867613336403,
+            "score_m": 0.003704820232635213,
             "direction_branch_deg": 180,
             "translation_boundary": false
           },
           {
             "angle_deg": 210.0,
             "shift_uv_m": [
-              0.004700961894323351,
+              -0.0012990381056766495,
               -0.0008971143170299709
             ],
-            "score_m": 0.0037814326888735194,
-            "direction_branch_deg": 180,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 215.0,
-            "shift_uv_m": [
-              -0.0009349035511809854,
-              -0.0005385500964466775
-            ],
-            "score_m": 0.0038565359711860963,
+            "score_m": 0.003845293917712313,
             "direction_branch_deg": 180,
             "translation_boundary": false
           },
@@ -1043,37 +825,17 @@
               -0.0004981442555186183,
               -0.000241396745076004
             ],
-            "score_m": 0.0039046336325118023,
+            "score_m": 0.004005554759797086,
             "direction_branch_deg": 180,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 225.0,
-            "shift_uv_m": [
-              -0.00025735931288070786,
-              0.00025735931288071827
-            ],
-            "score_m": 0.003954505913337814,
-            "direction_branch_deg": 270,
             "translation_boundary": false
           },
           {
             "angle_deg": 230.0,
             "shift_uv_m": [
               0.0002413967450760118,
-              -0.0023567256581192323
+              0.0006432743418807677
             ],
-            "score_m": 0.004086667025632379,
-            "direction_branch_deg": 270,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 235.0,
-            "shift_uv_m": [
-              0.00653855009644669,
-              0.0010559913016624433
-            ],
-            "score_m": 0.0041102480741146575,
+            "score_m": 0.004308680815327761,
             "direction_branch_deg": 270,
             "translation_boundary": false
           },
@@ -1083,17 +845,7 @@
               0.006897114317029982,
               0.0014461524227066284
             ],
-            "score_m": 0.004062267385802399,
-            "direction_branch_deg": 270,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 245.0,
-            "shift_uv_m": [
-              0.007029453617552786,
-              0.00196429042955581
-            ],
-            "score_m": 0.003979750385278136,
+            "score_m": 0.004231655866449769,
             "direction_branch_deg": 270,
             "translation_boundary": false
           },
@@ -1103,17 +855,7 @@
               0.007392082512130671,
               0.0027018059274612058
             ],
-            "score_m": 0.003853756556847115,
-            "direction_branch_deg": 270,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 255.0,
-            "shift_uv_m": [
-              0.0074757324630251535,
-              0.0031272632346756217
-            ],
-            "score_m": 0.0038528999936141813,
+            "score_m": 0.003962857869758987,
             "direction_branch_deg": 270,
             "translation_boundary": false
           },
@@ -1121,139 +863,69 @@
             "angle_deg": 260.0,
             "shift_uv_m": [
               0.007498074845605527,
-              0.0005473392615306994
+              0.0035473392615306995
             ],
-            "score_m": 0.003774818730801304,
-            "direction_branch_deg": 270,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 265.0,
-            "shift_uv_m": [
-              0.0016079018026719672,
-              0.0011077991576355448
-            ],
-            "score_m": 0.003667190715657515,
+            "score_m": 0.0037636899144011552,
             "direction_branch_deg": 270,
             "translation_boundary": false
           },
           {
             "angle_deg": 270.0,
             "shift_uv_m": [
-              1.734723475976807e-18,
-              0.0030000000000000014
+              0.003000000000000002,
+              0.006000000000000002
             ],
-            "score_m": 0.0032135063714290473,
-            "direction_branch_deg": 270,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 275.0,
-            "shift_uv_m": [
-              -0.0013920981973280337,
-              0.005153668070607442
-            ],
-            "score_m": 0.003592547405663986,
+            "score_m": 0.0034858617960791182,
             "direction_branch_deg": 270,
             "translation_boundary": false
           },
           {
             "angle_deg": 280.0,
             "shift_uv_m": [
-              -0.0015019251543944663,
+              0.0014980748456055338,
               0.005631117393533869
             ],
-            "score_m": 0.003594582161234203,
-            "direction_branch_deg": 270,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 285.0,
-            "shift_uv_m": [
-              0.0014757324630251586,
-              0.006233091775905873
-            ],
-            "score_m": 0.0036136518575243,
+            "score_m": 0.003610443125936903,
             "direction_branch_deg": 270,
             "translation_boundary": false
           },
           {
             "angle_deg": 290.0,
             "shift_uv_m": [
-              0.004392082512130664,
+              0.0013920825121306636,
               0.0068060476473692285
             ],
-            "score_m": 0.003596259487650921,
-            "direction_branch_deg": 270,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 295.0,
-            "shift_uv_m": [
-              0.007029453617552783,
-              0.010127316465777084
-            ],
-            "score_m": 0.0036601571582112174,
+            "score_m": 0.003694932386229059,
             "direction_branch_deg": 270,
             "translation_boundary": false
           },
           {
             "angle_deg": 300.0,
             "shift_uv_m": [
-              0.00689711431702998,
+              0.0008971143170299796,
               0.007700961894323353
             ],
-            "score_m": 0.0036953133842282,
-            "direction_branch_deg": 270,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 305.0,
-            "shift_uv_m": [
-              0.006538550096446686,
-              0.008065096448819016
-            ],
-            "score_m": 0.0038106116870418785,
+            "score_m": 0.003842220573154851,
             "direction_branch_deg": 270,
             "translation_boundary": false
           },
           {
             "angle_deg": 310.0,
             "shift_uv_m": [
-              0.0032413967450760145,
+              0.0002413967450760144,
               0.008501855744481385
             ],
-            "score_m": 0.0038941450160512227,
+            "score_m": 0.0040877670020417756,
             "direction_branch_deg": 270,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 315.0,
-            "shift_uv_m": [
-              0.0027426406871192905,
-              0.005742640687119295
-            ],
-            "score_m": 0.003985842830807006,
-            "direction_branch_deg": 0,
             "translation_boundary": false
           },
           {
             "angle_deg": 320.0,
             "shift_uv_m": [
-              0.002356725658119242,
-              0.006241396745076012
+              -0.0006432743418807582,
+              0.009241396745076012
             ],
-            "score_m": 0.004111357770144012,
-            "direction_branch_deg": 0,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 325.0,
-            "shift_uv_m": [
-              0.004944008698337567,
-              0.009538550096446694
-            ],
-            "score_m": 0.004121107973800655,
+            "score_m": 0.004377982238361594,
             "direction_branch_deg": 0,
             "translation_boundary": false
           },
@@ -1263,17 +935,7 @@
               0.004553847577293381,
               0.009897114317029984
             ],
-            "score_m": 0.004113457161308576,
-            "direction_branch_deg": 0,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 335.0,
-            "shift_uv_m": [
-              0.0040357095704442,
-              0.010029453617552787
-            ],
-            "score_m": 0.004002520089505393,
+            "score_m": 0.004285537557427934,
             "direction_branch_deg": 0,
             "translation_boundary": false
           },
@@ -1283,17 +945,7 @@
               0.0032981940725388035,
               0.010392082512130673
             ],
-            "score_m": 0.003829915771004127,
-            "direction_branch_deg": 0,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 345.0,
-            "shift_uv_m": [
-              0.002872736765324388,
-              0.010475732463025156
-            ],
-            "score_m": 0.003851543115364413,
+            "score_m": 0.003975299268269483,
             "direction_branch_deg": 0,
             "translation_boundary": false
           },
@@ -1301,19 +953,9 @@
             "angle_deg": 350.0,
             "shift_uv_m": [
               0.0024526607384693106,
-              0.00749807484560553
+              0.01049807484560553
             ],
-            "score_m": 0.003761979579405262,
-            "direction_branch_deg": 0,
-            "translation_boundary": false
-          },
-          {
-            "angle_deg": 355.0,
-            "shift_uv_m": [
-              -0.0011077991576355362,
-              0.00760790180267197
-            ],
-            "score_m": 0.003717129379043998,
+            "score_m": 0.0038156744502557917,
             "direction_branch_deg": 0,
             "translation_boundary": false
           }
@@ -1325,38 +967,38 @@
             "coarse_seed": {
               "angle_deg": 0.0,
               "shift_uv_m": [
-                -0.0029999999999999983,
-                0.009000000000000008
+                1.734723475976807e-18,
+                0.012000000000000009
               ],
-              "score_m": 0.0032301500103865716
+              "score_m": 0.0035012827495443373
             },
             "refinement_trace": [
               {
-                "before_score_m": 0.0032301500103865716,
+                "before_score_m": 0.0035012827495443373,
                 "angle_deg": 0.0,
                 "shift_uv_m": [
-                  -0.0029999999999999983,
+                  1.734723475976807e-18,
                   0.009000000000000008
                 ],
-                "score_m": 0.0032301500103865716
+                "score_m": 0.0034352443587652238
               },
               {
-                "before_score_m": 0.0032301500103865716,
+                "before_score_m": 0.0034352443587652238,
                 "angle_deg": 0.0,
                 "shift_uv_m": [
-                  -0.0029999999999999983,
+                  1.734723475976807e-18,
                   0.009000000000000008
                 ],
-                "score_m": 0.0032301500103865716
+                "score_m": 0.0034352443587652238
               }
             ],
             "result": {
               "angle_deg": 0.0,
               "shift_uv_m": [
-                -0.0029999999999999983,
+                1.734723475976807e-18,
                 0.009000000000000008
               ],
-              "score_m": 0.0032301500103865716,
+              "score_m": 0.0034352443587652238,
               "direction_branch_deg": 0,
               "peak_index": 0,
               "method": "joint_search",
@@ -1369,38 +1011,38 @@
             "coarse_seed": {
               "angle_deg": 0.0,
               "shift_uv_m": [
-                -0.008999999999999998,
-                0.009000000000000008
+                -0.005999999999999998,
+                0.012000000000000009
               ],
-              "score_m": 0.0033373009480160845
+              "score_m": 0.003510971484069631
             },
             "refinement_trace": [
               {
-                "before_score_m": 0.0033373009480160845,
+                "before_score_m": 0.003510971484069631,
                 "angle_deg": 0.0,
                 "shift_uv_m": [
-                  -0.0059999999999999975,
+                  -0.0029999999999999983,
                   0.009000000000000008
                 ],
-                "score_m": 0.003309446508329454
+                "score_m": 0.003437390245558943
               },
               {
-                "before_score_m": 0.003309446508329454,
+                "before_score_m": 0.003437390245558943,
                 "angle_deg": 0.0,
                 "shift_uv_m": [
-                  -0.0059999999999999975,
+                  -0.0029999999999999983,
                   0.009000000000000008
                 ],
-                "score_m": 0.003309446508329454
+                "score_m": 0.003437390245558943
               }
             ],
             "result": {
               "angle_deg": 0.0,
               "shift_uv_m": [
-                -0.0059999999999999975,
+                -0.0029999999999999983,
                 0.009000000000000008
               ],
-              "score_m": 0.003309446508329454,
+              "score_m": 0.003437390245558943,
               "direction_branch_deg": 0,
               "peak_index": 1,
               "method": "joint_search",
@@ -1413,38 +1055,38 @@
             "coarse_seed": {
               "angle_deg": 90.0,
               "shift_uv_m": [
-                -0.008999999999999998,
+                -0.005999999999999998,
                 0.003000000000000006
               ],
-              "score_m": 0.0032153002693387175
+              "score_m": 0.003366493777497801
             },
             "refinement_trace": [
               {
-                "before_score_m": 0.0032153002693387175,
+                "before_score_m": 0.003366493777497801,
                 "angle_deg": 90.0,
                 "shift_uv_m": [
-                  -0.008999999999999998,
+                  -0.005999999999999998,
                   0.003000000000000006
                 ],
-                "score_m": 0.0032153002693387175
+                "score_m": 0.003366493777497801
               },
               {
-                "before_score_m": 0.0032153002693387175,
+                "before_score_m": 0.003366493777497801,
                 "angle_deg": 90.0,
                 "shift_uv_m": [
-                  -0.008999999999999998,
+                  -0.005999999999999998,
                   0.003000000000000006
                 ],
-                "score_m": 0.0032153002693387175
+                "score_m": 0.003366493777497801
               }
             ],
             "result": {
               "angle_deg": 90.0,
               "shift_uv_m": [
-                -0.008999999999999998,
+                -0.005999999999999998,
                 0.003000000000000006
               ],
-              "score_m": 0.0032153002693387175,
+              "score_m": 0.003366493777497801,
               "direction_branch_deg": 90,
               "peak_index": 0,
               "method": "joint_search",
@@ -1457,38 +1099,38 @@
             "coarse_seed": {
               "angle_deg": 90.0,
               "shift_uv_m": [
-                -0.015,
+                -0.011999999999999999,
                 0.003000000000000006
               ],
-              "score_m": 0.003338620423444464
+              "score_m": 0.003445379909975211
             },
             "refinement_trace": [
               {
-                "before_score_m": 0.003338620423444464,
+                "before_score_m": 0.003445379909975211,
                 "angle_deg": 90.0,
                 "shift_uv_m": [
-                  -0.012,
+                  -0.008999999999999998,
                   0.003000000000000006
                 ],
-                "score_m": 0.003291013219156656
+                "score_m": 0.003418265194395139
               },
               {
-                "before_score_m": 0.003291013219156656,
+                "before_score_m": 0.003418265194395139,
                 "angle_deg": 90.0,
                 "shift_uv_m": [
-                  -0.012,
+                  -0.008999999999999998,
                   0.003000000000000006
                 ],
-                "score_m": 0.003291013219156656
+                "score_m": 0.003418265194395139
               }
             ],
             "result": {
               "angle_deg": 90.0,
               "shift_uv_m": [
-                -0.012,
+                -0.008999999999999998,
                 0.003000000000000006
               ],
-              "score_m": 0.003291013219156656,
+              "score_m": 0.003418265194395139,
               "direction_branch_deg": 90,
               "peak_index": 1,
               "method": "joint_search",
@@ -1504,35 +1146,35 @@
                 -0.002999999999999999,
                 -0.002999999999999994
               ],
-              "score_m": 0.0032281504122121632
+              "score_m": 0.003408549549538057
             },
             "refinement_trace": [
               {
-                "before_score_m": 0.0032281504122121632,
+                "before_score_m": 0.003408549549538057,
                 "angle_deg": 180.0,
                 "shift_uv_m": [
-                  -0.002999999999999999,
+                  -0.005999999999999999,
                   -0.002999999999999994
                 ],
-                "score_m": 0.0032281504122121632
+                "score_m": 0.0033837445334893306
               },
               {
-                "before_score_m": 0.0032281504122121632,
+                "before_score_m": 0.0033837445334893306,
                 "angle_deg": 180.0,
                 "shift_uv_m": [
-                  -0.002999999999999999,
+                  -0.005999999999999999,
                   -0.002999999999999994
                 ],
-                "score_m": 0.0032281504122121632
+                "score_m": 0.0033837445334893306
               }
             ],
             "result": {
               "angle_deg": 180.0,
               "shift_uv_m": [
-                -0.002999999999999999,
+                -0.005999999999999999,
                 -0.002999999999999994
               ],
-              "score_m": 0.0032281504122121632,
+              "score_m": 0.0033837445334893306,
               "direction_branch_deg": 180,
               "peak_index": 0,
               "method": "joint_search",
@@ -1545,38 +1187,38 @@
             "coarse_seed": {
               "angle_deg": 180.0,
               "shift_uv_m": [
-                -0.009,
+                0.003000000000000001,
                 -0.002999999999999994
               ],
-              "score_m": 0.0032667927265202555
+              "score_m": 0.003442767271016748
             },
             "refinement_trace": [
               {
-                "before_score_m": 0.0032667927265202555,
+                "before_score_m": 0.003442767271016748,
                 "angle_deg": 180.0,
                 "shift_uv_m": [
-                  -0.005999999999999999,
+                  8.673617379884035e-19,
                   -0.002999999999999994
                 ],
-                "score_m": 0.0032390574632663767
+                "score_m": 0.0034104888417368015
               },
               {
-                "before_score_m": 0.0032390574632663767,
+                "before_score_m": 0.0034104888417368015,
                 "angle_deg": 180.0,
                 "shift_uv_m": [
-                  -0.005999999999999999,
+                  8.673617379884035e-19,
                   -0.002999999999999994
                 ],
-                "score_m": 0.0032390574632663767
+                "score_m": 0.0034104888417368015
               }
             ],
             "result": {
               "angle_deg": 180.0,
               "shift_uv_m": [
-                -0.005999999999999999,
+                8.673617379884035e-19,
                 -0.002999999999999994
               ],
-              "score_m": 0.0032390574632663767,
+              "score_m": 0.0034104888417368015,
               "direction_branch_deg": 180,
               "peak_index": 1,
               "method": "joint_search",
@@ -1589,38 +1231,38 @@
             "coarse_seed": {
               "angle_deg": 270.0,
               "shift_uv_m": [
-                1.734723475976807e-18,
-                0.0030000000000000014
+                0.003000000000000002,
+                0.006000000000000002
               ],
-              "score_m": 0.0032135063714290473
+              "score_m": 0.0034858617960791182
             },
             "refinement_trace": [
               {
-                "before_score_m": 0.0032135063714290473,
+                "before_score_m": 0.0034858617960791182,
                 "angle_deg": 270.0,
                 "shift_uv_m": [
-                  1.734723475976807e-18,
-                  0.0030000000000000014
+                  0.006000000000000002,
+                  0.003000000000000002
                 ],
-                "score_m": 0.0032135063714290473
+                "score_m": 0.0033775491467052153
               },
               {
-                "before_score_m": 0.0032135063714290473,
+                "before_score_m": 0.0033775491467052153,
                 "angle_deg": 270.0,
                 "shift_uv_m": [
-                  1.734723475976807e-18,
-                  0.0030000000000000014
+                  0.006000000000000002,
+                  0.003000000000000002
                 ],
-                "score_m": 0.0032135063714290473
+                "score_m": 0.0033775491467052153
               }
             ],
             "result": {
               "angle_deg": 270.0,
               "shift_uv_m": [
-                1.734723475976807e-18,
-                0.0030000000000000014
+                0.006000000000000002,
+                0.003000000000000002
               ],
-              "score_m": 0.0032135063714290473,
+              "score_m": 0.0033775491467052153,
               "direction_branch_deg": 270,
               "peak_index": 0,
               "method": "joint_search",
@@ -1633,38 +1275,38 @@
             "coarse_seed": {
               "angle_deg": 270.0,
               "shift_uv_m": [
-                0.006000000000000002,
-                0.0030000000000000014
+                0.009000000000000001,
+                0.006000000000000002
               ],
-              "score_m": 0.003326292793488315
+              "score_m": 0.003492278012922292
             },
             "refinement_trace": [
               {
-                "before_score_m": 0.003326292793488315,
+                "before_score_m": 0.003492278012922292,
                 "angle_deg": 270.0,
                 "shift_uv_m": [
-                  0.003000000000000002,
-                  0.0030000000000000014
+                  0.009000000000000001,
+                  0.003000000000000002
                 ],
-                "score_m": 0.003218407715984758
+                "score_m": 0.0033478618913290155
               },
               {
-                "before_score_m": 0.003218407715984758,
+                "before_score_m": 0.0033478618913290155,
                 "angle_deg": 270.0,
                 "shift_uv_m": [
-                  0.003000000000000002,
-                  0.0030000000000000014
+                  0.009000000000000001,
+                  0.003000000000000002
                 ],
-                "score_m": 0.003218407715984758
+                "score_m": 0.0033478618913290155
               }
             ],
             "result": {
               "angle_deg": 270.0,
               "shift_uv_m": [
-                0.003000000000000002,
-                0.0030000000000000014
+                0.009000000000000001,
+                0.003000000000000002
               ],
-              "score_m": 0.003218407715984758,
+              "score_m": 0.0033478618913290155,
               "direction_branch_deg": 270,
               "peak_index": 1,
               "method": "joint_search",
@@ -1674,9 +1316,9 @@
         ],
         "config": {
           "angle_start_deg": 0.0,
-          "angle_step_deg": 5.0,
+          "angle_step_deg": 10.0,
           "translation_window_m": 0.012,
-          "translation_step_m": 0.003,
+          "translation_step_m": 0.006,
           "seeds_per_branch": 2,
           "nms_angle_deg": 6.0,
           "nms_translation_m": 0.004,
@@ -1695,10 +1337,10 @@
             }
           ]
         },
-        "coarse_evaluations": 5832,
-        "total_evaluations": 11560,
-        "coarse_elapsed_s": 8.43948099995032,
-        "search_elapsed_s": 16.537505900021642,
+        "coarse_evaluations": 900,
+        "total_evaluations": 6628,
+        "coarse_elapsed_s": 1.3460645999293774,
+        "search_elapsed_s": 9.493144399952143,
         "enumerated_increments_deg": [
           0,
           90,
@@ -1713,7 +1355,7 @@
   "candidate_counts": {
     "raw_total": 8,
     "geometry_valid": 8,
-    "deduplicated_canonical": 4
+    "deduplicated_canonical": 5
   },
   "route_coverage": {
     "passed": true,
@@ -1725,26 +1367,14 @@
   },
   "serialization_validation": {
     "passed": true,
-    "candidate_count": 4,
+    "candidate_count": 5,
     "json_csv_id_order_identical": true,
     "matrix_text_json_values_identical": true,
     "numeric_comparison": "IEEE-754 exact after %.17g text round-trip"
   },
   "reproducibility": {
-    "comparison_available": true,
-    "previous_candidate_count": 4,
-    "current_candidate_count": 4,
-    "identical_candidate_id_order": true,
-    "shared_candidate_id_count": 4,
-    "exact_matrix_count_for_same_id": 4,
-    "nearest_SE3": {
-      "rotation_difference_deg_p50": 0.0,
-      "rotation_difference_deg_max": 0.0,
-      "translation_difference_m_p50": 0.0,
-      "translation_difference_m_max": 0.0,
-      "within_dedup_threshold_count": 4
-    },
-    "interpretation": "Geometry candidate IDs and transforms are deterministic for unchanged inputs and configuration."
+    "comparison_available": false,
+    "reason": "no previous canonical output was available at run start"
   },
   "deduplication": {
     "rotation_threshold_deg": 3.0,
@@ -1757,13 +1387,13 @@
     "translation_difference_formula": "norm(t_a-t_b)",
     "clusters": [
       {
-        "canonical_candidate_id": "s3_can_18f2410c3b81",
-        "cluster_id": "s3_can_18f2410c3b81",
+        "canonical_candidate_id": "s3_can_d48a903056bc",
+        "cluster_id": "s3_can_d48a903056bc",
         "selected_for_stage4": true,
-        "representative_raw_candidate_id": "s3_geo_aa81bbf18867",
+        "representative_raw_candidate_id": "s3_geo_ba18c77da787",
         "member_candidate_ids": [
-          "s3_geo_96b11d6d1757",
-          "s3_geo_aa81bbf18867"
+          "s3_geo_1f5e9f8dce59",
+          "s3_geo_ba18c77da787"
         ],
         "generators": [
           "geometry"
@@ -1771,13 +1401,13 @@
         "support_seeds": []
       },
       {
-        "canonical_candidate_id": "s3_can_834f64b11803",
-        "cluster_id": "s3_can_834f64b11803",
+        "canonical_candidate_id": "s3_can_aa37d81f0b9d",
+        "cluster_id": "s3_can_aa37d81f0b9d",
         "selected_for_stage4": true,
-        "representative_raw_candidate_id": "s3_geo_15da99cc7d66",
+        "representative_raw_candidate_id": "s3_geo_d45b7678ec12",
         "member_candidate_ids": [
-          "s3_geo_15da99cc7d66",
-          "s3_geo_8d729cba21b1"
+          "s3_geo_2067c06ba25f",
+          "s3_geo_d45b7678ec12"
         ],
         "generators": [
           "geometry"
@@ -1785,13 +1415,12 @@
         "support_seeds": []
       },
       {
-        "canonical_candidate_id": "s3_can_e31526f8513b",
-        "cluster_id": "s3_can_e31526f8513b",
+        "canonical_candidate_id": "s3_can_7521469186ce",
+        "cluster_id": "s3_can_7521469186ce",
         "selected_for_stage4": true,
-        "representative_raw_candidate_id": "s3_geo_9889cd5917e4",
+        "representative_raw_candidate_id": "s3_geo_bdf3c6e50070",
         "member_candidate_ids": [
-          "s3_geo_03f02c097e59",
-          "s3_geo_9889cd5917e4"
+          "s3_geo_bdf3c6e50070"
         ],
         "generators": [
           "geometry"
@@ -1799,13 +1428,26 @@
         "support_seeds": []
       },
       {
-        "canonical_candidate_id": "s3_can_51266db928b1",
-        "cluster_id": "s3_can_51266db928b1",
+        "canonical_candidate_id": "s3_can_4540aea2bef1",
+        "cluster_id": "s3_can_4540aea2bef1",
         "selected_for_stage4": true,
-        "representative_raw_candidate_id": "s3_geo_be7cb793faa1",
+        "representative_raw_candidate_id": "s3_geo_aca486de008f",
         "member_candidate_ids": [
-          "s3_geo_4dc8f66cf176",
-          "s3_geo_be7cb793faa1"
+          "s3_geo_aca486de008f"
+        ],
+        "generators": [
+          "geometry"
+        ],
+        "support_seeds": []
+      },
+      {
+        "canonical_candidate_id": "s3_can_0f387d078636",
+        "cluster_id": "s3_can_0f387d078636",
+        "selected_for_stage4": true,
+        "representative_raw_candidate_id": "s3_geo_ccbf7a419489",
+        "member_candidate_ids": [
+          "s3_geo_1d786cf3d7ce",
+          "s3_geo_ccbf7a419489"
         ],
         "generators": [
           "geometry"
@@ -1816,29 +1458,29 @@
   },
   "canonical_candidates": [
     {
-      "candidate_id": "s3_can_18f2410c3b81",
+      "candidate_id": "s3_can_d48a903056bc",
       "generator": "geometry",
       "source_role": "INSPIRE_2",
       "target_role": "FAST_LIVO2",
       "transform_direction": "INSPIRE_TO_FAST",
       "matrix_m": [
         [
-          0.23193360053797613,
-          -0.33629621710708196,
-          -0.9127495052318336,
-          1.2174450457624164
+          0.2326220798353092,
+          -0.3398850730332169,
+          -0.9112437133403447,
+          1.2138312835956766
         ],
         [
-          -0.9489465611808092,
-          -0.28445715543344785,
-          -0.1363251654898256,
-          0.07505319439252328
+          -0.949054380410556,
+          -0.28410674792936935,
+          -0.13630531465989926,
+          0.07320806248811362
         ],
         [
-          -0.21379249043080908,
-          0.8977688906852243,
-          -0.3851023110203504,
-          0.3727638312442623
+          -0.21256234614021238,
+          0.8965274635560267,
+          -0.388658919996912,
+          0.37950790710330196
         ],
         [
           0.0,
@@ -1854,22 +1496,22 @@
         "discrete_increment_deg": 270,
         "relative_angle_deg": 270.0,
         "translation_method": "joint_search",
-        "translation_peak_index": 0,
+        "translation_peak_index": 1,
         "shift_uv_m": [
-          1.734723475976807e-18,
-          0.0030000000000000014
+          0.009000000000000001,
+          0.003000000000000002
         ],
         "normal_alignment_branch": "observed_object_side"
       },
       "generation_parameters": {
         "angle_deg": 270.0,
         "shift_uv_m": [
-          1.734723475976807e-18,
-          0.0030000000000000014
+          0.009000000000000001,
+          0.003000000000000002
         ],
-        "score_m": 0.0032135063714290473,
+        "score_m": 0.0033478618913290155,
         "direction_branch_deg": 270,
-        "peak_index": 0,
+        "peak_index": 1,
         "method": "joint_search",
         "translation_boundary": false,
         "shape_representation": "observed_occupancy_grid"
@@ -1880,8 +1522,8 @@
         "rigid": {
           "valid": true,
           "reasons": [],
-          "determinant": 1.0000000000000004,
-          "orthonormality_error_fro": 6.712192984134985e-16,
+          "determinant": 1.0000000000000009,
+          "orthonormality_error_fro": 8.337740506818381e-16,
           "last_row_valid": true,
           "no_reflection": true,
           "no_scale": true
@@ -1891,8 +1533,8 @@
           "plane_distance_m": 2.220446049250313e-16
         },
         "object": {
-          "bidirectional_trimmed_chamfer_m": 0.004836523174650015,
-          "bidirectional_overlap_at_15mm": 0.8922222222222222
+          "bidirectional_trimmed_chamfer_m": 0.004809020350949669,
+          "bidirectional_overlap_at_15mm": 0.8944444444444444
         },
         "aabb": {
           "gap_norm_m": 0.0,
@@ -1902,10 +1544,10 @@
       "status": "canonical",
       "status_reasons": [],
       "shape_match": {
-        "score_m": 0.0032135063714290473,
-        "occupancy_m": 0.0008151587378070335,
-        "outer_contour_m": 0.0031334255151489404,
-        "height_m": 0.01204816779864668
+        "score_m": 0.0033478618913290155,
+        "occupancy_m": 0.0008203442400751012,
+        "outer_contour_m": 0.0033191360412159745,
+        "height_m": 0.012352165846339441
       },
       "input_hashes": {
         "source_board": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
@@ -1913,13 +1555,13 @@
         "target_board": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
         "target_object": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
       },
-      "config_fingerprint": "142a591205a157fde803bf216e59c83d5930eba81531fd689f6964b4fc44f395",
-      "coarse_rank_score": 0.0032135063714292694,
+      "config_fingerprint": "0bcf04cdeeceb51d04d7a4e4657cea1204a03755a61497b55d7c373df413fd0f",
+      "coarse_rank_score": 0.0033478618913292376,
       "coarse_rank_basis": "observed-cell occupancy + supported outer contour + weak height + board diagnostics; not final scoring",
-      "representative_raw_candidate_id": "s3_geo_aa81bbf18867",
+      "representative_raw_candidate_id": "s3_geo_ba18c77da787",
       "member_candidate_ids": [
-        "s3_geo_96b11d6d1757",
-        "s3_geo_aa81bbf18867"
+        "s3_geo_1f5e9f8dce59",
+        "s3_geo_ba18c77da787"
       ],
       "support_count": 2,
       "generators": [
@@ -1930,29 +1572,29 @@
       "rank": 1
     },
     {
-      "candidate_id": "s3_can_834f64b11803",
+      "candidate_id": "s3_can_aa37d81f0b9d",
       "generator": "geometry",
       "source_role": "INSPIRE_2",
       "target_role": "FAST_LIVO2",
       "transform_direction": "INSPIRE_TO_FAST",
       "matrix_m": [
         [
-          0.017441810533254696,
-          0.4671498890771315,
-          -0.8840060884295685,
-          1.2436534226136964
+          0.01628921300631792,
+          0.47051608478641826,
+          -0.882241052942389,
+          1.24274831645226
         ],
         [
-          0.9445853058121778,
-          0.2821686929225167,
-          0.16774811110147692,
-          0.04873899709437968
+          0.9446915715877469,
+          0.2818171044017373,
+          0.16774073517692056,
+          0.04811076203303839
         ],
         [
-          0.32780235400167135,
-          -0.8379449921502143,
-          -0.4363413879536764,
-          0.31443126705430624
+          0.32755533289920397,
+          -0.8361780513885069,
+          -0.4399020007517714,
+          0.31596254696194803
         ],
         [
           0.0,
@@ -1970,7 +1612,7 @@
         "translation_method": "joint_search",
         "translation_peak_index": 0,
         "shift_uv_m": [
-          -0.008999999999999998,
+          -0.005999999999999998,
           0.003000000000000006
         ],
         "normal_alignment_branch": "observed_object_side"
@@ -1978,10 +1620,10 @@
       "generation_parameters": {
         "angle_deg": 90.0,
         "shift_uv_m": [
-          -0.008999999999999998,
+          -0.005999999999999998,
           0.003000000000000006
         ],
-        "score_m": 0.0032153002693387175,
+        "score_m": 0.003366493777497801,
         "direction_branch_deg": 90,
         "peak_index": 0,
         "method": "joint_search",
@@ -1994,19 +1636,19 @@
         "rigid": {
           "valid": true,
           "reasons": [],
-          "determinant": 1.0000000000000007,
-          "orthonormality_error_fro": 6.875330480079001e-16,
+          "determinant": 1.0000000000000004,
+          "orthonormality_error_fro": 6.324257218334133e-16,
           "last_row_valid": true,
           "no_reflection": true,
           "no_scale": true
         },
         "board": {
           "normal_angle_deg": 0.0,
-          "plane_distance_m": 0.0
+          "plane_distance_m": 2.220446049250313e-16
         },
         "object": {
-          "bidirectional_trimmed_chamfer_m": 0.0051286680079864,
-          "bidirectional_overlap_at_15mm": 0.8813888888888889
+          "bidirectional_trimmed_chamfer_m": 0.005158101814661769,
+          "bidirectional_overlap_at_15mm": 0.8763888888888889
         },
         "aabb": {
           "gap_norm_m": 0.0,
@@ -2016,10 +1658,10 @@
       "status": "canonical",
       "status_reasons": [],
       "shape_match": {
-        "score_m": 0.0032153002693387175,
-        "occupancy_m": 0.0007598368942609531,
-        "outer_contour_m": 0.0031308403512929446,
-        "height_m": 0.012273951631362641
+        "score_m": 0.003366493777497801,
+        "occupancy_m": 0.0007623442638753845,
+        "outer_contour_m": 0.0033684822059664955,
+        "height_m": 0.012470080718598434
       },
       "input_hashes": {
         "source_board": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
@@ -2027,13 +1669,13 @@
         "target_board": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
         "target_object": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
       },
-      "config_fingerprint": "142a591205a157fde803bf216e59c83d5930eba81531fd689f6964b4fc44f395",
-      "coarse_rank_score": 0.0032153002693387175,
+      "config_fingerprint": "0bcf04cdeeceb51d04d7a4e4657cea1204a03755a61497b55d7c373df413fd0f",
+      "coarse_rank_score": 0.003366493777498023,
       "coarse_rank_basis": "observed-cell occupancy + supported outer contour + weak height + board diagnostics; not final scoring",
-      "representative_raw_candidate_id": "s3_geo_15da99cc7d66",
+      "representative_raw_candidate_id": "s3_geo_d45b7678ec12",
       "member_candidate_ids": [
-        "s3_geo_15da99cc7d66",
-        "s3_geo_8d729cba21b1"
+        "s3_geo_2067c06ba25f",
+        "s3_geo_d45b7678ec12"
       ],
       "support_count": 2,
       "generators": [
@@ -2044,29 +1686,29 @@
       "rank": 2
     },
     {
-      "candidate_id": "s3_can_e31526f8513b",
+      "candidate_id": "s3_can_7521469186ce",
       "generator": "geometry",
       "source_role": "INSPIRE_2",
       "target_role": "FAST_LIVO2",
       "transform_direction": "INSPIRE_TO_FAST",
       "matrix_m": [
         [
-          0.5225993037619695,
-          0.1694085364090743,
-          -0.8355780726534416,
-          1.2241090140361075
+          0.5258123362245922,
+          0.17018896482136947,
+          -0.8334009259216524,
+          1.2255128415644763
         ],
         [
-          0.2886539751932026,
-          -0.9573374526483681,
-          -0.013560396819266981,
-          0.028147707441548948
+          0.28830680031936007,
+          -0.9574412217296818,
+          -0.013619685106024435,
+          0.028776523140466474
         ],
         [
-          -0.8022274305411571,
-          -0.23410627831920566,
-          -0.5492043336854362,
-          0.3563933473585362
+          -0.800250320814462,
+          -0.2331137558914215,
+          -0.5525010414927249,
+          0.35253654045121635
         ],
         [
           0.0,
@@ -2084,7 +1726,7 @@
         "translation_method": "joint_search",
         "translation_peak_index": 0,
         "shift_uv_m": [
-          -0.002999999999999999,
+          -0.005999999999999999,
           -0.002999999999999994
         ],
         "normal_alignment_branch": "observed_object_side"
@@ -2092,10 +1734,10 @@
       "generation_parameters": {
         "angle_deg": 180.0,
         "shift_uv_m": [
-          -0.002999999999999999,
+          -0.005999999999999999,
           -0.002999999999999994
         ],
-        "score_m": 0.0032281504122121632,
+        "score_m": 0.0033837445334893306,
         "direction_branch_deg": 180,
         "peak_index": 0,
         "method": "joint_search",
@@ -2109,18 +1751,18 @@
           "valid": true,
           "reasons": [],
           "determinant": 1.0000000000000007,
-          "orthonormality_error_fro": 5.207838520668983e-16,
+          "orthonormality_error_fro": 8.35946330175473e-16,
           "last_row_valid": true,
           "no_reflection": true,
           "no_scale": true
         },
         "board": {
           "normal_angle_deg": 0.0,
-          "plane_distance_m": 4.440892098500626e-16
+          "plane_distance_m": 2.220446049250313e-16
         },
         "object": {
-          "bidirectional_trimmed_chamfer_m": 0.004813920398449311,
-          "bidirectional_overlap_at_15mm": 0.8936111111111111
+          "bidirectional_trimmed_chamfer_m": 0.004907601186399661,
+          "bidirectional_overlap_at_15mm": 0.8905555555555555
         },
         "aabb": {
           "gap_norm_m": 0.0,
@@ -2130,10 +1772,10 @@
       "status": "canonical",
       "status_reasons": [],
       "shape_match": {
-        "score_m": 0.0032281504122121632,
-        "occupancy_m": 0.000758384798935135,
-        "outer_contour_m": 0.0031472881081250482,
-        "height_m": 0.012317072731160894
+        "score_m": 0.0033837445334893306,
+        "occupancy_m": 0.0008080559019948016,
+        "outer_contour_m": 0.003395690333265571,
+        "height_m": 0.012332952844950855
       },
       "input_hashes": {
         "source_board": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
@@ -2141,15 +1783,14 @@
         "target_board": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
         "target_object": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
       },
-      "config_fingerprint": "142a591205a157fde803bf216e59c83d5930eba81531fd689f6964b4fc44f395",
-      "coarse_rank_score": 0.0032281504122126073,
+      "config_fingerprint": "0bcf04cdeeceb51d04d7a4e4657cea1204a03755a61497b55d7c373df413fd0f",
+      "coarse_rank_score": 0.0033837445334895526,
       "coarse_rank_basis": "observed-cell occupancy + supported outer contour + weak height + board diagnostics; not final scoring",
-      "representative_raw_candidate_id": "s3_geo_9889cd5917e4",
+      "representative_raw_candidate_id": "s3_geo_bdf3c6e50070",
       "member_candidate_ids": [
-        "s3_geo_03f02c097e59",
-        "s3_geo_9889cd5917e4"
+        "s3_geo_bdf3c6e50070"
       ],
-      "support_count": 2,
+      "support_count": 1,
       "generators": [
         "geometry"
       ],
@@ -2158,29 +1799,142 @@
       "rank": 3
     },
     {
-      "candidate_id": "s3_can_51266db928b1",
+      "candidate_id": "s3_can_4540aea2bef1",
       "generator": "geometry",
       "source_role": "INSPIRE_2",
       "target_role": "FAST_LIVO2",
       "transform_direction": "INSPIRE_TO_FAST",
       "matrix_m": [
         [
-          -0.2732238926907388,
-          -0.03855486443902476,
-          -0.9611775210079605,
-          1.2357602100433813
+          0.5258123362245922,
+          0.17018896482136947,
+          -0.8334009259216524,
+          1.2230330725200849
         ],
         [
-          -0.29301523056183404,
-          0.9550489901374372,
-          0.0449833424309183,
-          0.0950223732473829
+          0.28830680031936007,
+          -0.9574412217296818,
+          -0.013619685106024435,
+          0.027534467084862173
         ],
         [
-          0.9162372941120195,
-          0.2939301768542156,
-          -0.2722393652885906,
-          0.33346669683334157
+          -0.800250320814462,
+          -0.2331137558914215,
+          -0.5525010414927249,
+          0.3578570707106187
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "provenance": {
+        "parent_branch": "joint_search",
+        "search_method": "joint",
+        "shape_method": "occupancy_grid",
+        "discrete_increment_deg": 180,
+        "relative_angle_deg": 180.0,
+        "translation_method": "joint_search",
+        "translation_peak_index": 1,
+        "shift_uv_m": [
+          8.673617379884035e-19,
+          -0.002999999999999994
+        ],
+        "normal_alignment_branch": "observed_object_side"
+      },
+      "generation_parameters": {
+        "angle_deg": 180.0,
+        "shift_uv_m": [
+          8.673617379884035e-19,
+          -0.002999999999999994
+        ],
+        "score_m": 0.0034104888417368015,
+        "direction_branch_deg": 180,
+        "peak_index": 1,
+        "method": "joint_search",
+        "translation_boundary": false,
+        "shape_representation": "observed_occupancy_grid"
+      },
+      "coarse_checks": {
+        "passed": true,
+        "reasons": [],
+        "rigid": {
+          "valid": true,
+          "reasons": [],
+          "determinant": 1.0000000000000007,
+          "orthonormality_error_fro": 8.35946330175473e-16,
+          "last_row_valid": true,
+          "no_reflection": true,
+          "no_scale": true
+        },
+        "board": {
+          "normal_angle_deg": 0.0,
+          "plane_distance_m": 0.0
+        },
+        "object": {
+          "bidirectional_trimmed_chamfer_m": 0.004910664786338912,
+          "bidirectional_overlap_at_15mm": 0.8911111111111112
+        },
+        "aabb": {
+          "gap_norm_m": 0.0,
+          "completely_disconnected": false
+        }
+      },
+      "status": "canonical",
+      "status_reasons": [],
+      "shape_match": {
+        "score_m": 0.0034104888417368015,
+        "occupancy_m": 0.0007622437409189616,
+        "outer_contour_m": 0.0034569084996013064,
+        "height_m": 0.01242403857634446
+      },
+      "input_hashes": {
+        "source_board": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+        "source_object": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+        "target_board": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+        "target_object": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
+      },
+      "config_fingerprint": "0bcf04cdeeceb51d04d7a4e4657cea1204a03755a61497b55d7c373df413fd0f",
+      "coarse_rank_score": 0.0034104888417368015,
+      "coarse_rank_basis": "observed-cell occupancy + supported outer contour + weak height + board diagnostics; not final scoring",
+      "representative_raw_candidate_id": "s3_geo_aca486de008f",
+      "member_candidate_ids": [
+        "s3_geo_aca486de008f"
+      ],
+      "support_count": 1,
+      "generators": [
+        "geometry"
+      ],
+      "cross_generator_support": false,
+      "support_seeds": [],
+      "rank": 4
+    },
+    {
+      "candidate_id": "s3_can_0f387d078636",
+      "generator": "geometry",
+      "source_role": "INSPIRE_2",
+      "target_role": "FAST_LIVO2",
+      "transform_direction": "INSPIRE_TO_FAST",
+      "matrix_m": [
+        [
+          -0.2769010433829652,
+          -0.03955795306816801,
+          -0.9600838403610813,
+          1.2347864120500474
+        ],
+        [
+          -0.292669609142169,
+          0.9551515782020498,
+          0.045055105623045745,
+          0.09440538546409201
+        ],
+        [
+          0.9152433075734536,
+          0.2934631680589412,
+          -0.2760598792559585,
+          0.33495311822493024
         ],
         [
           0.0,
@@ -2198,7 +1952,7 @@
         "translation_method": "joint_search",
         "translation_peak_index": 0,
         "shift_uv_m": [
-          -0.0029999999999999983,
+          1.734723475976807e-18,
           0.009000000000000008
         ],
         "normal_alignment_branch": "observed_object_side"
@@ -2206,10 +1960,10 @@
       "generation_parameters": {
         "angle_deg": 0.0,
         "shift_uv_m": [
-          -0.0029999999999999983,
+          1.734723475976807e-18,
           0.009000000000000008
         ],
-        "score_m": 0.0032301500103865716,
+        "score_m": 0.0034352443587652238,
         "direction_branch_deg": 0,
         "peak_index": 0,
         "method": "joint_search",
@@ -2222,8 +1976,8 @@
         "rigid": {
           "valid": true,
           "reasons": [],
-          "determinant": 1.0000000000000009,
-          "orthonormality_error_fro": 8.325709986608797e-16,
+          "determinant": 1.0000000000000004,
+          "orthonormality_error_fro": 5.077099081685054e-16,
           "last_row_valid": true,
           "no_reflection": true,
           "no_scale": true
@@ -2233,8 +1987,8 @@
           "plane_distance_m": 0.0
         },
         "object": {
-          "bidirectional_trimmed_chamfer_m": 0.004830695705237472,
-          "bidirectional_overlap_at_15mm": 0.8880555555555556
+          "bidirectional_trimmed_chamfer_m": 0.004912452345580785,
+          "bidirectional_overlap_at_15mm": 0.8844444444444444
         },
         "aabb": {
           "gap_norm_m": 0.0,
@@ -2244,10 +1998,10 @@
       "status": "canonical",
       "status_reasons": [],
       "shape_match": {
-        "score_m": 0.0032301500103865716,
-        "occupancy_m": 0.0007634324345686757,
-        "outer_contour_m": 0.003182539287512469,
-        "height_m": 0.012125520501556767
+        "score_m": 0.0034352443587652238,
+        "occupancy_m": 0.0007644089105046911,
+        "outer_contour_m": 0.0035043704818842215,
+        "height_m": 0.0124029747505226
       },
       "input_hashes": {
         "source_board": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
@@ -2255,13 +2009,13 @@
         "target_board": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
         "target_object": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
       },
-      "config_fingerprint": "142a591205a157fde803bf216e59c83d5930eba81531fd689f6964b4fc44f395",
-      "coarse_rank_score": 0.0032301500103865716,
+      "config_fingerprint": "0bcf04cdeeceb51d04d7a4e4657cea1204a03755a61497b55d7c373df413fd0f",
+      "coarse_rank_score": 0.0034352443587652238,
       "coarse_rank_basis": "observed-cell occupancy + supported outer contour + weak height + board diagnostics; not final scoring",
-      "representative_raw_candidate_id": "s3_geo_be7cb793faa1",
+      "representative_raw_candidate_id": "s3_geo_ccbf7a419489",
       "member_candidate_ids": [
-        "s3_geo_4dc8f66cf176",
-        "s3_geo_be7cb793faa1"
+        "s3_geo_1d786cf3d7ce",
+        "s3_geo_ccbf7a419489"
       ],
       "support_count": 2,
       "generators": [
@@ -2269,39 +2023,54 @@
       ],
       "cross_generator_support": false,
       "support_seeds": [],
-      "rank": 4
+      "rank": 5
     }
   ],
   "ambiguity_evidence": {
     "competitive_direction_pairs": [
       {
-        "candidate_a": "s3_can_18f2410c3b81",
-        "candidate_b": "s3_can_834f64b11803",
+        "candidate_a": "s3_can_d48a903056bc",
+        "candidate_b": "s3_can_aa37d81f0b9d",
         "rotation_difference_deg": 180.0
       },
       {
-        "candidate_a": "s3_can_18f2410c3b81",
-        "candidate_b": "s3_can_e31526f8513b",
+        "candidate_a": "s3_can_d48a903056bc",
+        "candidate_b": "s3_can_7521469186ce",
         "rotation_difference_deg": 89.99999999999999
       },
       {
-        "candidate_a": "s3_can_18f2410c3b81",
-        "candidate_b": "s3_can_51266db928b1",
-        "rotation_difference_deg": 90.00000000000001
+        "candidate_a": "s3_can_d48a903056bc",
+        "candidate_b": "s3_can_4540aea2bef1",
+        "rotation_difference_deg": 89.99999999999999
       },
       {
-        "candidate_a": "s3_can_834f64b11803",
-        "candidate_b": "s3_can_e31526f8513b",
+        "candidate_a": "s3_can_d48a903056bc",
+        "candidate_b": "s3_can_0f387d078636",
         "rotation_difference_deg": 90.0
       },
       {
-        "candidate_a": "s3_can_834f64b11803",
-        "candidate_b": "s3_can_51266db928b1",
+        "candidate_a": "s3_can_aa37d81f0b9d",
+        "candidate_b": "s3_can_7521469186ce",
         "rotation_difference_deg": 89.99999999999999
       },
       {
-        "candidate_a": "s3_can_e31526f8513b",
-        "candidate_b": "s3_can_51266db928b1",
+        "candidate_a": "s3_can_aa37d81f0b9d",
+        "candidate_b": "s3_can_4540aea2bef1",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_aa37d81f0b9d",
+        "candidate_b": "s3_can_0f387d078636",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_7521469186ce",
+        "candidate_b": "s3_can_0f387d078636",
+        "rotation_difference_deg": 180.0
+      },
+      {
+        "candidate_a": "s3_can_4540aea2bef1",
+        "candidate_b": "s3_can_0f387d078636",
         "rotation_difference_deg": 180.0
       }
     ],
@@ -2316,23 +2085,24 @@
     },
     "geometry_candidates": {
       "displayed_candidate_ids": [
-        "s3_geo_aa81bbf18867",
-        "s3_geo_15da99cc7d66",
-        "s3_geo_9889cd5917e4",
-        "s3_geo_be7cb793faa1",
-        "s3_geo_96b11d6d1757",
-        "s3_geo_03f02c097e59",
-        "s3_geo_8d729cba21b1",
-        "s3_geo_4dc8f66cf176"
+        "s3_geo_ba18c77da787",
+        "s3_geo_d45b7678ec12",
+        "s3_geo_bdf3c6e50070",
+        "s3_geo_ccbf7a419489",
+        "s3_geo_1f5e9f8dce59",
+        "s3_geo_aca486de008f",
+        "s3_geo_2067c06ba25f",
+        "s3_geo_1d786cf3d7ce"
       ],
       "undisplayed_candidate_ids": []
     },
     "candidate_comparison": {
       "displayed_candidate_ids": [
-        "s3_can_18f2410c3b81",
-        "s3_can_834f64b11803",
-        "s3_can_e31526f8513b",
-        "s3_can_51266db928b1"
+        "s3_can_d48a903056bc",
+        "s3_can_aa37d81f0b9d",
+        "s3_can_7521469186ce",
+        "s3_can_4540aea2bef1",
+        "s3_can_0f387d078636"
       ],
       "undisplayed_candidate_ids": []
     }
@@ -2343,13 +2113,13 @@
     "The approximately square planar object is highly self-similar at 0/90/180/270 degrees.",
     "Board plane constrains normal and normal translation, not reliable in-plane translation or rotation."
   ],
-  "elapsed_s": 22.216070199850947,
-  "peak_memory_bytes": 320286720,
+  "elapsed_s": 15.21430049999617,
+  "peak_memory_bytes": 321290240,
   "peak_memory_measurement": "maximum process RSS polled at major geometry steps",
   "artifacts": {
-    "raw_candidates": "D:\\Aproject\\PointCloudLab\\outputs\\stage_03_grid_joint\\raw_candidates.json",
-    "canonical_candidates": "D:\\Aproject\\PointCloudLab\\outputs\\stage_03_grid_joint\\canonical_candidates.json",
-    "summary_csv": "D:\\Aproject\\PointCloudLab\\outputs\\stage_03_grid_joint\\candidate_summary.csv",
-    "matrix_directory": "D:\\Aproject\\PointCloudLab\\outputs\\stage_03_grid_joint\\candidate_matrices"
+    "raw_candidates": "D:\\Aproject\\PointCloudLab\\outputs\\20260925-grid-joint-fast-recorded\\raw_candidates.json",
+    "canonical_candidates": "D:\\Aproject\\PointCloudLab\\outputs\\20260925-grid-joint-fast-recorded\\canonical_candidates.json",
+    "summary_csv": "D:\\Aproject\\PointCloudLab\\outputs\\20260925-grid-joint-fast-recorded\\candidate_summary.csv",
+    "matrix_directory": "D:\\Aproject\\PointCloudLab\\outputs\\20260925-grid-joint-fast-recorded\\candidate_matrices"
   }
 }
