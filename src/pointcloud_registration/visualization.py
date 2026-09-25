@@ -302,9 +302,9 @@ def save_stage4_comparison(path: Path, candidates: list[dict[str, Any]], source_
         Line2D([0],[0],marker="o",color="w",markerfacecolor="#2ca02c",label="PASS — accepted refinement",markersize=7),
         Line2D([0],[0],marker="o",color="w",markerfacecolor="#f28e2b",label="REJECTED — diagnostic only",markersize=7),
         Line2D([0],[0],marker="o",color="w",markerfacecolor="#d62728",label="FAILED — diagnostic only",markersize=7)]
-    fig.legend(handles=legend,loc="upper center",ncol=5,fontsize=8,bbox_to_anchor=(.5,.982))
-    fig.suptitle("Stage 5 constrained refinement — parent versus actual attempted refinement\nRejected proposals are shown for diagnosis and are not exported transforms.",fontsize=13,y=.999)
-    fig.tight_layout(rect=(0,0,1,.985),h_pad=1.5);path.parent.mkdir(parents=True,exist_ok=True);fig.savefig(path,dpi=150);plt.close(fig)
+    fig.legend(handles=legend,loc="upper center",ncol=5,fontsize=8,bbox_to_anchor=(.5,.94))
+    fig.suptitle("Stage 4 constrained refinement — parent versus actual attempted refinement\nRejected proposals are shown for diagnosis and are not exported transforms.",fontsize=12,y=.995)
+    fig.tight_layout(rect=(0,0,1,.90),h_pad=1.5);path.parent.mkdir(parents=True,exist_ok=True);fig.savefig(path,dpi=150);plt.close(fig)
     return {"views":["object_plane_front_parent","object_plane_front_visualization_matrix","board_side_with_target_parent_and_actual_attempt"],
             "centroid_motion_arrow":True,"delta_and_rejection_annotation":True,"unit":"m","fixed_colors":{"FAST_target":"#277da1",
                 "stage3_parent":"#f9c74f","accepted_refinement":"#2ca02c","rejected_diagnostic":"#f28e2b","failed_diagnostic":"#d62728"},

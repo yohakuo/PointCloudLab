@@ -206,5 +206,6 @@
     "path": "archives/experiments/20260925-grid-joint-fast-fixed-threads.zip",
     "size_bytes": 1814073,
     "sha256": "deb24b6893ec90d3c081da3063889dffae66a62393d807decea4e6d1d6a369ac"
-  }
+  },
+  "objective": "对贴在白板上的正方体进行点云配准。"
 }

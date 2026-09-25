@@ -11,6 +11,8 @@ import open3d as o3d
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/"src"))
+SPEC=importlib.util.spec_from_file_location("stage5",ROOT/"scripts"/"05_export_results.py")
+SCRIPT=importlib.util.module_from_spec(SPEC);SPEC.loader.exec_module(SCRIPT)
 
 from pointcloud_registration.export import (CORE_FILES,VISUAL_FILES,ExportError,atomic_write_cloud,
     cloud_stats,load_selected_refinement,merge_clouds,raw_mm_affine,stage5_contract,
@@ -27,6 +29,18 @@ def cloud(points, colors=None, normals=None):
 
 
 class StageFiveTests(unittest.TestCase):
+    def test_selection_must_belong_to_current_stage3_stage4_lineage(self):
+        s3={"canonical_candidates":[{"candidate_id":"p1"},{"candidate_id":"p2"}]}
+        s4={"refined_candidates":[{"parent_candidate_id":"p1","refined_candidate_id":"r1"},
+                                  {"parent_candidate_id":"p2","refined_candidate_id":"r2"}]}
+        SCRIPT.validate_selection_lineage(s3,s4,"p1","r1")
+        with self.assertRaisesRegex(ExportError,"selected parent candidate"):
+            SCRIPT.validate_selection_lineage(s3,s4,"old","old_r")
+        with self.assertRaisesRegex(ExportError,"selected refined candidate"):
+            SCRIPT.validate_selection_lineage(s3,s4,"p1","old_r")
+        with self.assertRaisesRegex(ExportError,"ID/order differ"):
+            SCRIPT.validate_selection_lineage(s3,{"refined_candidates":list(reversed(s4["refined_candidates"]))},"p1","r1")
+
     def test_parent_unique_selects_matrix_m_not_parent(self):
         with tempfile.TemporaryDirectory() as td:
             d=Path(td);(d/"m").mkdir();m=np.eye(4);m[0,3]=2.;parent=np.eye(4);parent[0,3]=9.

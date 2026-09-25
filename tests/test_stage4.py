@@ -1,5 +1,6 @@
 from __future__ import annotations
-import importlib.util,json,sys,tempfile,unittest
+import importlib.util,json,shutil,sys,tempfile,unittest
+from types import SimpleNamespace
 from pathlib import Path
 import numpy as np
 import open3d as o3d
@@ -32,6 +33,58 @@ class StageFourTests(unittest.TestCase):
         parents=[f"s3_can_{i:012x}" for i in range(16)];ids=[refined_candidate_id(x) for x in parents]
         self.assertEqual(len(set(ids)),16);self.assertEqual(stage4_contract()["transform_direction"],"INSPIRE_TO_FAST")
         self.assertFalse(stage4_contract()["final_transform_selected"])
+
+    def test_joint_four_candidate_input_and_mismatches(self):
+        source=ROOT/"outputs"/"stage_03_grid_joint"
+        s2=ROOT/"outputs"/"stage_02_segmentation"
+        with tempfile.TemporaryDirectory() as td:
+            d=Path(td);shutil.copy2(source/"candidate_report.json",d/"candidate_report.json")
+            shutil.copy2(source/"canonical_candidates.json",d/"canonical_candidates.json")
+            shutil.copytree(source/"candidate_matrices",d/"candidate_matrices")
+            args=SimpleNamespace(stage2_report=s2/"segmentation_report.json",stage3_report=d/"candidate_report.json",
+                canonical_candidates=d/"canonical_candidates.json",candidate_matrices=d/"candidate_matrices",
+                plan=ROOT/"配准实验总规划.md",dataset_id="20260916_formal",dataset_approvals={"stage3_reviewed":True},
+                source_board=s2/"source_board_points.ply",source_object=s2/"source_object_points.ply",
+                target_board=s2/"target_board_points.pcd",target_object=s2/"target_object_points.pcd")
+            candidates,_,audit=SCRIPT.validate_preconditions(args)
+            self.assertEqual(len(candidates),4);self.assertEqual(audit["candidate_count"],4)
+            original=json.loads(args.canonical_candidates.read_text(encoding="utf-8"))
+            original_report=json.loads(args.stage3_report.read_text(encoding="utf-8"))
+            for label,change in (
+                ("JSON count",lambda c,r:c.update(candidate_count=5)),
+                ("report count",lambda c,r:r["candidate_counts"].update(deduplicated_canonical=5)),
+                ("report order",lambda c,r:r["canonical_candidates"].reverse()),
+                ("report matrix",lambda c,r:r["canonical_candidates"][0]["matrix_m"][0].__setitem__(3,0.0)),
+            ):
+                with self.subTest(label=label):
+                    c=json.loads(json.dumps(original));r=json.loads(json.dumps(original_report));change(c,r)
+                    args.canonical_candidates.write_text(json.dumps(c),encoding="utf-8")
+                    args.stage3_report.write_text(json.dumps(r),encoding="utf-8")
+                    with self.assertRaises(SCRIPT.Stage4Failure):SCRIPT.validate_preconditions(args)
+            args.canonical_candidates.write_text(json.dumps(original),encoding="utf-8")
+            args.stage3_report.write_text(json.dumps(original_report),encoding="utf-8")
+            extra=d/"candidate_matrices"/"old_candidate.txt";extra.write_text("0")
+            with self.assertRaisesRegex(SCRIPT.Stage4Failure,"filename set"):SCRIPT.validate_preconditions(args)
+            extra.unlink()
+            matrix=d/"candidate_matrices"/f"{candidates[0]['candidate_id']}.txt"
+            matrix.write_text("1 0 0 0\n0 1 0 0\n0 0 1 0\n0 0 0 1\n")
+            with self.assertRaisesRegex(SCRIPT.Stage4Failure,"matrix text differ"):SCRIPT.validate_preconditions(args)
+
+    def test_four_candidate_output_count_and_files_are_checked(self):
+        with tempfile.TemporaryDirectory() as td:
+            d=Path(td);matrix_dir=d/"refined_matrices";matrix_dir.mkdir()
+            candidates=[{"refined_candidate_id":f"r{i}","parent_candidate_id":f"p{i}","status":"no_safe_refinement",
+                         "accepted_update_count":0,"rejected_update_count":1,"matrix_m":np.eye(4).tolist()} for i in range(4)]
+            for c in candidates:np.savetxt(matrix_dir/f"{c['refined_candidate_id']}.txt",np.eye(4),fmt="%.17g")
+            (d/"refined_candidates.json").write_text(json.dumps({"candidate_count":4,"candidates":candidates}),encoding="utf-8")
+            (d/"refinement_summary.csv").write_text("refined_candidate_id,parent_candidate_id,status,accepted_update_count,rejected_update_count,matrix_file\n"+
+                "".join(f"r{i},p{i},no_safe_refinement,0,1,refined_matrices/r{i}.txt\n" for i in range(4)),encoding="utf-8")
+            self.assertEqual(SCRIPT.validate_outputs(d,candidates)["candidate_count"],4)
+            (d/"refined_candidates.json").write_text(json.dumps({"candidate_count":3,"candidates":candidates}),encoding="utf-8")
+            with self.assertRaisesRegex(SCRIPT.Stage4Failure,"count/order/IDs"):SCRIPT.validate_outputs(d,candidates)
+            (d/"refined_candidates.json").write_text(json.dumps({"candidate_count":4,"candidates":candidates}),encoding="utf-8")
+            (matrix_dir/"old.txt").write_text("0")
+            with self.assertRaisesRegex(SCRIPT.Stage4Failure,"filename set"):SCRIPT.validate_outputs(d,candidates)
 
     def test_configuration_has_requested_tight_gates(self):
         validate_level_configuration(self.cfg);g=self.gates

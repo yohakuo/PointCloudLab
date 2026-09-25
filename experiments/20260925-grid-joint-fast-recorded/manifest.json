@@ -211,5 +211,6 @@
     "path": "archives/experiments/20260925-grid-joint-fast-recorded.zip",
     "size_bytes": 2130854,
     "sha256": "c8f7d10c8772dcad4d93db15141265a5b3ab97e642982285d19fa7feeed0b310"
-  }
+  },
+  "objective": "对贴在白板上的正方体进行点云配准。"
 }

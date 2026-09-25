@@ -215,7 +215,7 @@ $env:MKL_NUM_THREADS = '1'
 .\.venv\Scripts\python.exe .\scripts\study_coarse_perturbations.py --output-dir .\outputs\coarse_stability
 ```
 
-运行中断后可用 `--resume` 接续同一配置。`outputs/coarse_stability/report.md`、`summary.json`、逐次 `runs/`、配对 `paired_inputs/` 和三张统计图均由脚本生成。报告按实际三维旋转匹配方向，并将同一扫描仪参考点投影到固定雷达白板平面；位置波动是重复性，不是绝对精度。无真实位姿标签，方向竞争的获胜频率不是方向正确概率。方向仍需人工复核；精配准当前要求 16 个规范候选，而联合搜索候选数不足，须独立处理衔接。
+运行中断后可用 `--resume` 接续同一配置。`outputs/coarse_stability/report.md`、`summary.json`、逐次 `runs/`、配对 `paired_inputs/` 和三张统计图均由脚本生成。报告按实际三维旋转匹配方向，并将同一扫描仪参考点投影到固定雷达白板平面；位置波动是重复性，不是绝对精度。无真实位姿标签，方向竞争的获胜频率不是方向正确概率。方向仍需人工复核。
 
 本次正式实验 165/165 次有效，模型拟合和评分回退均为零。栅格联合路线在 32 次扰动中有 29 次近似并列；八个组别/强度单元的最差分支位置偏移 p90 为 4.49–9.05 mm，均超过预设的 3 mm 操作阈值。模型后重评分保持 33/33 个配对候选池不变，模型参与搜索则 33/33 个候选池均发生变化，两者均未消除方向竞争。只有 19/40 个统计单元达到两批趋稳容差，结果仍受每单元仅 4 次重复的限制；不能宣称绝对精度提升。详见 [执行结论](docs/coarse_stability.md#本次执行结果2026-09-24)。
 
@@ -225,11 +225,13 @@ $env:MKL_NUM_THREADS = '1'
 
 阶段 4 核验阶段 2、阶段 3 报告以及规范候选 JSON/矩阵的一致性。检查 `candidate_comparison.png` 后，将数据清单中的 `approvals.stage3_reviewed` 设为 `true` 才能运行。
 
-当前阶段 4 的输入校验硬性要求 16 个规范候选和 16 份矩阵，不能直接读取本次顺序基线的 7 个候选或联合搜索的 4 个候选。其默认输入路径仍指向 `outputs/stage_03_candidates`；使用独立实验输出目录不会自动切换阶段 4 输入。当前数据清单已有的 `stage3_reviewed=true` 和选择 ID 只对应旧正式产物。使用新候选前须调整数量校验、显式衔接新的阶段 3 产物，并重新人工复核；详见 [联合搜索说明](docs/stage3_joint_search.md#验证与限制)。
+阶段 4 从阶段 3 规范候选列表确定数量，并核对报告、JSON 和矩阵目录的数量、ID、顺序及矩阵内容。默认输入路径仍指向旧的 `outputs/stage_03_candidates`；联合搜索须显式指定新的阶段 3 目录。数据清单中的 `stage3_reviewed=true` 是旧运行留下的标志，不能代替对联合搜索结果的人工复核；选择 ID 也仍属于旧候选集。详见 [联合搜索说明](docs/stage3_joint_search.md#验证与限制)。
 
 ```powershell
 .\.venv\Scripts\python.exe .\scripts\04_refine_candidates.py
 ```
+
+联合搜索的四个候选可用 `--stage3-report outputs/stage_03_grid_joint/candidate_report.json --canonical-candidates outputs/stage_03_grid_joint/canonical_candidates.json --candidate-matrices outputs/stage_03_grid_joint/candidate_matrices --output-dir outputs/stage_04_grid_joint` 显式衔接。2026-09-25 的四候选运行均为 `no_safe_refinement`；24 次更新均因物体区域没有明确改善而被拒绝，因此阶段 5 尚不能正常导出。需人工复核候选图和几何，再明确选择达到 `refined_valid` 的候选。
 
 每个父候选依次尝试多层 GICP 和 Huber robust point-to-plane，并始终使用 board→board、object→object 对应。输出位于 `outputs/stage_04_refinement`；精配准候选 ID 使用 `s4_ref_*`。
 

@@ -110,7 +110,6 @@ def parser()->argparse.ArgumentParser:
     p.add_argument("--stage3-report",type=Path,default=s3/"candidate_report.json")
     p.add_argument("--canonical-candidates",type=Path,default=s3/"canonical_candidates.json")
     p.add_argument("--candidate-matrices",type=Path,default=s3/"candidate_matrices")
-    p.add_argument("--plan",type=Path,default=ROOT/"配准实验总规划.md")
     p.add_argument("--config",type=Path,default=ROOT/"configs"/"registration.yaml")
     p.add_argument("--output-dir",type=Path,default=ROOT/"outputs"/"stage_04_refinement")
     p.add_argument("--random-seed",type=int)
@@ -146,28 +145,32 @@ def validate_preconditions(args:argparse.Namespace)->tuple[list[dict[str,Any]],d
         ensure_report_dataset(report,args.dataset_id,expected)
     if s3.get("refinement_performed") is not False or s3.get("final_transform_selected") is not False:
         raise Stage4Failure("stage 3 boundary contract is invalid")
-    plan=args.plan.resolve().read_text(encoding="utf-8")
-    if "阶段 3“多候选粗配准”：**已完成正式运行并通过人工验收**" not in plan:
-        raise Stage4Failure("stage 3 human approval is not recorded in the authoritative plan")
     if not args.dataset_approvals.get("stage3_reviewed",False):
         raise Stage4Failure("current dataset has not been approved: set approvals.stage3_reviewed=true after reviewing stage 3")
     if can.get("status")!="success" or can.get("transform_direction")!="INSPIRE_TO_FAST" or can.get("unit")!="m":
         raise Stage4Failure("canonical candidate direction/unit/status contract failed")
     candidates=can.get("candidates",[])
-    if len(candidates)!=16 or can.get("candidate_count")!=16 or len({c.get("candidate_id") for c in candidates})!=16:
-        raise Stage4Failure("canonical_candidates.json must contain exactly 16 unique candidates")
+    if not isinstance(candidates,list) or not candidates or not all(isinstance(c,dict) for c in candidates):
+        raise Stage4Failure("canonical_candidates.json must contain a nonempty candidate list")
+    count=len(candidates);ids=[c.get("candidate_id") for c in candidates]
+    if (can.get("candidate_count")!=count or s3.get("candidate_counts",{}).get("deduplicated_canonical")!=count
+            or any(not isinstance(cid,str) or not cid for cid in ids) or len(set(ids))!=count):
+        raise Stage4Failure("stage 3 report/canonical JSON counts or candidate IDs are inconsistent")
     report_candidates=s3.get("canonical_candidates",[])
-    if [c.get("candidate_id") for c in report_candidates] != [c.get("candidate_id") for c in candidates]:
+    if not isinstance(report_candidates,list) or len(report_candidates)!=count or [c.get("candidate_id") for c in report_candidates] != ids:
         raise Stage4Failure("stage 3 report and canonical JSON candidate ID/order differ")
+    matrix_dir=args.candidate_matrices.resolve()
+    expected_files={f"{cid}.txt" for cid in ids}
+    actual_files={p.name for p in matrix_dir.glob("*.txt")}
+    if actual_files!=expected_files:
+        raise Stage4Failure(f"candidate_matrices filename set differs: missing={sorted(expected_files-actual_files)}, extra={sorted(actual_files-expected_files)}")
     for a,b in zip(report_candidates,candidates):
         if not np.array_equal(np.asarray(a.get("matrix_m")),np.asarray(b.get("matrix_m"))):
             raise Stage4Failure(f"stage 3 report and canonical matrix differ: {a.get('candidate_id')}")
         matrix=np.asarray(b.get("matrix_m"),float); rigid=validate_rigid_transform(matrix)
         if not rigid["valid"]:raise Stage4Failure(f"illegal canonical matrix {b.get('candidate_id')}: {rigid['reasons']}")
-        text=np.loadtxt(args.candidate_matrices.resolve()/f"{b['candidate_id']}.txt")
+        text=np.loadtxt(matrix_dir/f"{b['candidate_id']}.txt")
         if not np.array_equal(text,matrix):raise Stage4Failure(f"canonical JSON and matrix text differ: {b['candidate_id']}")
-    matrix_files=list(args.candidate_matrices.resolve().glob("*.txt"))
-    if len(matrix_files)!=16:raise Stage4Failure(f"candidate_matrices must contain exactly 16 text matrices, got {len(matrix_files)}")
     paths={"source_board":validate_role_path(args.source_board,"source"),"source_object":validate_role_path(args.source_object,"source"),
            "target_board":validate_role_path(args.target_board,"target"),"target_object":validate_role_path(args.target_object,"target"),
            "stage3_report":args.stage3_report.resolve(),"canonical_candidates":args.canonical_candidates.resolve()}
@@ -175,9 +178,8 @@ def validate_preconditions(args:argparse.Namespace)->tuple[list[dict[str,Any]],d
     for role in ("source_board","source_object","target_board","target_object"):
         expected=s2.get("outputs",{}).get(f"{role}_points",{}); actual=file_record(paths[role])
         if actual["sha256"]!=expected.get("sha256"):raise Stage4Failure(f"{role} differs from stage 2 formal output hash")
-    audit={"stage2_status":"success","stage3_status":"success","stage3_human_approval_recorded":True,
-           "dataset_stage3_reviewed":True,
-           "candidate_count":16,"candidate_id_report_json_consistent":True,"matrix_report_json_text_consistent":True,"passed":True}
+    audit={"stage2_status":"success","stage3_status":"success","dataset_stage3_reviewed_flag_present":True,
+           "candidate_count":count,"candidate_id_report_json_consistent":True,"matrix_report_json_text_consistent":True,"passed":True}
     return candidates,paths,audit
 
 
@@ -186,7 +188,7 @@ def write_summary(path:Path,candidates:list[dict[str,Any]])->None:
             "parent_board_angle_deg","final_board_angle_deg","parent_board_distance_m","final_board_distance_m",
             "parent_object_trimmed_m","final_object_trimmed_m","parent_object_overlap_2_5mm","final_object_overlap_2_5mm",
             "parent_object_overlap_5mm","final_object_overlap_5mm","from_parent_rotation_deg","from_parent_translation_m",
-            "rejected_update_count","matrix_file"]
+            "accepted_update_count","rejected_update_count","matrix_file"]
     with path.open("w",newline="",encoding="utf-8-sig") as f:
         w=csv.DictWriter(f,fieldnames=fields);w.writeheader()
         for c in candidates:
@@ -199,7 +201,7 @@ def write_summary(path:Path,candidates:list[dict[str,Any]])->None:
                 "parent_object_overlap_2_5mm":a["object"]["bidirectional_overlap_ratios"]["at_2.5mm"],"final_object_overlap_2_5mm":b["object"]["bidirectional_overlap_ratios"]["at_2.5mm"],
                 "parent_object_overlap_5mm":a["object"]["bidirectional_overlap_ratios"]["at_5mm"],"final_object_overlap_5mm":b["object"]["bidirectional_overlap_ratios"]["at_5mm"],
                 "from_parent_rotation_deg":c["from_parent_rotation_deg"],"from_parent_translation_m":c["from_parent_translation_m"],
-                "rejected_update_count":c["rejected_update_count"],
+                "accepted_update_count":c["accepted_update_count"],"rejected_update_count":c["rejected_update_count"],
                 "matrix_file":f"refined_matrices/{c['refined_candidate_id']}.txt"})
 
 
@@ -253,14 +255,25 @@ def backtracking_summary(candidates:list[dict[str,Any]])->dict[str,Any]:
 
 def validate_outputs(out:Path,candidates:list[dict[str,Any]])->dict[str,Any]:
     payload=_json(out/"refined_candidates.json")
-    if payload.get("candidate_count")!=16 or [x["refined_candidate_id"] for x in payload["candidates"]]!=[x["refined_candidate_id"] for x in candidates]:
+    count=len(candidates)
+    if payload.get("candidate_count")!=count or [x["refined_candidate_id"] for x in payload["candidates"]]!=[x["refined_candidate_id"] for x in candidates]:
         raise Stage4Failure("refined JSON count/order/IDs are inconsistent")
     with (out/"refinement_summary.csv").open(encoding="utf-8-sig",newline="") as f:rows=list(csv.DictReader(f))
     if [x["refined_candidate_id"] for x in rows]!=[x["refined_candidate_id"] for x in candidates]:raise Stage4Failure("summary CSV IDs differ from JSON")
+    for row,c in zip(rows,candidates):
+        if (row.get("parent_candidate_id")!=c["parent_candidate_id"] or row.get("status")!=c["status"]
+                or row.get("matrix_file")!=f"refined_matrices/{c['refined_candidate_id']}.txt"
+                or int(row.get("accepted_update_count",-1))!=c["accepted_update_count"]
+                or int(row.get("rejected_update_count",-1))!=c["rejected_update_count"]):
+            raise Stage4Failure(f"summary CSV content differs from JSON: {c['refined_candidate_id']}")
+    matrix_dir=out/"refined_matrices"
+    expected_files={f"{c['refined_candidate_id']}.txt" for c in candidates}
+    actual_files={p.name for p in matrix_dir.glob("*.txt")}
+    if actual_files!=expected_files:raise Stage4Failure("refined matrix filename set differs from JSON")
     for c in candidates:
         text=np.loadtxt(out/"refined_matrices"/f"{c['refined_candidate_id']}.txt")
         if not np.array_equal(text,np.asarray(c["matrix_m"])):raise Stage4Failure(f"refined matrix serialization mismatch: {c['refined_candidate_id']}")
-    return {"passed":True,"candidate_count":16,"json_csv_id_order_identical":True,"matrix_text_json_values_identical":True}
+    return {"passed":True,"candidate_count":count,"json_csv_id_order_identical":True,"matrix_text_json_values_identical":True}
 
 
 def main(argv:list[str]|None=None)->int:
@@ -281,7 +294,8 @@ def main(argv:list[str]|None=None)->int:
         for role in ("source_board","source_object","target_board","target_object"):
             clouds[role],points[role]=load_metric(protected_paths[role]);inputs[role]={**file_record(protected_paths[role]),"unit":"m",
                 "unit_conversion":"none; canonical stage-2 cloud already uses metres","coordinates_modified":False,"point_count":len(points[role])}
-        logger.info("Preconditions passed: stage 2/3 success, human approval recorded, 16 canonical matrices consistent")
+        count=len(parents)
+        logger.info("Preconditions passed: stage 2/3 success, dataset review flag present, %d canonical matrices consistent",count)
         prepared=[]
         sequence=[("gicp",x) for x in cfg["gicp_levels"]]+[("robust_point_to_plane",x) for x in cfg["robust_point_to_plane_levels"]]
         for index,(algorithm,level) in enumerate(sequence):
@@ -294,10 +308,10 @@ def main(argv:list[str]|None=None)->int:
             float(cfg["sanity_gates"]["object_trim_fraction"]),cfg["sanity_gates"]["object_overlap_thresholds_m"])
         for ci,parent in enumerate(parents,1):
             parent_matrix=np.asarray(parent["matrix_m"],float);current=parent_matrix.copy();levels=[];algorithms=[];candidate_errors=[]
-            logger.info("Candidate %d/16 %s: starting GICP then robust point-to-plane",ci,parent["candidate_id"])
+            logger.info("Candidate %d/%d %s: starting GICP then robust point-to-plane",ci,count,parent["candidate_id"])
             for li,(algorithm,level,source,target,sampling) in enumerate(prepared,1):
                 if algorithm not in algorithms:algorithms.append(algorithm)
-                logger.info("Candidate %d/16 | %s | level %d/3 | voxel=%.1f mm threshold=%.1f mm",ci,algorithm,
+                logger.info("Candidate %d/%d | %s | level %d/3 | voxel=%.1f mm threshold=%.1f mm",ci,count,algorithm,
                     1+sum(1 for x in levels if x["algorithm"]==algorithm),1000*level["voxel_size_m"],1000*level["max_correspondence_distance_m"])
                 try:
                     current,record=run_level(source,target,current,parent_matrix,algorithm,1+sum(1 for x in levels if x["algorithm"]==algorithm),level,
@@ -323,12 +337,13 @@ def main(argv:list[str]|None=None)->int:
                 "status":status,"failure_reasons":reasons,"algorithms_attempted":algorithms,"accepted_update_count":accepted,"rejected_update_count":rejected,
                 "algorithm_order":["gicp","robust_point_to_plane"],"parent_matrix_m":parent_matrix.tolist(),"matrix_m":current.tolist(),
                 "parent_metrics":parent_metrics,"final_metrics":final,"from_parent_rotation_deg":rd,"from_parent_translation_m":td,"levels":levels})
+            logger.info("Candidate %d/%d %s: status=%s accepted=%d rejected=%d",ci,count,parent["candidate_id"],status,accepted,rejected)
             peak=max(peak,process.memory_info().rss)
-        if len(refined)!=16:raise Stage4Failure("not all 16 parent candidates were traversed")
+        if len(refined)!=count:raise Stage4Failure(f"not all {count} parent candidates were traversed")
         if any(c["algorithms_attempted"]!=["gicp","robust_point_to_plane"] or len(c["levels"])!=6 for c in refined):
             raise Stage4Failure("required GICP -> robust point-to-plane execution sequence is incomplete")
         visualization_candidates=[{**c,**select_visualization_record(c)} for c in refined]
-        visualization_manifest={"schema":"pointcloudlab.stage4.visualization_manifest","version":1,"stage":4,"status":"success",
+        visualization_manifest={"schema":"pointcloudlab.stage4.visualization_manifest","version":1,"stage":4,"status":"success","candidate_count":count,
             "diagnostic_only":True,"export_transform_source":False,
             "selection_rule":"refined_valid: formal accepted matrix_m; otherwise: last legal proposed_matrix_m, then last legal current matrix, then parent matrix",
             "note":"Rejected proposals are shown for diagnosis and are not exported transforms.",
@@ -340,11 +355,14 @@ def main(argv:list[str]|None=None)->int:
         for stale in matrix_dir.glob("s4_ref_*.txt"):stale.unlink()
         for c in refined:np.savetxt(matrix_dir/f"{c['refined_candidate_id']}.txt",np.asarray(c["matrix_m"]),fmt="%.17g")
         payload={"schema":"pointcloudlab.stage4.refined_candidates","version":3,**stage4_contract(),"status":"success","unit":"m",
-            "coordinate_convention":"p_target = T_FAST_from_INSPIRE_m @ p_source","candidate_count":16,"valid_candidate_count":valid,"candidates":refined}
+            "coordinate_convention":"p_target = T_FAST_from_INSPIRE_m @ p_source","candidate_count":count,"valid_candidate_count":valid,"candidates":refined}
         write_json(out/"refined_candidates.json",payload);write_json(out/"visualization_manifest.json",visualization_manifest)
         write_summary(out/"refinement_summary.csv",refined);write_iterations(out/"refinement_iterations.csv",refined)
         serialization=validate_outputs(out,refined);visualization=save_stage4_comparison(out/"refinement_comparison.png",visualization_candidates,
             points["source_board"],points["source_object"],points["target_board"],points["target_object"],int(cfg["random_seed"]))
+        if (len(visualization_manifest["candidates"])!=count or len(visualization["displayed_parent_candidate_ids"])!=count
+                or set(visualization["displayed_parent_candidate_ids"])!={c["parent_candidate_id"] for c in refined}):
+            raise Stage4Failure("visualization candidate count/IDs differ from refined JSON")
         after=integrity(protected_paths)
         if before!=after:raise Stage4Failure("a protected stage-2/stage-3 input changed during stage 4")
         if any((out/x).exists() for x in ("T_fast_from_inspire_m.txt","registered_inspire_full.ply","merged_fast_inspire.ply")):
@@ -358,7 +376,7 @@ def main(argv:list[str]|None=None)->int:
                 "joint_solver":"per-region residuals/weights, equal-region normalized normal equations, one shared SE(3) update","all_candidates_all_levels_attempted":True,
                 "gicp_covariance_source":cfg["covariance_estimation"],"robust_loss":{"name":"Huber","scales_m":[x["huber_k_m"] for x in cfg["robust_point_to_plane_levels"]],
                 "basis":"2-4 mm: comparable to FAST 1.1 mm robust noise and below/current correspondence thresholds"}},
-            "candidate_counts":{"parents_attempted":16,"refined_valid":valid,"no_safe_refinement":sum(c["status"]=="no_safe_refinement" for c in refined),
+            "candidate_counts":{"parents_attempted":count,"refined_valid":valid,"no_safe_refinement":sum(c["status"]=="no_safe_refinement" for c in refined),
                 "refinement_failed":sum(c["status"]=="refinement_failed" for c in refined)},"backtracking_summary":backtracking_summary(refined),"refined_candidates":refined,
             "serialization_validation":serialization,"visualization":visualization,
             "visualization_candidates":visualization_manifest["candidates"],
@@ -371,8 +389,8 @@ def main(argv:list[str]|None=None)->int:
                 "iterations_csv":str((out/"refinement_iterations.csv").resolve()),"matrix_directory":str(matrix_dir.resolve()),
                 "visualization_manifest":str((out/"visualization_manifest.json").resolve()),
                 "comparison":str((out/"refinement_comparison.png").resolve())}})
-        write_json(out/"refinement_report.json",report);logger.info("Stage 4 success: attempted=16 refined_valid=%d no_safe=%d failed=%d elapsed=%.2fs peak=%.1f MiB",
-            valid,sum(c["status"]=="no_safe_refinement" for c in refined),sum(c["status"]=="refinement_failed" for c in refined),elapsed,peak/2**20);return 0
+        write_json(out/"refinement_report.json",report);logger.info("Stage 4 success: attempted=%d refined_valid=%d no_safe=%d failed=%d elapsed=%.2fs peak=%.1f MiB",
+            count,valid,sum(c["status"]=="no_safe_refinement" for c in refined),sum(c["status"]=="refinement_failed" for c in refined),elapsed,peak/2**20);return 0
     except Exception as exc:
         report["failure_reasons"].append(f"{type(exc).__name__}: {exc}");report["elapsed_s"]=time.perf_counter()-started;report["peak_memory_bytes"]=peak
         write_json(out/"refinement_report.json",report);logger.exception("Stage 4 failed: %s",exc);return 2

@@ -51,6 +51,17 @@ def _stage_input(stage1:dict[str,Any],label:str)->dict[str,Any]:
 
 def _integrity(paths:dict[str,Path])->dict[str,dict[str,Any]]:return {k:file_record(v) for k,v in sorted(paths.items())}
 
+def validate_selection_lineage(stage3:dict[str,Any],stage4:dict[str,Any],parent_id:str,refined_id:str|None)->None:
+    stage3_ids=[x.get("candidate_id") for x in stage3.get("canonical_candidates",[])]
+    stage4_rows=stage4.get("refined_candidates",[])
+    if [x.get("parent_candidate_id") for x in stage4_rows]!=stage3_ids:
+        raise ExportError("stage-3 and stage-4 candidate ID/order differ")
+    if parent_id not in stage3_ids:
+        raise ExportError(f"selected parent candidate {parent_id} is absent from this stage-3/4 run; explicit selection is required")
+    selected_row=stage4_rows[stage3_ids.index(parent_id)]
+    if not refined_id or refined_id!=selected_row.get("refined_candidate_id"):
+        raise ExportError("selected refined candidate ID is absent from this stage-3/4 lineage; explicit selection is required")
+
 def _close_logger(logger)->None:
     for handler in list(logger.handlers):
         handler.flush();handler.close();logger.removeHandler(handler)
@@ -60,7 +71,7 @@ def main(argv:list[str]|None=None)->int:
     log_path=out/"stage_05_export.log";logger=configure_logging(log_path,"pointcloud_registration.stage5",file_mode="w")
     started=time.perf_counter();process=psutil.Process();peak=process.memory_info().rss
     report={"schema":"pointcloudlab.registration_report","version":"1.0","stage":5,"stage_name":"output_and_verification",
-      "export_performed":False,"final_transform_selected":True,
+      "export_performed":False,"final_transform_selected":False,
       "selection_method":"explicit_user_selection",
       "selected_parent_candidate_id":args.parent_candidate_id,"selected_refined_candidate_id":None,
       "selected_stage4_status":None,"safety_gate_overridden":False,
@@ -88,6 +99,7 @@ def main(argv:list[str]|None=None)->int:
         ensure_report_dataset(reports[f"stage{i}"],args.dataset_id,i)
       for i in active_stages:
         if reports[f"stage{i}"].get("transform_direction")!="INSPIRE_TO_FAST":raise ExportError(f"stage-{i} transform direction mismatch")
+      validate_selection_lineage(reports["stage3"],reports["stage4"],args.parent_candidate_id,args.selected_refined_candidate_id)
       protected={"source_full":args.source_full.resolve(),"target_full":args.target_full.resolve(),"stage1_report":args.stage1_report.resolve(),"stage2_report":args.stage2_report.resolve(),
        "stage3_report":args.stage3_report.resolve(),"stage4_report":args.stage4_report.resolve(),"refined_candidates":args.refined_candidates.resolve(),
        "refinement_summary":args.refinement_summary.resolve(),"source_board":args.source_board.resolve(),"source_object":args.source_object.resolve(),"target_board":args.target_board.resolve(),
@@ -101,6 +113,7 @@ def main(argv:list[str]|None=None)->int:
           raise ExportError(f"{label} path/size/SHA-256 differs from stage-1 fixed input")
       expected_ref=args.selected_refined_candidate_id
       chosen,Tm,lineage=load_selected_refinement(args.refined_candidates.resolve(),args.refinement_summary.resolve(),args.refined_matrix_dir.resolve(),args.parent_candidate_id,expected_ref,float(cfg["rigid_atol"]),args.allow_nonvalid_selection)
+      report["final_transform_selected"]=True
       report["selected_refined_candidate_id"]=chosen["refined_candidate_id"]
       report["selected_stage4_status"]=chosen.get("status")
       report["safety_gate_overridden"]=chosen.get("status")!="refined_valid"
