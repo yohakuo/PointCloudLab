@@ -131,7 +131,36 @@
       "search_trim_fraction": 0.8,
       "search_peaks_per_direction": 2,
       "search_nms_distance_m": 0.004,
-      "minimum_valid_points": 30
+      "minimum_valid_points": 30,
+      "joint_search": {
+        "angle_start_deg": 0.0,
+        "angle_step_deg": 5.0,
+        "translation_window_m": 0.012,
+        "translation_step_m": 0.003,
+        "seeds_per_branch": 2,
+        "nms_angle_deg": 6.0,
+        "nms_translation_m": 0.004,
+        "refinement_levels": [
+          {"angle_radius_deg": 5.0, "angle_step_deg": 1.0, "translation_radius_m": 0.003, "translation_step_m": 0.0015},
+          {"angle_radius_deg": 1.0, "angle_step_deg": 0.25, "translation_radius_m": 0.0015, "translation_step_m": 0.0005}
+        ]
+      },
+      "shape_grid": {
+        "grid_size_m": 0.003,
+        "confidence_saturation_points": 3,
+        "sparse_cell_count_threshold": 32,
+        "outline_height_quantile": 75,
+        "outline_core_dilation_cells": 1,
+        "minimum_contour_support": 0.11,
+        "crop_margin_m": 0.004,
+        "crop_confidence_factor": 0.15,
+        "match_trim_fraction": 0.85,
+        "minimum_reference_confidence": 0.5,
+        "occupancy_weight": 0.35,
+        "contour_weight": 0.55,
+        "height_weight": 0.10,
+        "height_clip_m": 0.02
+      }
     },
     "coarse_gates": {
       "maximum_board_normal_angle_deg": 40.0,

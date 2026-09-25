@@ -1,6 +1,8 @@
 # PointCloudLab
 
-模块化的 INSPIRE 2 → FAST-LIVO2 点云配准项目。当前有效流程连续编号为阶段 1～5：检查、分割、几何粗配准、精配准、导出。FPFH 参数搜索和 FPFH + RANSAC 全局粗配准路线已移除。
+模块化的 INSPIRE 2 → FAST-LIVO2 点云配准项目。当前有效流程连续编号为阶段 1～5：检查、分割、几何粗配准、精配准、导出。
+
+当前阶段 3 默认使用均匀占据栅格、可靠外轮廓与平面内角度／平移联合搜索。粗配准优化计划中的“阶段一（形状表达）”“阶段二（联合搜索）”均已完成，二者都属于流程阶段 3，与流程阶段 1 的检查、阶段 2 的分割不同。
 
 ## 更换点云数据：统一入口
 
@@ -18,12 +20,17 @@
 .\.venv\Scripts\python.exe .\scripts\00_validate_dataset.py --dataset .\configs\dataset_new.json
 ```
 
-之后每个阶段只需传同一份清单；阶段产物和前置报告路径会从 `output_root` 自动衔接：
+之后各阶段传入同一份清单；默认产物和前置报告路径由 `output_root` 推导。先运行到粗配准：
 
 ```powershell
 .\.venv\Scripts\python.exe .\scripts\01_inspect_data.py --dataset .\configs\dataset_new.json
 .\.venv\Scripts\python.exe .\scripts\02_segment_regions.py --dataset .\configs\dataset_new.json
 .\.venv\Scripts\python.exe .\scripts\03_generate_candidates.py --dataset .\configs\dataset_new.json
+```
+
+检查候选后，再按阶段 4/5 的前置条件运行后续步骤。**当前阶段 4 仍要求恰好 16 个规范候选，默认联合搜索不保证生成 16 个；当前数据仅生成 4 个，不能直接连跑精配准与导出。** 使用新候选前须调整数量校验并重新人工复核。
+
+```powershell
 .\.venv\Scripts\python.exe .\scripts\04_refine_candidates.py --dataset .\configs\dataset_new.json
 .\.venv\Scripts\python.exe .\scripts\05_export_results.py --dataset .\configs\dataset_new.json
 ```
@@ -34,7 +41,7 @@
 
 - source：INSPIRE 2 `.ply`，原始单位 mm；读取后以 `(0,0,0)` 为缩放中心执行 `XYZ_m = 0.001 * XYZ_mm`。
 - target：FAST-LIVO2 `.pcd`，单位 m。
-- 固定方向：`INSPIRE_TO_FAST`，未来矩阵定义为 `p_FAST,m = T_FAST<-INSPIRE(m) p_INSPIRE,m`。
+- 固定方向：`INSPIRE_TO_FAST`，矩阵定义为 `p_FAST,m = T_FAST<-INSPIRE(m) p_INSPIRE,m`。
 - 阶段 2 的 ROI 只负责选点，不重新居中、不归一化、不修改坐标；白板孔洞保持原样。
 
 配置位于 `configs/registration.yaml`。该文件采用 JSON 语法（也是合法 YAML），因此无需新增 YAML 解析依赖。
@@ -109,17 +116,114 @@ source 行为不变：`source_full` 以原点乘 `0.001` 后拟合白板，`sour
 
 ## 阶段 3：几何多候选粗配准
 
-阶段 3 直接核验阶段 2 报告和四份规范点云，然后运行白板/对象投影几何路线。不会搜索法向/FPFH 参数，也不会计算 FPFH 或执行特征全局配准。
+阶段 3 直接核验阶段 2 报告和四份规范点云，然后运行白板/对象投影几何路线。不会搜索法向/FPFH 参数，也不会计算 FPFH 或执行特征全局配准。默认形状表达为 3 mm 均匀占据栅格：每个有点格参与一次匹配，并保留离白板的高度四分位数、点数和可信度。稀疏目标的外轮廓由高起伏连通核心估计，外围低高度观测仍保留但降权；孔洞中的无点格仍是未知。方法、参数、产物字段及当前数据的完整对比见 [阶段 3 栅格说明](docs/stage3_shape_grid.md)。
+
+### 默认运行与搜索方式
+
+新数据集通过独立清单运行，产物保存到该清单的 `output_root/stage_03_candidates`。当前正式数据的默认目录 `outputs/stage_03_candidates` 已有旧产物；对当前数据做实验请使用后面的独立输出目录命令。
 
 ```powershell
-.\.venv\Scripts\python.exe .\scripts\03_generate_candidates.py
+.\.venv\Scripts\python.exe .\scripts\03_generate_candidates.py --dataset .\configs\dataset_new.json
 ```
 
-几何路线保留 PCA/OBB、轮廓角度、0°/90°/180°/270° 竞争方向和多个平面内平移假设。输出位于 `outputs/stage_03_candidates`；候选 ID 使用 `s3_geo_*` 和 `s3_can_*`。
+占据栅格默认使用联合搜索：完整 360° 粗扫，每个角度寻找最佳平移；0°/90°/180°/270° 四个方向分支各保留多个候选种子，再进行两层角度×平移局部细化。PCA 只提供坐标系和初值，不预先决定角度。去重及数量截断保护各法向下的四个方向分支；相近种子仍可合并，不以重复候选凑数。
+
+| 形状表达 | 搜索方式 | 用途 |
+| --- | --- | --- |
+| `occupancy_grid` | `joint`（默认） | 栅格与可靠外轮廓上的角度／平移联合搜索 |
+| `occupancy_grid` | `sequential` | 优化阶段一基线：先定角度，再搜索平移 |
+| `sampled_points` | `sequential`（该表达的默认值） | 原随机投影点基线 |
+
+`sampled_points + joint` 不支持。候选 ID 使用 `s3_geo_*` 和 `s3_can_*`。算法细节见 [联合搜索规划与实现](docs/stage3_joint_search.md)。
+
+### 联合搜索参数
+
+配置位置为 `configs/registration.yaml` 的 `coarse_registration.geometry.joint_search`；形状表达与评分参数仍位于同级 `shape_grid`。
+
+| 参数 | 默认值 | 含义 |
+| --- | --- | --- |
+| `angle_start_deg` / `angle_step_deg` | 0° / 5° | 全周粗扫起点与角度步长 |
+| `translation_window_m` / `translation_step_m` | 0.012 / 0.003 m | 每个角度围绕稳健中心平移的两轴 ±范围与步长 |
+| `seeds_per_branch` | 2 | 每个方向分支最多保留的不同种子 |
+| `nms_angle_deg` / `nms_translation_m` | 6° / 0.004 m | 联合角度和平移的种子抑制阈值 |
+| `refinement_levels[0]` | 角度 ±5°、步长 1°；平移 ±3 mm、步长 1.5 mm | 第一层细化 |
+| `refinement_levels[1]` | 角度 ±1°、步长 0.25°；平移 ±1.5 mm、步长 0.5 mm | 第二层细化 |
+
+可通过 `--joint-angle-step-deg`、`--joint-seeds-per-branch` 临时覆盖角度步长及种子数。`--geometry-search-window-m` 和 `--geometry-search-step-m` 在 joint 模式下覆盖联合搜索的平移范围及步长；其余参数通过配置文件调整。
+
+### 对比顺序搜索与联合搜索
+
+下面的命令使用当前正式数据清单，在三个独立目录运行顺序基线、默认联合搜索和较大步长联合搜索。启动 Python 前固定线程数，以避免本机多线程白板拟合差异改变栅格；设置只作用于当前 PowerShell 会话。
+
+```powershell
+$env:OMP_NUM_THREADS = '1'
+.\.venv\Scripts\python.exe .\scripts\03_generate_candidates.py --dataset .\configs\dataset.json --shape-method occupancy_grid --search-method sequential --output-dir .\outputs\stage_03_grid_sequential
+.\.venv\Scripts\python.exe .\scripts\03_generate_candidates.py --dataset .\configs\dataset.json --shape-method occupancy_grid --search-method joint --output-dir .\outputs\stage_03_grid_joint
+.\.venv\Scripts\python.exe .\scripts\03_generate_candidates.py --dataset .\configs\dataset.json --shape-method occupancy_grid --search-method joint --joint-angle-step-deg 10 --geometry-search-step-m 0.006 --output-dir .\outputs\stage_03_grid_joint_fast
+.\.venv\Scripts\python.exe .\scripts\compare_stage3_search.py --joint .\outputs\stage_03_grid_joint .\outputs\stage_03_grid_joint_fast
+```
+
+比较脚本核验输入哈希、栅格、高度与可信度、平面坐标系、评分参数及线程设置一致，否则拒绝比较。输出位于 `outputs/stage_03_search_comparison/search_comparison.md/json/png`；其他数据可显式传入 `--baseline`、`--joint` 和 `--output-dir`。
+
+2026-09-24 当前数据的实测结果如下，两种联合配置都完整保留四个方向：
+
+| 指标 | 顺序基线 | 联合默认（5° / 3 mm） | 联合较大步长（10° / 6 mm） |
+| --- | ---: | ---: | ---: |
+| 原始 / 规范候选 | 32 / 7 | 8 / 4 | 8 / 4 |
+| 全周粗扫角度×平移组合 | 不适用 | 5,832 | 900 |
+| 含细化的评分次数 | 未计数 | 11,560 | 6,628 |
+| 首位栅格误差 | 3.214 mm | 3.214 mm | 3.214 mm |
+| 首位点级 Chamfer | 4.837 mm | 4.837 mm | 4.837 mm |
+| 搜索耗时 | 1.29 s | 16.54 s | 9.41 s |
+| 整次耗时 | 8.11 s | 22.22 s | 15.08 s |
+
+联合方法扩大了搜索覆盖，但本数据未出现明显误差改善。每分支两个种子在细化、去重后合并为一个规范候选。较大步长的搜索耗时降低约 43%，首位误差相同；耗时为同机单次观测，不能直接推广到其他数据。三个配置重复运行的候选 ID、顺序和矩阵均逐值一致；完整测试集 83 项通过。
+
+当前没有真实位姿标签，匹配误差不能证明最终方向唯一。阶段一历史运行采用不同拟合结果，本次已重新运行顺序基线，历史数值不应与该表直接相减。完整结果见 [执行对比报告](outputs/stage_03_search_comparison/search_comparison.md) 和 [覆盖图](outputs/stage_03_search_comparison/search_comparison.png)；这些本地产物位于 Git 忽略的 `outputs/`，新检出项目需先运行上述命令生成。
+
+### 产物与审查
+
+每个运行目录包含 `candidate_report.json`、`raw_candidates.json`、`canonical_candidates.json`、`candidate_summary.csv`、`candidate_matrices/` 和候选对比图。占据栅格路线另含 `shape_grids.json`（只记录已观测格）及 `shape_grid_preview.png`。
+
+联合搜索报告的 `geometry_route.audit` 记录全周逐角最佳平移 `angle_profile`、种子与细化轨迹 `seeds`、评分次数、搜索耗时及平移边界命中。检查 `candidate_comparison.png` 后再决定如何继续；粗排名不自动选定最终变换。
+
+### 复现优化阶段一：随机投影点与栅格对比
+
+对比旧随机投影点路线时，显式使用两个独立输出目录（不会覆盖正式阶段 3 产物）：
+
+```powershell
+.\.venv\Scripts\python.exe .\scripts\03_generate_candidates.py --shape-method sampled_points --output-dir .\outputs\stage_03_sampled_baseline
+.\.venv\Scripts\python.exe .\scripts\03_generate_candidates.py --shape-method occupancy_grid --search-method sequential --output-dir .\outputs\stage_03_occupancy_grid
+.\.venv\Scripts\python.exe .\scripts\compare_stage3_shapes.py
+```
+
+新目录另含 `shape_grids.json`（仅列出已观测格，高度和可信度；无点格为未知）、`shape_grid_preview.png` 与 `baseline_comparison.md/json`。阶段一历史运行的旧／新规范候选为 16／8，轮廓角修正为 9°／0°；两路线的粗分数定义不同，需用对比报告中的同一栅格度量复评。栅格候选仍需检查 `candidate_comparison.png`，不能由粗排名确定最终方向。
+
+## 粗配准扰动稳定性实验
+
+实验入口为 [study_coarse_perturbations.py](scripts/study_coarse_perturbations.py)，配置为 [coarse_stability.json](configs/coarse_stability.json)，方案和判读见 [实验说明](docs/coarse_stability.md)。它使用阶段 2 原始观测支持，按配对清单扰动后重新进行白板拟合、坐标系构建、栅格与轮廓提取、模型拟合、搜索、细化、评分和去重。包含无扰动参考，以及空间采样、分割边界、白板重采样和联合扰动各两档。原随机投影点、栅格顺序、栅格联合、联合候选后模型重评分、模型参与搜索五种方法使用相同扰动输入。模型拟合或候选支持不足时按配置回退栅格评分，记录原因。
+
+启动前固定线程；先试运行，再执行四次重复。输出写入独立目录，不覆盖正式候选：
+
+```powershell
+$env:OMP_NUM_THREADS = '1'
+$env:OPENBLAS_NUM_THREADS = '1'
+$env:MKL_NUM_THREADS = '1'
+.\.venv\Scripts\python.exe .\scripts\study_coarse_perturbations.py --pilot --output-dir .\outputs\coarse_stability_pilot
+.\.venv\Scripts\python.exe .\scripts\study_coarse_perturbations.py --output-dir .\outputs\coarse_stability
+```
+
+运行中断后可用 `--resume` 接续同一配置。`outputs/coarse_stability/report.md`、`summary.json`、逐次 `runs/`、配对 `paired_inputs/` 和三张统计图均由脚本生成。报告按实际三维旋转匹配方向，并将同一扫描仪参考点投影到固定雷达白板平面；位置波动是重复性，不是绝对精度。无真实位姿标签，方向竞争的获胜频率不是方向正确概率。方向仍需人工复核；精配准当前要求 16 个规范候选，而联合搜索候选数不足，须独立处理衔接。
+
+本次正式实验 165/165 次有效，模型拟合和评分回退均为零。栅格联合路线在 32 次扰动中有 29 次近似并列；八个组别/强度单元的最差分支位置偏移 p90 为 4.49–9.05 mm，均超过预设的 3 mm 操作阈值。模型后重评分保持 33/33 个配对候选池不变，模型参与搜索则 33/33 个候选池均发生变化，两者均未消除方向竞争。只有 19/40 个统计单元达到两批趋稳容差，结果仍受每单元仅 4 次重复的限制；不能宣称绝对精度提升。详见 [执行结论](docs/coarse_stability.md#本次执行结果2026-09-24)。
 
 ## 阶段 4：候选精配准
 
+阶段三的固定联合搜索候选池模型重评分见 [实施与对照](docs/stage3_model_prior.md)。模型只拟合扫描仪侧已观测正面，保留四方向且首位未变；独立结果位于 `outputs/stage_03_model_prior_rescore`，不作为阶段 4 输入。
+
 阶段 4 核验阶段 2、阶段 3 报告以及规范候选 JSON/矩阵的一致性。检查 `candidate_comparison.png` 后，将数据清单中的 `approvals.stage3_reviewed` 设为 `true` 才能运行。
+
+当前阶段 4 的输入校验硬性要求 16 个规范候选和 16 份矩阵，不能直接读取本次顺序基线的 7 个候选或联合搜索的 4 个候选。其默认输入路径仍指向 `outputs/stage_03_candidates`；使用独立实验输出目录不会自动切换阶段 4 输入。当前数据清单已有的 `stage3_reviewed=true` 和选择 ID 只对应旧正式产物。使用新候选前须调整数量校验、显式衔接新的阶段 3 产物，并重新人工复核；详见 [联合搜索说明](docs/stage3_joint_search.md#验证与限制)。
 
 ```powershell
 .\.venv\Scripts\python.exe .\scripts\04_refine_candidates.py

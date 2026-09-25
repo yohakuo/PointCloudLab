@@ -13,6 +13,7 @@ import open3d as o3d
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/"src"))
 from pointcloud_registration.candidates import (candidate_id, deduplicate_candidates,
     generate_geometry_candidates, stage3_contract)
+from pointcloud_registration.shape_grid import build_shape_grid, shape_score
 from pointcloud_registration.transforms import (apply_transform, compose_plane_transform, right_handed_plane_frame,
     rotation_between_normals, transform_difference, validate_rigid_transform)
 
@@ -26,6 +27,30 @@ def square(z=0.,n=12):
 
 
 class StageThreeTests(unittest.TestCase):
+    def test_shape_grid_holes_are_unknown_and_density_does_not_change_shape(self):
+        cfg={"grid_size_m":.003,"confidence_saturation_points":3,"minimum_contour_support":.11,
+             "sparse_cell_count_threshold":32,"outline_height_quantile":75,"outline_core_dilation_cells":1,
+             "crop_margin_m":.004,"crop_confidence_factor":.15,"match_trim_fraction":.85,"minimum_reference_confidence":.5,
+             "occupancy_weight":.35,"contour_weight":.55,"height_weight":.1,"height_clip_m":.02}
+        ij=np.array([(i,j) for i in range(15) for j in range(15) if not (6<=i<=8 and 6<=j<=8)])
+        xyz=np.c_[ij*.003+.0015,np.full(len(ij),.01)]
+        frame=lambda p:{"uv":p[:,:2],"n":np.array([0.,0.,1.]),"plane":np.array([0.,0.,1.,0.])}
+        base=np.repeat(xyz,4,axis=0)
+        denser=np.vstack([base,np.repeat(xyz[:1],100,axis=0)])
+        a=build_shape_grid(frame(base),base,cfg)
+        b=build_shape_grid(frame(denser),denser,cfg)
+        self.assertEqual(a["summary"]["observed_cells"],216)
+        self.assertGreater(a["summary"]["unknown_cells_in_grid"],9)
+        self.assertTrue(np.array_equal(a["centers"],b["centers"]))
+        self.assertTrue(np.array_equal(a["contour"],b["contour"]))
+        self.assertAlmostEqual(shape_score(a,b,0,np.zeros(2),cfg)[0],0.,places=12)
+        self.assertTrue(np.all((a["contour"][:,0]<.018)|(a["contour"][:,0]>.03)|
+                               (a["contour"][:,1]<.018)|(a["contour"][:,1]>.03)))
+        cropped=build_shape_grid(frame(base),base,cfg,([0,0,0],[.045,.045,.02]))
+        self.assertGreater(cropped["summary"]["crop_downweighted_cells"],0)
+        self.assertLess(cropped["confidence"][cropped["crop_cell"]].mean(),
+                        a["confidence"][cropped["crop_cell"]].mean())
+
     def test_direction_source_to_target(self):
         t=np.eye(4);t[:3,3]=[1,2,3]
         np.testing.assert_allclose(apply_transform([[.1,.2,.3]],t),[[1.1,2.2,3.3]])

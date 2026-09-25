@@ -1,0 +1,22 @@
+{
+  "schema": "pointcloudlab.coarse_stability.v1",
+  "seed": 20260924,
+  "pilot_repeats": 1,
+  "repeats": 4,
+  "maximum_repeats": 6,
+  "batch_size": 2,
+  "convergence": {"position_p90_tolerance_m": 0.0015, "winner_frequency_tolerance": 0.15, "tie_frequency_tolerance": 0.15},
+  "threads": {"OMP_NUM_THREADS": "1", "OPENBLAS_NUM_THREADS": "1", "MKL_NUM_THREADS": "1"},
+  "groups": ["spatial", "boundary", "board", "combined"],
+  "combined_components": ["boundary", "spatial", "board"],
+  "boundary_direction_rule": "even_repeat_erodes_odd_repeat_dilates",
+  "strengths": {
+    "low": {"source_voxel_m": 0.0003, "target_voxel_m": 0.0015, "source_boundary_m": 0.0003, "target_boundary_m": 0.0015, "board_voxel_m": 0.0015},
+    "high": {"source_voxel_m": 0.0006, "target_voxel_m": 0.003, "source_boundary_m": 0.0006, "target_boundary_m": 0.003, "board_voxel_m": 0.003}
+  },
+  "boundary_addition_3d_tolerance_m": 0.0045,
+  "plane_quality": {"minimum_target_inlier_ratio": 0.75, "maximum_target_residual_p90_m": 0.003, "maximum_target_normal_change_deg": 3.0, "minimum_target_coverage_fraction": 0.8},
+  "matching": {"orientation_cluster_deg": 35.0, "maximum_rotation_distance_deg": 40.0, "near_tie_gap_m": 0.00025},
+  "search": {"angle_step_deg": 10.0, "translation_step_m": 0.006},
+  "input_paths": {"source_board": "outputs/stage_02_segmentation/source_board_points.ply", "source_object": "outputs/stage_02_segmentation/source_object_points.ply", "target_board": "outputs/stage_02_segmentation/target_board_points.pcd", "target_object": "outputs/stage_02_segmentation/target_object_points.pcd", "source_roi": "data/processed/20260916_181134_pc_roi.ply", "target_roi": "data/processed/09171118roi.pcd"}
+}

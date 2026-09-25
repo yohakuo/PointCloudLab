@@ -236,6 +236,30 @@ def save_stage3_candidates(path: Path, candidates: list[dict[str, Any]], source_
     fig.tight_layout();path.parent.mkdir(parents=True,exist_ok=True);fig.savefig(path,dpi=170,bbox_inches="tight");plt.close(fig)
 
 
+def save_shape_grid_preview(path: Path, source: dict[str, Any], target: dict[str, Any]) -> None:
+    """Show observed support, outer contour, and height without painting unknown cells."""
+    fig, axes = plt.subplots(1, 2, figsize=(12, 5.6))
+    for ax, name, grid in zip(axes, ("INSPIRE source", "FAST target"), (source, target)):
+        centers = grid["centers"]
+        scatter = ax.scatter(centers[:, 0], centers[:, 1], c=grid["height_p50_m"] * 1000,
+                             s=35, marker="s", cmap="viridis", vmin=0, vmax=55,
+                             alpha=np.clip(grid["confidence"], .15, 1), linewidths=0)
+        contour = grid["contour"]
+        ax.scatter(contour[:, 0], contour[:, 1], s=15, marker="o", facecolors="none",
+                   edgecolors="#ef476f", linewidths=.8, label="supported outer contour")
+        cropped = centers[grid["crop_cell"]]
+        if len(cropped):
+            ax.scatter(cropped[:, 0], cropped[:, 1], s=24, marker="x", color="#d00000", label="ROI edge downweighted")
+        ax.set(title=f"{name}: {grid['summary']['observed_cells']} observed cells",
+               xlabel="local board u (m)", ylabel="local board v (m)")
+        ax.set_aspect("equal", adjustable="box");ax.grid(alpha=.2);ax.legend(fontsize=8)
+    fig.colorbar(scatter, ax=axes, label="median distance from board (mm)", shrink=.75)
+    fig.suptitle("Stage 3 shape grid: blank cells are unknown, color is observed cell height")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(path, dpi=160, bbox_inches="tight")
+    plt.close(fig)
+
+
 def save_stage4_comparison(path: Path, candidates: list[dict[str, Any]], source_board: np.ndarray,
                            source_object: np.ndarray, target_board: np.ndarray, target_object: np.ndarray,
                            seed: int = 42) -> dict[str, Any]:

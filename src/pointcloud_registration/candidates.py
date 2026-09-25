@@ -4,11 +4,14 @@ from __future__ import annotations
 
 import hashlib
 import json
+import time
 from typing import Any
 
 import numpy as np
 from scipy.spatial import cKDTree
 
+from .shape_grid import shape_score
+from .joint_search import joint_angle_translation_search
 from .transforms import (apply_transform, compose_plane_transform, rotation_difference_deg,
                          transform_difference, validate_rigid_transform)
 
@@ -73,7 +76,18 @@ def coarse_geometry_checks(matrix: np.ndarray, source_board_plane: np.ndarray, t
             "aabb": {"gap_norm_m": float(np.linalg.norm(gap)), "completely_disconnected": bool(disconnected)}}
 
 
-def contour_angle(source_uv: np.ndarray, target_uv: np.ndarray, cfg: dict[str, Any]) -> tuple[float, dict[str, Any]]:
+def contour_angle(source_uv: np.ndarray, target_uv: np.ndarray, cfg: dict[str, Any],
+                  source_grid=None, target_grid=None) -> tuple[float, dict[str, Any]]:
+    if source_grid is not None:
+        s_center = np.median(source_grid["centers"], axis=0)
+        t_center = np.median(target_grid["centers"], axis=0)
+        s = {**source_grid, "centers": source_grid["centers"]-s_center, "contour": source_grid["contour"]-s_center}
+        t = {**target_grid, "centers": target_grid["centers"]-t_center, "contour": target_grid["contour"]-t_center}
+        angles=np.arange(-45.,45.+1e-9,float(cfg["contour_angle_step_deg"]))
+        scores=[shape_score(s,t,float(a),np.zeros(2),cfg)[0] for a in angles]
+        best=int(np.argmin(scores))
+        return float(angles[best]), {"method":"observed occupancy and reliable outer contour angular search",
+            "range_deg":[-45.,45.],"step_deg":float(cfg["contour_angle_step_deg"]),"best_distance_m":float(scores[best])}
     count=int(cfg["contour_sample_count"]); s=deterministic_sample(source_uv, count, 123); t=deterministic_sample(target_uv, count, 456)
     s=s-np.median(s,axis=0); t=t-np.median(t,axis=0)
     angles=np.arange(-45.,45.+1e-9,float(cfg["contour_angle_step_deg"])); scores=[]
@@ -87,7 +101,9 @@ def contour_angle(source_uv: np.ndarray, target_uv: np.ndarray, cfg: dict[str, A
 
 
 def translation_hypotheses(source_uv: np.ndarray, target_uv: np.ndarray, angle_deg: float,
-                           cfg: dict[str, Any]) -> list[dict[str, Any]]:
+                           cfg: dict[str, Any], source_grid=None, target_grid=None) -> list[dict[str, Any]]:
+    if source_grid is not None:
+        source_uv=source_grid["centers"];target_uv=target_grid["centers"]
     q=np.deg2rad(angle_deg); rr=np.array([[np.cos(q),-np.sin(q)],[np.sin(q),np.cos(q)]])
     rotated=source_uv@rr.T
     robust=np.median(target_uv,axis=0)-np.median(rotated,axis=0)
@@ -99,7 +115,10 @@ def translation_hypotheses(source_uv: np.ndarray, target_uv: np.ndarray, angle_d
     for du in np.arange(-window,window+step/2,step):
         for dv in np.arange(-window,window+step/2,step):
             shift=robust+np.array([du,dv]); moved=src+shift
-            score=.5*(_trimmed_mean(cKDTree(tgt).query(moved,workers=1)[0],trim)+_trimmed_mean(cKDTree(moved).query(tgt,workers=1)[0],trim))
+            if source_grid is None:
+                score=.5*(_trimmed_mean(cKDTree(tgt).query(moved,workers=1)[0],trim)+_trimmed_mean(cKDTree(moved).query(tgt,workers=1)[0],trim))
+            else:
+                score=shape_score(source_grid,target_grid,angle_deg,shift,cfg)[0]
             scored.append((score,shift))
     picked=[]
     for score,shift in sorted(scored,key=lambda x:(x[0],x[1][0],x[1][1])):
@@ -113,42 +132,93 @@ def translation_hypotheses(source_uv: np.ndarray, target_uv: np.ndarray, angle_d
 def generate_geometry_candidates(source_frame: dict[str, Any], target_frame: dict[str, Any],
                                  source_object: np.ndarray, target_object: np.ndarray,
                                  cfg: dict[str, Any], gate_cfg: dict[str, Any], input_hashes: dict[str,str],
-                                 config_fingerprint: str) -> tuple[list[dict[str, Any]], dict[str, Any]]:
-    correction, contour_report=contour_angle(source_frame["uv"],target_frame["uv"],cfg)
+                                 config_fingerprint: str, source_grid=None, target_grid=None,
+                                 score_at_angle=None) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    if cfg.get("search_method", "sequential") == "joint":
+        if source_grid is None or target_grid is None:
+            raise ValueError("joint search requires occupancy_grid shape representation")
+        hypotheses, audit = joint_angle_translation_search(source_grid, target_grid, cfg, cfg["joint_search"], score_at_angle)
+        candidates = []
+        for hyp in hypotheses:
+            angle = hyp["angle_deg"]
+            provenance = {"parent_branch": "joint_search", "search_method": "joint", "shape_method": "occupancy_grid",
+                          "discrete_increment_deg": hyp["direction_branch_deg"], "relative_angle_deg": angle,
+                          "translation_method": "joint_search", "translation_peak_index": hyp["peak_index"],
+                          "shift_uv_m": hyp["shift_uv_m"],
+                          "normal_alignment_branch": target_frame.get("normal_branch", "observed_object_side")}
+            matrix = compose_plane_transform(source_frame, target_frame, angle, np.asarray(hyp["shift_uv_m"]))
+            checks = coarse_geometry_checks(matrix, source_frame["plane"], target_frame["plane"], source_object, target_object, gate_cfg)
+            value, terms = shape_score(source_grid, target_grid, angle, np.asarray(hyp["shift_uv_m"]), cfg)
+            candidates.append({"candidate_id": candidate_id("geometry", provenance), "generator": "geometry",
+                               "source_role": "INSPIRE_2", "target_role": "FAST_LIVO2", "transform_direction": "INSPIRE_TO_FAST",
+                               "matrix_m": matrix.tolist(), "provenance": provenance,
+                               "generation_parameters": {**hyp, "shape_representation": "observed_occupancy_grid"},
+                               "coarse_checks": checks, "status": "retained_raw" if checks["passed"] else "rejected",
+                               "status_reasons": checks["reasons"], "shape_match": {"score_m": value, **terms},
+                               "input_hashes": input_hashes, "config_fingerprint": config_fingerprint})
+        return candidates, audit
+    start = time.perf_counter()
+    correction, contour_report=contour_angle(source_frame["uv"],target_frame["uv"],cfg,source_grid,target_grid)
+    search_elapsed = time.perf_counter() - start
     bases=[("pca_obb",0.,{"method":"2D PCA/OBB axis alignment"}),("contour",correction,contour_report)]
     candidates=[]
     for base_name,base_angle,base_diag in bases:
         for increment in (0,90,180,270):
             angle=base_angle+increment
-            for hyp in translation_hypotheses(source_frame["uv"],target_frame["uv"],angle,cfg):
+            search_start = time.perf_counter()
+            hypotheses = translation_hypotheses(source_frame["uv"],target_frame["uv"],angle,cfg,source_grid,target_grid)
+            search_elapsed += time.perf_counter() - search_start
+            for hyp in hypotheses:
                 provenance={"parent_branch":base_name,"continuous_base_angle_deg":base_angle,"discrete_increment_deg":increment,
                             "relative_angle_deg":angle,"translation_method":hyp["method"],"translation_peak_index":hyp.get("peak_index")}
+                if source_grid is not None:
+                    provenance["shape_method"]="occupancy_grid"
                 provenance["normal_alignment_branch"] = target_frame.get("normal_branch", "observed_object_side")
                 matrix=compose_plane_transform(source_frame,target_frame,angle,np.asarray(hyp["shift_uv_m"]))
                 checks=coarse_geometry_checks(matrix,source_frame["plane"],target_frame["plane"],source_object,target_object,gate_cfg)
+                shape_match=None
+                if source_grid is not None:
+                    shape_value,shape_terms=shape_score(source_grid,target_grid,angle,np.asarray(hyp["shift_uv_m"]),cfg)
+                    shape_match={"score_m":shape_value,**shape_terms}
                 cid=candidate_id("geometry",provenance)
                 candidates.append({"candidate_id":cid,"generator":"geometry","source_role":"INSPIRE_2","target_role":"FAST_LIVO2",
                     "transform_direction":"INSPIRE_TO_FAST","matrix_m":matrix.tolist(),"provenance":provenance,
-                    "generation_parameters":{**hyp,"base_diagnostics":base_diag},"coarse_checks":checks,
+                    "generation_parameters":{**hyp,"base_diagnostics":base_diag,
+                        "shape_representation":"observed_occupancy_grid" if source_grid is not None else "sampled_projection_points"},"coarse_checks":checks,
                     "status":"retained_raw" if checks["passed"] else "rejected","status_reasons":checks["reasons"],
-                    "input_hashes":input_hashes,"config_fingerprint":config_fingerprint})
-    return candidates,{"continuous_bases":bases,"contour":contour_report,"enumerated_increments_deg":[0,90,180,270]}
+                    "shape_match":shape_match,"input_hashes":input_hashes,"config_fingerprint":config_fingerprint})
+    return candidates,{"method":"sequential", "search_elapsed_s":search_elapsed,
+                       "continuous_bases":bases,"contour":contour_report,"enumerated_increments_deg":[0,90,180,270]}
 
 
 def deduplicate_candidates(candidates: list[dict[str, Any]], rotation_threshold_deg: float,
                            translation_threshold_m: float, max_candidates: int,
-                           minimum_per_generator: int = 0) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+                           minimum_per_generator: int = 0, preserve_direction_branches: bool = False) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    def branch(c):
+        p = c["provenance"]
+        return p.get("normal_alignment_branch"), p.get("discrete_increment_deg")
     valid=[c for c in candidates if c.get("status") == "retained_raw"]
     valid.sort(key=lambda c:(float(c.get("coarse_rank_score",float("inf"))),c["candidate_id"]))
     clusters=[]
     for candidate in valid:
         matrix=np.asarray(candidate["matrix_m"]); matched=None
         for cluster in clusters:
+            if preserve_direction_branches and branch(candidate) != branch(cluster["representative"]):
+                continue
             rd,td=transform_difference(np.asarray(cluster["representative"]["matrix_m"]),matrix)
             if rd<=rotation_threshold_deg and td<=translation_threshold_m: matched=cluster; break
         if matched is None: clusters.append({"representative":candidate,"members":[candidate]})
         else: matched["members"].append(candidate)
     selected_indices: list[int] = []
+    if preserve_direction_branches:
+        seen = set()
+        for i, cluster in enumerate(clusters):
+            key = branch(cluster["representative"])
+            if key not in seen:
+                selected_indices.append(i)
+                seen.add(key)
+        if max_candidates < len(selected_indices):
+            raise ValueError("maximum_canonical_candidates cannot retain all normal/direction branches")
     for generator in ("geometry",):
         eligible = [i for i, cluster in enumerate(clusters)
                     if any(m["generator"] == generator for m in cluster["members"])]
@@ -186,5 +256,10 @@ def deduplicate_candidates(candidates: list[dict[str, Any]], rotation_threshold_
 def assign_coarse_rank(candidates: list[dict[str, Any]]) -> None:
     for c in candidates:
         checks=c.get("coarse_checks",{}); obj=checks.get("object",{}); board=checks.get("board",{})
-        c["coarse_rank_score"]=float(obj.get("bidirectional_trimmed_chamfer_m",1e3))+float(board.get("plane_distance_m",1e3))+float(board.get("normal_angle_deg",180))/1800
-        c["coarse_rank_basis"]="equal diagnostic terms: object trimmed distance + board plane distance + board angle/1800; not final scoring"
+        shape=c.get("shape_match")
+        if shape is not None:
+            c["coarse_rank_score"]=float(shape["score_m"])+float(board.get("plane_distance_m",1e3))+float(board.get("normal_angle_deg",180))/1800
+            c["coarse_rank_basis"]="observed-cell occupancy + supported outer contour + weak height + board diagnostics; not final scoring"
+        else:
+            c["coarse_rank_score"]=float(obj.get("bidirectional_trimmed_chamfer_m",1e3))+float(board.get("plane_distance_m",1e3))+float(board.get("normal_angle_deg",180))/1800
+            c["coarse_rank_basis"]="equal diagnostic terms: object trimmed distance + board plane distance + board angle/1800; not final scoring"

@@ -7,6 +7,7 @@ import argparse
 import csv
 import datetime as dt
 import json
+import os
 import platform
 import sys
 import time
@@ -27,9 +28,10 @@ from pointcloud_registration.candidates import (assign_coarse_rank, canonical_fi
 from pointcloud_registration.dataset_config import add_dataset_argument, ensure_report_dataset, parse_with_dataset
 from pointcloud_registration.io_utils import load_metric_stage2_cloud, read_header, sha256_file, validate_role_path
 from pointcloud_registration.reporting import configure_logging, write_json
+from pointcloud_registration.shape_grid import build_shape_grid, export_shape_grid
 from pointcloud_registration.segmentation import fit_plane_ransac
 from pointcloud_registration.transforms import oriented_plane, right_handed_plane_frame, rotation_difference_deg, transform_difference
-from pointcloud_registration.visualization import save_stage3_candidates
+from pointcloud_registration.visualization import save_shape_grid_preview, save_stage3_candidates
 
 
 ROLES = ("source_board", "source_object", "target_board", "target_object")
@@ -54,6 +56,11 @@ def parser() -> argparse.ArgumentParser:
     p.add_argument("--max-candidates",type=int)
     p.add_argument("--geometry-search-window-m",type=float)
     p.add_argument("--geometry-search-step-m",type=float)
+    p.add_argument("--shape-method",choices=("occupancy_grid","sampled_points"),default="occupancy_grid")
+    p.add_argument("--search-method",choices=("joint","sequential"),default=None,
+                   help="default: joint for occupancy_grid, sequential for sampled_points")
+    p.add_argument("--joint-angle-step-deg",type=float)
+    p.add_argument("--joint-seeds-per-branch",type=int)
     return p
 
 
@@ -120,15 +127,17 @@ def fit_plane_report(points: np.ndarray, threshold: float, cfg: dict[str,Any], o
 
 
 def write_csv(path:Path,candidates:list[dict[str,Any]])->None:
-    fields=["candidate_id","rank","generator","generators","support_count","status","coarse_rank_score","fitness","inlier_rmse",
+    fields=["candidate_id","rank","generator","generators","support_count","status","coarse_rank_score","shape_score_m","shape_occupancy_m","shape_outer_contour_m","shape_height_m","fitness","inlier_rmse",
             "board_normal_angle_deg","board_plane_distance_m","object_trimmed_chamfer_m","object_overlap_at_15mm","matrix_file"]
     path.parent.mkdir(parents=True,exist_ok=True)
     with path.open("w",newline="",encoding="utf-8-sig") as f:
         w=csv.DictWriter(f,fieldnames=fields);w.writeheader()
         for c in candidates:
-            checks=c["coarse_checks"]; raw=c.get("raw_metrics",{})
+            checks=c["coarse_checks"]; raw=c.get("raw_metrics",{});shape=c.get("shape_match") or {}
             w.writerow({"candidate_id":c["candidate_id"],"rank":c.get("rank"),"generator":c["generator"],"generators":"|".join(c.get("generators",[c["generator"]])),
-                "support_count":c.get("support_count",1),"status":c["status"],"coarse_rank_score":c["coarse_rank_score"],"fitness":raw.get("fitness"),
+                "support_count":c.get("support_count",1),"status":c["status"],"coarse_rank_score":c["coarse_rank_score"],
+                "shape_score_m":shape.get("score_m"),"shape_occupancy_m":shape.get("occupancy_m"),
+                "shape_outer_contour_m":shape.get("outer_contour_m"),"shape_height_m":shape.get("height_m"),"fitness":raw.get("fitness"),
                 "inlier_rmse":raw.get("inlier_rmse"),"board_normal_angle_deg":checks["board"]["normal_angle_deg"],
                 "board_plane_distance_m":checks["board"]["plane_distance_m"],"object_trimmed_chamfer_m":checks["object"]["bidirectional_trimmed_chamfer_m"],
                 "object_overlap_at_15mm":checks["object"]["bidirectional_overlap_at_15mm"],"matrix_file":f"candidate_matrices/{c['candidate_id']}.txt"})
@@ -200,13 +209,26 @@ def main(argv:list[str]|None=None)->int:
         full_cfg=_json(args.config.resolve()); cfg=full_cfg["coarse_registration"]
         overrides={k:v for k,v in vars(args).items() if v is not None and k in {"dedup_rotation_deg","dedup_translation_m","max_candidates","geometry_search_window_m","geometry_search_step_m"}}
         gcfg=cfg["geometry"]; dcfg=cfg["deduplication"]
+        search_method=args.search_method or ("joint" if args.shape_method == "occupancy_grid" else "sequential")
+        if search_method == "joint" and args.shape_method != "occupancy_grid":
+            raise Stage3Failure("joint search requires --shape-method occupancy_grid")
+        gcfg["search_method"]=search_method
+        overrides.update({"shape_method":args.shape_method,"search_method":search_method})
         if args.geometry_search_window_m is not None:gcfg["search_window_m"]=args.geometry_search_window_m
         if args.geometry_search_step_m is not None:gcfg["search_step_m"]=args.geometry_search_step_m
+        if search_method == "joint":
+            if args.geometry_search_window_m is not None:gcfg["joint_search"]["translation_window_m"]=args.geometry_search_window_m
+            if args.geometry_search_step_m is not None:gcfg["joint_search"]["translation_step_m"]=args.geometry_search_step_m
+            if args.joint_angle_step_deg is not None:gcfg["joint_search"]["angle_step_deg"]=args.joint_angle_step_deg
+            if args.joint_seeds_per_branch is not None:gcfg["joint_search"]["seeds_per_branch"]=args.joint_seeds_per_branch
+        elif args.joint_angle_step_deg is not None or args.joint_seeds_per_branch is not None:
+            raise Stage3Failure("--joint-* options require joint search")
+        overrides.update({k:v for k,v in vars(args).items() if k.startswith("joint_") and v is not None})
         if args.dedup_rotation_deg is not None:dcfg["rotation_threshold_deg"]=args.dedup_rotation_deg
         if args.dedup_translation_m is not None:dcfg["translation_threshold_m"]=args.dedup_translation_m
         if args.max_candidates is not None:dcfg["maximum_canonical_candidates"]=args.max_candidates
         if float(dcfg["rotation_threshold_deg"])>=45: raise Stage3Failure("dedup rotation threshold must be far below 90 degrees")
-        cfg_fp=fingerprint(cfg); input_hashes={k:v["sha256"] for k,v in before.items()}
+        cfg_fp=fingerprint({"coarse_registration":cfg,"shape_method":args.shape_method}); input_hashes={k:v["sha256"] for k,v in before.items()}
         clouds={};points={};inputs={}
         for role,path in paths.items():
             cloud,pts=load_metric_stage2_cloud(path);cloud.clear() if False else None
@@ -223,20 +245,40 @@ def main(argv:list[str]|None=None)->int:
             if abs(aspect-1.) < float(gcfg["square_obb_aspect_tolerance"]): evidence.append("robust OBB approximately square")
             frame_report.update({"robust_obb_extent_uv_m":ext.tolist(),"robust_obb_aspect_ratio":aspect,
                                  "orientation_degenerate":bool(evidence),"degeneracy_evidence":evidence,
-                                 "degeneracy_handling":"do not choose one PCA direction; enumerate 0/90/180/270 and contour parent branches"})
+                                 "degeneracy_handling":"full-circle joint search with four protected direction branches" if search_method == "joint" else "enumerate 0/90/180/270 and contour parent branches"})
             if evidence: report["warnings"].append(f"{label} object projection orientation is degenerate: {', '.join(evidence)}")
         source_frame=sd["frame"]; target_frames=[]
         target_frame=td["frame"];target_frame["normal_branch"]="observed_object_side";target_frames.append(target_frame)
         if td["report"]["object_side_orientation"]["opposite_alignment_branch_required"]:
             opposite=right_handed_plane_frame(-tp,points["target_object"]);opposite["plane"]=-tp;opposite["normal_branch"]="opposite_due_to_weak_FAST_sign_evidence";target_frames.append(opposite)
             report["warnings"].append("FAST object-to-board sign evidence is weak; opposite target-normal alignment branch was retained.")
-        raw=[];geometry_audit=[]
+        source_grid=None; preview_target_grid=None; shape_exports={}; raw=[];geometry_audit=[]
+        if args.shape_method == "occupancy_grid":
+            grid_cfg=gcfg["shape_grid"]
+            roi_inputs=s2.get("inputs",{})
+            def roi_bounds(role):
+                coords=roi_inputs.get(f"{role}_roi",{}).get("coordinates",{})
+                if "xyz_min_m" in coords and "xyz_max_m" in coords:
+                    return coords["xyz_min_m"],coords["xyz_max_m"]
+                return None
+            source_grid=build_shape_grid(source_frame,points["source_object"],grid_cfg,roi_bounds("source"))
+            shape_exports["source"]=export_shape_grid(source_grid)
         for tf in target_frames:
-            geo,audit=generate_geometry_candidates(source_frame,tf,points["source_object"],points["target_object"],gcfg,cfg["coarse_gates"],input_hashes,cfg_fp)
+            target_grid=None
+            if source_grid is not None:
+                target_grid=build_shape_grid(tf,points["target_object"],gcfg["shape_grid"],roi_bounds("target"))
+                shape_exports[tf["normal_branch"]]=export_shape_grid(target_grid)
+                if preview_target_grid is None: preview_target_grid=target_grid
+            match_cfg={**gcfg,**gcfg.get("shape_grid",{})}
+            geo,audit=generate_geometry_candidates(source_frame,tf,points["source_object"],points["target_object"],match_cfg,cfg["coarse_gates"],input_hashes,cfg_fp,source_grid,target_grid)
             raw.extend(geo);geometry_audit.append({"normal_branch":tf["normal_branch"],**audit})
+            logger.info("%s search complete for %s: %.2fs",search_method,tf["normal_branch"],audit["search_elapsed_s"])
+        if shape_exports:
+            write_json(out/"shape_grids.json",{"method":"observed uniform occupancy with supported outer contour","grids":shape_exports})
+            save_shape_grid_preview(out/"shape_grid_preview.png",source_grid,preview_target_grid)
         logger.info("Geometry route complete: %d raw candidates",len(raw))
         assign_coarse_rank(raw)
-        canonical,clusters=deduplicate_candidates(raw,float(dcfg["rotation_threshold_deg"]),float(dcfg["translation_threshold_m"]),int(dcfg["maximum_canonical_candidates"]),int(dcfg["minimum_per_generator"]))
+        canonical,clusters=deduplicate_candidates(raw,float(dcfg["rotation_threshold_deg"]),float(dcfg["translation_threshold_m"]),int(dcfg["maximum_canonical_candidates"]),int(dcfg["minimum_per_generator"]),preserve_direction_branches=search_method == "joint")
         reproducibility=compare_reproducibility(previous_canonical,canonical,float(dcfg["rotation_threshold_deg"]),float(dcfg["translation_threshold_m"]))
         if reproducibility.get("comparison_available") and (not reproducibility.get("identical_candidate_id_order") or reproducibility.get("exact_matrix_count_for_same_id")!=len(canonical)):
             report["warnings"].append("Repeated geometry run was not bitwise identical; the measured difference is recorded under reproducibility.")
@@ -247,6 +289,12 @@ def main(argv:list[str]|None=None)->int:
         if len(canonical)<2: raise Stage3Failure("deduplication left fewer than two candidates")
         canonical_geo_increments={c["provenance"].get("discrete_increment_deg") for c in canonical if c["generator"]=="geometry"}
         if len(canonical_geo_increments)<2: raise Stage3Failure("fewer than two plane-internal direction clusters survived deduplication")
+        if search_method == "joint":
+            for tf in target_frames:
+                branches={c["provenance"]["discrete_increment_deg"] for c in canonical
+                          if c["provenance"]["normal_alignment_branch"] == tf["normal_branch"]}
+                if branches != {0,90,180,270}:
+                    raise Stage3Failure(f"joint search lost a direction branch for {tf['normal_branch']}")
         for i,a in enumerate(canonical):
             for b in canonical[i+1:]:
                 diff=rotation_difference_deg(np.asarray(a["matrix_m"]),np.asarray(b["matrix_m"]))
@@ -272,12 +320,16 @@ def main(argv:list[str]|None=None)->int:
                 d=rotation_difference_deg(np.asarray(a["matrix_m"]),np.asarray(b["matrix_m"]));
                 if d>45:direction_diffs.append({"candidate_a":a["candidate_id"],"candidate_b":b["candidate_id"],"rotation_difference_deg":d})
         elapsed=time.perf_counter()-start
-        report.update({"status":"success","software":{"python":sys.version,"platform":platform.platform(),"open3d":o3d.__version__,"numpy":np.__version__,"scipy":scipy.__version__,"matplotlib":matplotlib.__version__},
+        report.update({"status":"success","software":{"python":sys.version,"platform":platform.platform(),"open3d":o3d.__version__,"numpy":np.__version__,"scipy":scipy.__version__,"matplotlib":matplotlib.__version__,"OMP_NUM_THREADS":os.environ.get("OMP_NUM_THREADS")},
             "config_path":str(args.config.resolve()),"config":cfg,"cli_overrides":overrides,"config_fingerprint":cfg_fp,
             "preconditions":{"stage2_status":s2["status"],"parameter_search_required":False,"passed":True},
             "inputs":inputs,
             "input_integrity":{"before":before,"after":after,"unchanged":True},"planes":{"source":sd["report"],"target":td["report"]},
-            "geometry_route":{"executed":True,"audit":geometry_audit,"raw_candidate_count":sum(c["generator"]=="geometry" for c in raw),"valid_candidate_count":geo_valid},
+            "geometry_route":{"executed":True,"shape_method":args.shape_method,"search_method":search_method,
+                "search_elapsed_s":sum(a["search_elapsed_s"] for a in geometry_audit),
+                "shape_grids_file":str((out/"shape_grids.json").resolve()) if shape_exports else None,
+                "shape_summaries":{k:v["summary"] for k,v in shape_exports.items()},"audit":geometry_audit,
+                "raw_candidate_count":sum(c["generator"]=="geometry" for c in raw),"valid_candidate_count":geo_valid},
             "candidate_counts":{"raw_total":len(raw),"geometry_valid":geo_valid,"deduplicated_canonical":len(canonical)},
             "route_coverage":{"passed":True,"status":"geometry_only","geometry_valid":geo_valid,"active_routes":["geometry"]},
             "serialization_validation":serialization_validation,
