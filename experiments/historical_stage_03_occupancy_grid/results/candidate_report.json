@@ -1,0 +1,1904 @@
+{
+  "stage": 3,
+  "coarse_registration_performed": true,
+  "coarse_transforms_estimated": true,
+  "refinement_performed": false,
+  "final_transform_selected": false,
+  "full_cloud_transformed": false,
+  "transform_direction": "INSPIRE_TO_FAST",
+  "stage_name": "multi_candidate_coarse_registration",
+  "status": "success",
+  "failure_reasons": [],
+  "warnings": [
+    "source object projection orientation is degenerate: robust OBB approximately square"
+  ],
+  "created_at": "2026-09-24T11:11:59.123654+00:00",
+  "dataset": {
+    "id": "20260916_formal",
+    "manifest": "D:\\Aproject\\PointCloudLab\\configs\\dataset.json"
+  },
+  "software": {
+    "python": "3.12.14 (main, Sep  1 2026, 14:17:39) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "open3d": "0.19.0",
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "matplotlib": "3.11.1"
+  },
+  "config_path": "D:\\Aproject\\PointCloudLab\\configs\\registration.yaml",
+  "config": {
+    "schema_version": "pointcloudlab.stage3.v1",
+    "plane_fit": {
+      "source_distance_threshold_m": 0.0005,
+      "target_distance_threshold_m": 0.003,
+      "ransac_n": 3,
+      "num_iterations": 3000,
+      "random_seed": 42,
+      "repeat_seeds": [
+        42,
+        314159,
+        271828
+      ]
+    },
+    "geometry": {
+      "contour_sample_count": 600,
+      "contour_outlier_percentile": 98.0,
+      "contour_angle_step_deg": 1.0,
+      "pca_degeneracy_eigenvalue_ratio": 0.12,
+      "square_obb_aspect_tolerance": 0.15,
+      "translation_methods": [
+        "robust_centroid",
+        "obb_center",
+        "contour_search"
+      ],
+      "search_window_m": 0.012,
+      "search_step_m": 0.003,
+      "search_trim_fraction": 0.8,
+      "search_peaks_per_direction": 2,
+      "search_nms_distance_m": 0.004,
+      "minimum_valid_points": 30,
+      "shape_grid": {
+        "grid_size_m": 0.003,
+        "confidence_saturation_points": 3,
+        "sparse_cell_count_threshold": 32,
+        "outline_height_quantile": 75,
+        "outline_core_dilation_cells": 1,
+        "minimum_contour_support": 0.11,
+        "crop_margin_m": 0.004,
+        "crop_confidence_factor": 0.15,
+        "match_trim_fraction": 0.85,
+        "minimum_reference_confidence": 0.5,
+        "occupancy_weight": 0.35,
+        "contour_weight": 0.55,
+        "height_weight": 0.1,
+        "height_clip_m": 0.02
+      }
+    },
+    "coarse_gates": {
+      "maximum_board_normal_angle_deg": 40.0,
+      "maximum_board_plane_distance_m": 0.03,
+      "maximum_object_trimmed_chamfer_m": 0.08,
+      "minimum_object_overlap_ratio_at_15mm": 0.01,
+      "aabb_disconnection_margin_m": 0.1,
+      "diagnostic_sample_limit": 1800,
+      "trim_fraction": 0.8
+    },
+    "deduplication": {
+      "rotation_threshold_deg": 3.0,
+      "translation_threshold_m": 0.006,
+      "algorithm": "deterministic_greedy_SE3",
+      "representative_rule": "lowest coarse rank, then stable candidate_id",
+      "minimum_per_generator": 2,
+      "maximum_canonical_candidates": 16
+    }
+  },
+  "cli_overrides": {},
+  "config_fingerprint": "13e3860fc88014381c72dbee8849b9492beee5f84cb81bd78f26b7f5c13c9589",
+  "preconditions": {
+    "stage2_status": "success",
+    "parameter_search_required": false,
+    "passed": true
+  },
+  "inputs": {
+    "source_board": {
+      "path": "D:\\Aproject\\PointCloudLab\\outputs\\stage_02_segmentation\\source_board_points.ply",
+      "responsibility": "authoritative stage 2 source board canonical output",
+      "unit": "m",
+      "unit_conversion": "none; stage 2 output already uses metre working coordinates",
+      "coordinates_modified": false,
+      "file_size_bytes": 82292031,
+      "sha256": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+      "point_count": 1613564,
+      "format": "ply",
+      "header": {
+        "encoding": "binary_little_endian",
+        "declared_point_count": 1613564,
+        "fields_or_properties": [
+          "x",
+          "y",
+          "z",
+          "nx",
+          "ny",
+          "nz",
+          "red",
+          "green",
+          "blue"
+        ],
+        "comments": [
+          "comment Created by Open3D"
+        ],
+        "header_text": "ply\nformat binary_little_endian 1.0\ncomment Created by Open3D\nelement vertex 1613564\nproperty double x\nproperty double y\nproperty double z\nproperty double nx\nproperty double ny\nproperty double nz\nproperty uchar red\nproperty uchar green\nproperty uchar blue\nend_header",
+        "cloudcompare_global_shift_scale": {
+          "status": "unknown / not recoverable from current file",
+          "matching_header_lines": []
+        }
+      },
+      "xyz_min_m": [
+        -0.08490000152587891,
+        -0.13110000610351563,
+        -0.34184844970703127
+      ],
+      "xyz_max_m": [
+        0.22717208862304689,
+        0.1030999984741211,
+        -0.28870001220703123
+      ]
+    },
+    "source_object": {
+      "path": "D:\\Aproject\\PointCloudLab\\outputs\\stage_02_segmentation\\source_object_points.ply",
+      "responsibility": "authoritative stage 2 source object canonical output",
+      "unit": "m",
+      "unit_conversion": "none; stage 2 output already uses metre working coordinates",
+      "coordinates_modified": false,
+      "file_size_bytes": 12624959,
+      "sha256": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+      "point_count": 247543,
+      "format": "ply",
+      "header": {
+        "encoding": "binary_little_endian",
+        "declared_point_count": 247543,
+        "fields_or_properties": [
+          "x",
+          "y",
+          "z",
+          "nx",
+          "ny",
+          "nz",
+          "red",
+          "green",
+          "blue"
+        ],
+        "comments": [
+          "comment Created by Open3D"
+        ],
+        "header_text": "ply\nformat binary_little_endian 1.0\ncomment Created by Open3D\nelement vertex 247543\nproperty double x\nproperty double y\nproperty double z\nproperty double nx\nproperty double ny\nproperty double nz\nproperty uchar red\nproperty uchar green\nproperty uchar blue\nend_header",
+        "cloudcompare_global_shift_scale": {
+          "status": "unknown / not recoverable from current file",
+          "matching_header_lines": []
+        }
+      },
+      "xyz_min_m": [
+        0.0320825309753418,
+        -0.03570000076293946,
+        -0.31970001220703126
+      ],
+      "xyz_max_m": [
+        0.09142280578613281,
+        0.020146711349487305,
+        -0.261697509765625
+      ]
+    },
+    "target_board": {
+      "path": "D:\\Aproject\\PointCloudLab\\outputs\\stage_02_segmentation\\target_board_points.pcd",
+      "responsibility": "authoritative stage 2 target board canonical output",
+      "unit": "m",
+      "unit_conversion": "none; stage 2 output already uses metre working coordinates",
+      "coordinates_modified": false,
+      "file_size_bytes": 817446,
+      "sha256": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+      "point_count": 51079,
+      "format": "pcd",
+      "header": {
+        "encoding": "binary",
+        "declared_point_count": 51079,
+        "fields_or_properties": [
+          "x",
+          "y",
+          "z",
+          "rgb"
+        ],
+        "comments": [
+          "# .PCD v0.7 - Point Cloud Data file format"
+        ],
+        "header_text": "# .PCD v0.7 - Point Cloud Data file format\nVERSION 0.7\nFIELDS x y z rgb\nSIZE 4 4 4 4\nTYPE F F F F\nCOUNT 1 1 1 1\nWIDTH 51079\nHEIGHT 1\nVIEWPOINT 0 0 0 1 0 0 0\nPOINTS 51079\nDATA binary",
+        "cloudcompare_global_shift_scale": {
+          "status": "unknown / not recoverable from current file",
+          "matching_header_lines": []
+        }
+      },
+      "xyz_min_m": [
+        1.4226351976394653,
+        -0.17019879817962646,
+        0.34871044754981995
+      ],
+      "xyz_max_m": [
+        1.5811405181884766,
+        0.2946889400482178,
+        0.6972687840461731
+      ]
+    },
+    "target_object": {
+      "path": "D:\\Aproject\\PointCloudLab\\outputs\\stage_02_segmentation\\target_object_points.pcd",
+      "responsibility": "authoritative stage 2 target object canonical output",
+      "unit": "m",
+      "unit_conversion": "none; stage 2 output already uses metre working coordinates",
+      "coordinates_modified": false,
+      "file_size_bytes": 107604,
+      "sha256": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300",
+      "point_count": 6714,
+      "format": "pcd",
+      "header": {
+        "encoding": "binary",
+        "declared_point_count": 6714,
+        "fields_or_properties": [
+          "x",
+          "y",
+          "z",
+          "rgb"
+        ],
+        "comments": [
+          "# .PCD v0.7 - Point Cloud Data file format"
+        ],
+        "header_text": "# .PCD v0.7 - Point Cloud Data file format\nVERSION 0.7\nFIELDS x y z rgb\nSIZE 4 4 4 4\nTYPE F F F F\nCOUNT 1 1 1 1\nWIDTH 6714\nHEIGHT 1\nVIEWPOINT 0 0 0 1 0 0 0\nPOINTS 6714\nDATA binary",
+        "cloudcompare_global_shift_scale": {
+          "status": "unknown / not recoverable from current file",
+          "matching_header_lines": []
+        }
+      },
+      "xyz_min_m": [
+        1.441653847694397,
+        0.011273559182882309,
+        0.40758103132247925
+      ],
+      "xyz_max_m": [
+        1.5427932739257812,
+        0.10331026464700699,
+        0.5238372683525085
+      ]
+    }
+  },
+  "input_integrity": {
+    "before": {
+      "source_board": {
+        "size": 82292031,
+        "sha256": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310"
+      },
+      "source_object": {
+        "size": 12624959,
+        "sha256": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2"
+      },
+      "target_board": {
+        "size": 817446,
+        "sha256": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef"
+      },
+      "target_object": {
+        "size": 107604,
+        "sha256": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
+      }
+    },
+    "after": {
+      "source_board": {
+        "size": 82292031,
+        "sha256": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310"
+      },
+      "source_object": {
+        "size": 12624959,
+        "sha256": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2"
+      },
+      "target_board": {
+        "size": 817446,
+        "sha256": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef"
+      },
+      "target_object": {
+        "size": 107604,
+        "sha256": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
+      }
+    },
+    "unchanged": true
+  },
+  "planes": {
+    "source": {
+      "plane_model_ax_by_cz_d": [
+        -0.13711241082472095,
+        -0.07195789610618464,
+        0.9879383826867972,
+        0.3216481006852746
+      ],
+      "unit_normal": [
+        -0.13711241082472095,
+        -0.07195789610618464,
+        0.9879383826867972
+      ],
+      "normal_norm": 1.0,
+      "normal_sign_rule": "normalize; force largest-absolute normal component positive",
+      "ransac": {
+        "distance_threshold_m": 0.0005,
+        "ransac_n": 3,
+        "num_iterations": 3000,
+        "random_seed": 42
+      },
+      "plane_inlier_count": 1611775,
+      "plane_inlier_ratio": 0.9988912742227765,
+      "absolute_residual_m": {
+        "p50": 7.131869572518656e-05,
+        "p90": 0.0001746288951645192,
+        "p95": 0.00022838739583483882
+      },
+      "residual_median_m": 7.131869572518656e-05,
+      "residual_mad_m": 4.0339699100777615e-05,
+      "mad_robust_noise_sigma_m": 5.980763788681289e-05,
+      "oriented_plane_model": [
+        -0.13711241082472095,
+        -0.07195789610618464,
+        0.9879383826867972,
+        0.3216481006852746
+      ],
+      "object_side_orientation": {
+        "rule": "orient normal so the observed object signed-distance median is non-negative",
+        "pre_orientation_object_signed_distance_m": {
+          "median": 0.03199977582040592,
+          "p25": 0.01563310078443364,
+          "p75": 0.05056403792413172
+        },
+        "sign_evidence_weak": false,
+        "weak_epsilon_m": 0.0005,
+        "opposite_alignment_branch_required": false
+      },
+      "coverage": {
+        "robust_extent_uv_m": [
+          0.2821920247535388,
+          0.19959732277000808
+        ],
+        "robust_area_m2": 0.05632477264785419
+      },
+      "repeat_stability": {
+        "seeds": [
+          42,
+          314159,
+          271828
+        ],
+        "normal_angle_to_mean_deg": {
+          "p95": 0.0003550958694036945,
+          "max": 0.00035875564551896634
+        },
+        "inlier_ratios": [
+          0.9988912742227765,
+          0.9992910104588352,
+          0.998759888049064
+        ]
+      },
+      "frame": {
+        "origin": [
+          0.06546707521197855,
+          0.000768105742209927,
+          -0.31643317678368627
+        ],
+        "u": [
+          0.9866237347878503,
+          0.07885374190495398,
+          0.14267337993073856
+        ],
+        "v": [
+          -0.08816911449655665,
+          0.9942857479495311,
+          0.06018354154862142
+        ],
+        "n": [
+          -0.13711241082472095,
+          -0.07195789610618464,
+          0.9879383826867972
+        ],
+        "determinant": 1.0000000000000002,
+        "source": "continuous object-projection PCA; not inherited from world axes",
+        "pca_eigenvalues": [
+          0.00042696716556150027,
+          0.00028060784909163174
+        ],
+        "pca_relative_gap": 0.34278822418907284,
+        "robust_obb_extent_uv_m": [
+          0.05181221306875154,
+          0.049906644009862916
+        ],
+        "robust_obb_aspect_ratio": 1.0381826728022832,
+        "orientation_degenerate": true,
+        "degeneracy_evidence": [
+          "robust OBB approximately square"
+        ],
+        "degeneracy_handling": "do not choose one PCA direction; enumerate 0/90/180/270 and contour parent branches"
+      }
+    },
+    "target": {
+      "plane_model_ax_by_cz_d": [
+        0.9076905997948842,
+        -0.015909605835704815,
+        0.419338359187609,
+        -1.5814088581872694
+      ],
+      "unit_normal": [
+        0.9076905997948842,
+        -0.015909605835704815,
+        0.419338359187609
+      ],
+      "normal_norm": 1.0,
+      "normal_sign_rule": "normalize; force largest-absolute normal component positive",
+      "ransac": {
+        "distance_threshold_m": 0.003,
+        "ransac_n": 3,
+        "num_iterations": 3000,
+        "random_seed": 42
+      },
+      "plane_inlier_count": 45380,
+      "plane_inlier_ratio": 0.8884277295953327,
+      "absolute_residual_m": {
+        "p50": 0.0012820830648692105,
+        "p90": 0.0023907271880347913,
+        "p95": 0.0025798118123976366
+      },
+      "residual_median_m": 0.0012820830648692105,
+      "residual_mad_m": 0.0006556334943096376,
+      "mad_robust_noise_sigma_m": 0.0009720422186634686,
+      "oriented_plane_model": [
+        -0.9076905997948842,
+        0.015909605835704815,
+        -0.419338359187609,
+        1.5814088581872694
+      ],
+      "object_side_orientation": {
+        "rule": "orient normal so the observed object signed-distance median is non-negative",
+        "pre_orientation_object_signed_distance_m": {
+          "median": -0.024730970003438046,
+          "p25": -0.04170000468647134,
+          "p75": -0.009847278844318907
+        },
+        "sign_evidence_weak": false,
+        "weak_epsilon_m": 0.003,
+        "opposite_alignment_branch_required": false
+      },
+      "coverage": {
+        "robust_extent_uv_m": [
+          0.37165645244298995,
+          0.4495948128294729
+        ],
+        "robust_area_m2": 0.16709481317297195
+      },
+      "repeat_stability": {
+        "seeds": [
+          42,
+          314159,
+          271828
+        ],
+        "normal_angle_to_mean_deg": {
+          "p95": 0.1579890321496575,
+          "max": 0.1609522804342665
+        },
+        "inlier_ratios": [
+          0.8884277295953327,
+          0.9510953620861803,
+          0.8745081148808708
+        ]
+      },
+      "frame": {
+        "origin": [
+          1.5210847968235244,
+          0.052918002982459786,
+          0.48070105386787326
+        ],
+        "u": [
+          -0.4132948407318783,
+          -0.2070093426007168,
+          0.8867550432337166
+        ],
+        "v": [
+          -0.07269903485201838,
+          0.9782095974371606,
+          0.19447579235836387
+        ],
+        "n": [
+          -0.9076905997948842,
+          0.015909605835704815,
+          -0.419338359187609
+        ],
+        "determinant": 1.0000000000000002,
+        "source": "continuous object-projection PCA; not inherited from world axes",
+        "pca_eigenvalues": [
+          0.0005965485163465449,
+          0.0004083280890587146
+        ],
+        "pca_relative_gap": 0.3155157076587043,
+        "robust_obb_extent_uv_m": [
+          0.09246561473249201,
+          0.07455262503056628
+        ],
+        "robust_obb_aspect_ratio": 1.2402730915857285,
+        "orientation_degenerate": false,
+        "degeneracy_evidence": [],
+        "degeneracy_handling": "do not choose one PCA direction; enumerate 0/90/180/270 and contour parent branches"
+      }
+    }
+  },
+  "geometry_route": {
+    "executed": true,
+    "shape_method": "occupancy_grid",
+    "shape_grids_file": "D:\\Aproject\\PointCloudLab\\outputs\\stage_03_occupancy_grid\\shape_grids.json",
+    "shape_summaries": {
+      "source": {
+        "grid_size_m": 0.003,
+        "observed_cells": 322,
+        "unknown_cells_in_grid": 140,
+        "envelope_cells": 326,
+        "outer_contour_cells": 68,
+        "sparse_relief_outline": false,
+        "outline_height_threshold_m": null,
+        "reliable_outline_support_cells": 322,
+        "crop_downweighted_cells": 0,
+        "point_count": 247543,
+        "height_reference": "signed distance from fitted board plane"
+      },
+      "observed_object_side": {
+        "grid_size_m": 0.003,
+        "observed_cells": 905,
+        "unknown_cells_in_grid": 489,
+        "envelope_cells": 422,
+        "outer_contour_cells": 80,
+        "sparse_relief_outline": true,
+        "outline_height_threshold_m": 0.03214492963414006,
+        "reliable_outline_support_cells": 421,
+        "crop_downweighted_cells": 0,
+        "point_count": 6714,
+        "height_reference": "signed distance from fitted board plane"
+      }
+    },
+    "audit": [
+      {
+        "normal_branch": "observed_object_side",
+        "continuous_bases": [
+          [
+            "pca_obb",
+            0.0,
+            {
+              "method": "2D PCA/OBB axis alignment"
+            }
+          ],
+          [
+            "contour",
+            0.0,
+            {
+              "method": "observed occupancy and reliable outer contour angular search",
+              "range_deg": [
+                -45.0,
+                45.0
+              ],
+              "step_deg": 1.0,
+              "best_distance_m": 0.003730074626192041
+            }
+          ]
+        ],
+        "contour": {
+          "method": "observed occupancy and reliable outer contour angular search",
+          "range_deg": [
+            -45.0,
+            45.0
+          ],
+          "step_deg": 1.0,
+          "best_distance_m": 0.003730074626192041
+        },
+        "enumerated_increments_deg": [
+          0,
+          90,
+          180,
+          270
+        ]
+      }
+    ],
+    "raw_candidate_count": 32,
+    "valid_candidate_count": 32
+  },
+  "candidate_counts": {
+    "raw_total": 32,
+    "geometry_valid": 32,
+    "deduplicated_canonical": 8
+  },
+  "route_coverage": {
+    "passed": true,
+    "status": "geometry_only",
+    "geometry_valid": 32,
+    "active_routes": [
+      "geometry"
+    ]
+  },
+  "serialization_validation": {
+    "passed": true,
+    "candidate_count": 8,
+    "json_csv_id_order_identical": true,
+    "matrix_text_json_values_identical": true,
+    "numeric_comparison": "IEEE-754 exact after %.17g text round-trip"
+  },
+  "reproducibility": {
+    "comparison_available": true,
+    "previous_candidate_count": 8,
+    "current_candidate_count": 8,
+    "identical_candidate_id_order": true,
+    "shared_candidate_id_count": 8,
+    "exact_matrix_count_for_same_id": 8,
+    "nearest_SE3": {
+      "rotation_difference_deg_p50": 0.0,
+      "rotation_difference_deg_max": 0.0,
+      "translation_difference_m_p50": 0.0,
+      "translation_difference_m_max": 0.0,
+      "within_dedup_threshold_count": 8
+    },
+    "interpretation": "Geometry candidate IDs and transforms are deterministic for unchanged inputs and configuration."
+  },
+  "deduplication": {
+    "rotation_threshold_deg": 3.0,
+    "translation_threshold_m": 0.006,
+    "algorithm": "deterministic_greedy_SE3",
+    "representative_rule": "lowest coarse rank, then stable candidate_id",
+    "minimum_per_generator": 2,
+    "maximum_canonical_candidates": 16,
+    "rotation_difference_formula": "geodesic_angle(R_a.T @ R_b)",
+    "translation_difference_formula": "norm(t_a-t_b)",
+    "clusters": [
+      {
+        "canonical_candidate_id": "s3_can_b93ef57daae1",
+        "cluster_id": "s3_can_b93ef57daae1",
+        "selected_for_stage4": true,
+        "representative_raw_candidate_id": "s3_geo_d1e1ed7a2327",
+        "member_candidate_ids": [
+          "s3_geo_26e77ef22714",
+          "s3_geo_449b90c65a78",
+          "s3_geo_5be418578d61",
+          "s3_geo_a094624466a2",
+          "s3_geo_d1e1ed7a2327",
+          "s3_geo_ff81b458009d"
+        ],
+        "generators": [
+          "geometry"
+        ],
+        "support_seeds": []
+      },
+      {
+        "canonical_candidate_id": "s3_can_e771838facdd",
+        "cluster_id": "s3_can_e771838facdd",
+        "selected_for_stage4": true,
+        "representative_raw_candidate_id": "s3_geo_9851cc7b555b",
+        "member_candidate_ids": [
+          "s3_geo_79f281143dbf",
+          "s3_geo_9851cc7b555b",
+          "s3_geo_d8224f936782",
+          "s3_geo_e6d15dfee850"
+        ],
+        "generators": [
+          "geometry"
+        ],
+        "support_seeds": []
+      },
+      {
+        "canonical_candidate_id": "s3_can_c99bbafd36e2",
+        "cluster_id": "s3_can_c99bbafd36e2",
+        "selected_for_stage4": true,
+        "representative_raw_candidate_id": "s3_geo_10013f42ab60",
+        "member_candidate_ids": [
+          "s3_geo_0ba9e63f0bb1",
+          "s3_geo_10013f42ab60",
+          "s3_geo_502e1b871338",
+          "s3_geo_6f3b7ec16074"
+        ],
+        "generators": [
+          "geometry"
+        ],
+        "support_seeds": []
+      },
+      {
+        "canonical_candidate_id": "s3_can_dea4cff531f0",
+        "cluster_id": "s3_can_dea4cff531f0",
+        "selected_for_stage4": true,
+        "representative_raw_candidate_id": "s3_geo_69c1283cebdb",
+        "member_candidate_ids": [
+          "s3_geo_69c1283cebdb",
+          "s3_geo_cdfa2cf8068b"
+        ],
+        "generators": [
+          "geometry"
+        ],
+        "support_seeds": []
+      },
+      {
+        "canonical_candidate_id": "s3_can_d839b31da1fe",
+        "cluster_id": "s3_can_d839b31da1fe",
+        "selected_for_stage4": true,
+        "representative_raw_candidate_id": "s3_geo_d48b993718f2",
+        "member_candidate_ids": [
+          "s3_geo_0ab72ed38e64",
+          "s3_geo_5256e9acd104",
+          "s3_geo_7caff34d81d9",
+          "s3_geo_c3d189dc8776",
+          "s3_geo_d48b993718f2",
+          "s3_geo_d74b91c2df4d",
+          "s3_geo_ea980e86da3d",
+          "s3_geo_f29531a83301"
+        ],
+        "generators": [
+          "geometry"
+        ],
+        "support_seeds": []
+      },
+      {
+        "canonical_candidate_id": "s3_can_14ee59a1a223",
+        "cluster_id": "s3_can_14ee59a1a223",
+        "selected_for_stage4": true,
+        "representative_raw_candidate_id": "s3_geo_0d01722b30e9",
+        "member_candidate_ids": [
+          "s3_geo_0d01722b30e9",
+          "s3_geo_7fc02d90c877",
+          "s3_geo_9e1b9caf2a62",
+          "s3_geo_d9921ddc7aae"
+        ],
+        "generators": [
+          "geometry"
+        ],
+        "support_seeds": []
+      },
+      {
+        "canonical_candidate_id": "s3_can_c3fca9718717",
+        "cluster_id": "s3_can_c3fca9718717",
+        "selected_for_stage4": true,
+        "representative_raw_candidate_id": "s3_geo_c4c73b46b670",
+        "member_candidate_ids": [
+          "s3_geo_c4c73b46b670",
+          "s3_geo_e496553e4c6a"
+        ],
+        "generators": [
+          "geometry"
+        ],
+        "support_seeds": []
+      },
+      {
+        "canonical_candidate_id": "s3_can_e69f2dc67c0c",
+        "cluster_id": "s3_can_e69f2dc67c0c",
+        "selected_for_stage4": true,
+        "representative_raw_candidate_id": "s3_geo_c5b600f2a7b3",
+        "member_candidate_ids": [
+          "s3_geo_c5b600f2a7b3",
+          "s3_geo_fe2cdb4a2d4f"
+        ],
+        "generators": [
+          "geometry"
+        ],
+        "support_seeds": []
+      }
+    ]
+  },
+  "canonical_candidates": [
+    {
+      "candidate_id": "s3_can_b93ef57daae1",
+      "generator": "geometry",
+      "source_role": "INSPIRE_2",
+      "target_role": "FAST_LIVO2",
+      "transform_direction": "INSPIRE_TO_FAST",
+      "matrix_m": [
+        [
+          0.2326220798353092,
+          -0.3398850730332169,
+          -0.9112437133403447,
+          1.2138312835956766
+        ],
+        [
+          -0.949054380410556,
+          -0.28410674792936935,
+          -0.13630531465989926,
+          0.07320806248811362
+        ],
+        [
+          -0.21256234614021238,
+          0.8965274635560267,
+          -0.388658919996912,
+          0.37950790710330196
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "provenance": {
+        "parent_branch": "contour",
+        "continuous_base_angle_deg": 0.0,
+        "discrete_increment_deg": 270,
+        "relative_angle_deg": 270.0,
+        "translation_method": "contour_search",
+        "translation_peak_index": 0,
+        "shape_method": "occupancy_grid",
+        "normal_alignment_branch": "observed_object_side"
+      },
+      "generation_parameters": {
+        "method": "contour_search",
+        "shift_uv_m": [
+          0.008999999999999998,
+          0.002999999999999997
+        ],
+        "search_score_m": 0.0033471700455201363,
+        "peak_index": 0,
+        "base_diagnostics": {
+          "method": "observed occupancy and reliable outer contour angular search",
+          "range_deg": [
+            -45.0,
+            45.0
+          ],
+          "step_deg": 1.0,
+          "best_distance_m": 0.003730074626192041
+        },
+        "shape_representation": "observed_occupancy_grid"
+      },
+      "coarse_checks": {
+        "passed": true,
+        "reasons": [],
+        "rigid": {
+          "valid": true,
+          "reasons": [],
+          "determinant": 1.0000000000000009,
+          "orthonormality_error_fro": 8.337740506818381e-16,
+          "last_row_valid": true,
+          "no_reflection": true,
+          "no_scale": true
+        },
+        "board": {
+          "normal_angle_deg": 0.0,
+          "plane_distance_m": 2.220446049250313e-16
+        },
+        "object": {
+          "bidirectional_trimmed_chamfer_m": 0.004809020350949669,
+          "bidirectional_overlap_at_15mm": 0.8944444444444444
+        },
+        "aabb": {
+          "gap_norm_m": 0.0,
+          "completely_disconnected": false
+        }
+      },
+      "status": "canonical",
+      "status_reasons": [],
+      "shape_match": {
+        "score_m": 0.0033471700455201363,
+        "occupancy_m": 0.0008183675377640151,
+        "outer_contour_m": 0.0033191360412159763,
+        "height_m": 0.012352165846339441
+      },
+      "input_hashes": {
+        "source_board": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+        "source_object": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+        "target_board": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+        "target_object": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
+      },
+      "config_fingerprint": "13e3860fc88014381c72dbee8849b9492beee5f84cb81bd78f26b7f5c13c9589",
+      "coarse_rank_score": 0.0033471700455203583,
+      "coarse_rank_basis": "observed-cell occupancy + supported outer contour + weak height + board diagnostics; not final scoring",
+      "representative_raw_candidate_id": "s3_geo_d1e1ed7a2327",
+      "member_candidate_ids": [
+        "s3_geo_26e77ef22714",
+        "s3_geo_449b90c65a78",
+        "s3_geo_5be418578d61",
+        "s3_geo_a094624466a2",
+        "s3_geo_d1e1ed7a2327",
+        "s3_geo_ff81b458009d"
+      ],
+      "support_count": 6,
+      "generators": [
+        "geometry"
+      ],
+      "cross_generator_support": false,
+      "support_seeds": [],
+      "rank": 1
+    },
+    {
+      "candidate_id": "s3_can_e771838facdd",
+      "generator": "geometry",
+      "source_role": "INSPIRE_2",
+      "target_role": "FAST_LIVO2",
+      "transform_direction": "INSPIRE_TO_FAST",
+      "matrix_m": [
+        [
+          0.01628921300631792,
+          0.47051608478641826,
+          -0.882241052942389,
+          1.24274831645226
+        ],
+        [
+          0.9446915715877469,
+          0.2818171044017373,
+          0.16774073517692056,
+          0.04811076203303839
+        ],
+        [
+          0.32755533289920397,
+          -0.8361780513885069,
+          -0.4399020007517714,
+          0.31596254696194803
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "provenance": {
+        "parent_branch": "contour",
+        "continuous_base_angle_deg": 0.0,
+        "discrete_increment_deg": 90,
+        "relative_angle_deg": 90.0,
+        "translation_method": "contour_search",
+        "translation_peak_index": 0,
+        "shape_method": "occupancy_grid",
+        "normal_alignment_branch": "observed_object_side"
+      },
+      "generation_parameters": {
+        "method": "contour_search",
+        "shift_uv_m": [
+          -0.006000000000000004,
+          0.003000000000000001
+        ],
+        "search_score_m": 0.003368357472283267,
+        "peak_index": 0,
+        "base_diagnostics": {
+          "method": "observed occupancy and reliable outer contour angular search",
+          "range_deg": [
+            -45.0,
+            45.0
+          ],
+          "step_deg": 1.0,
+          "best_distance_m": 0.003730074626192041
+        },
+        "shape_representation": "observed_occupancy_grid"
+      },
+      "coarse_checks": {
+        "passed": true,
+        "reasons": [],
+        "rigid": {
+          "valid": true,
+          "reasons": [],
+          "determinant": 1.0000000000000004,
+          "orthonormality_error_fro": 6.324257218334133e-16,
+          "last_row_valid": true,
+          "no_reflection": true,
+          "no_scale": true
+        },
+        "board": {
+          "normal_angle_deg": 0.0,
+          "plane_distance_m": 2.220446049250313e-16
+        },
+        "object": {
+          "bidirectional_trimmed_chamfer_m": 0.005158101814661769,
+          "bidirectional_overlap_at_15mm": 0.8763888888888889
+        },
+        "aabb": {
+          "gap_norm_m": 0.0,
+          "completely_disconnected": false
+        }
+      },
+      "status": "canonical",
+      "status_reasons": [],
+      "shape_match": {
+        "score_m": 0.003368357472283267,
+        "occupancy_m": 0.000760900098709717,
+        "outer_contour_m": 0.0033727897561364045,
+        "height_m": 0.012470080718598434
+      },
+      "input_hashes": {
+        "source_board": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+        "source_object": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+        "target_board": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+        "target_object": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
+      },
+      "config_fingerprint": "13e3860fc88014381c72dbee8849b9492beee5f84cb81bd78f26b7f5c13c9589",
+      "coarse_rank_score": 0.003368357472283489,
+      "coarse_rank_basis": "observed-cell occupancy + supported outer contour + weak height + board diagnostics; not final scoring",
+      "representative_raw_candidate_id": "s3_geo_9851cc7b555b",
+      "member_candidate_ids": [
+        "s3_geo_79f281143dbf",
+        "s3_geo_9851cc7b555b",
+        "s3_geo_d8224f936782",
+        "s3_geo_e6d15dfee850"
+      ],
+      "support_count": 4,
+      "generators": [
+        "geometry"
+      ],
+      "cross_generator_support": false,
+      "support_seeds": [],
+      "rank": 2
+    },
+    {
+      "candidate_id": "s3_can_c99bbafd36e2",
+      "generator": "geometry",
+      "source_role": "INSPIRE_2",
+      "target_role": "FAST_LIVO2",
+      "transform_direction": "INSPIRE_TO_FAST",
+      "matrix_m": [
+        [
+          0.5258123362245922,
+          0.17018896482136947,
+          -0.8334009259216524,
+          1.2255128415644763
+        ],
+        [
+          0.28830680031936007,
+          -0.9574412217296818,
+          -0.013619685106024435,
+          0.028776523140466467
+        ],
+        [
+          -0.800250320814462,
+          -0.2331137558914215,
+          -0.5525010414927249,
+          0.35253654045121635
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "provenance": {
+        "parent_branch": "pca_obb",
+        "continuous_base_angle_deg": 0.0,
+        "discrete_increment_deg": 180,
+        "relative_angle_deg": 180.0,
+        "translation_method": "contour_search",
+        "translation_peak_index": 0,
+        "shape_method": "occupancy_grid",
+        "normal_alignment_branch": "observed_object_side"
+      },
+      "generation_parameters": {
+        "method": "contour_search",
+        "shift_uv_m": [
+          -0.006000000000000002,
+          -0.002999999999999999
+        ],
+        "search_score_m": 0.0033852660725657573,
+        "peak_index": 0,
+        "base_diagnostics": {
+          "method": "2D PCA/OBB axis alignment"
+        },
+        "shape_representation": "observed_occupancy_grid"
+      },
+      "coarse_checks": {
+        "passed": true,
+        "reasons": [],
+        "rigid": {
+          "valid": true,
+          "reasons": [],
+          "determinant": 1.0000000000000007,
+          "orthonormality_error_fro": 8.35946330175473e-16,
+          "last_row_valid": true,
+          "no_reflection": true,
+          "no_scale": true
+        },
+        "board": {
+          "normal_angle_deg": 0.0,
+          "plane_distance_m": 2.220446049250313e-16
+        },
+        "object": {
+          "bidirectional_trimmed_chamfer_m": 0.004907601186399661,
+          "bidirectional_overlap_at_15mm": 0.8905555555555555
+        },
+        "aabb": {
+          "gap_norm_m": 0.0,
+          "completely_disconnected": false
+        }
+      },
+      "status": "canonical",
+      "status_reasons": [],
+      "shape_match": {
+        "score_m": 0.0033852660725657573,
+        "occupancy_m": 0.000812403156498879,
+        "outer_contour_m": 0.003395690333265571,
+        "height_m": 0.012332952844950855
+      },
+      "input_hashes": {
+        "source_board": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+        "source_object": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+        "target_board": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+        "target_object": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
+      },
+      "config_fingerprint": "13e3860fc88014381c72dbee8849b9492beee5f84cb81bd78f26b7f5c13c9589",
+      "coarse_rank_score": 0.0033852660725659793,
+      "coarse_rank_basis": "observed-cell occupancy + supported outer contour + weak height + board diagnostics; not final scoring",
+      "representative_raw_candidate_id": "s3_geo_10013f42ab60",
+      "member_candidate_ids": [
+        "s3_geo_0ba9e63f0bb1",
+        "s3_geo_10013f42ab60",
+        "s3_geo_502e1b871338",
+        "s3_geo_6f3b7ec16074"
+      ],
+      "support_count": 4,
+      "generators": [
+        "geometry"
+      ],
+      "cross_generator_support": false,
+      "support_seeds": [],
+      "rank": 3
+    },
+    {
+      "candidate_id": "s3_can_dea4cff531f0",
+      "generator": "geometry",
+      "source_role": "INSPIRE_2",
+      "target_role": "FAST_LIVO2",
+      "transform_direction": "INSPIRE_TO_FAST",
+      "matrix_m": [
+        [
+          0.5258123362245922,
+          0.17018896482136947,
+          -0.8334009259216524,
+          1.2230330725200849
+        ],
+        [
+          0.28830680031936007,
+          -0.9574412217296818,
+          -0.013619685106024435,
+          0.027534467084862166
+        ],
+        [
+          -0.800250320814462,
+          -0.2331137558914215,
+          -0.5525010414927249,
+          0.3578570707106186
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "provenance": {
+        "parent_branch": "pca_obb",
+        "continuous_base_angle_deg": 0.0,
+        "discrete_increment_deg": 180,
+        "relative_angle_deg": 180.0,
+        "translation_method": "contour_search",
+        "translation_peak_index": 1,
+        "shape_method": "occupancy_grid",
+        "normal_alignment_branch": "observed_object_side"
+      },
+      "generation_parameters": {
+        "method": "contour_search",
+        "shift_uv_m": [
+          -3.469446951953614e-18,
+          -0.002999999999999999
+        ],
+        "search_score_m": 0.003411178182204568,
+        "peak_index": 1,
+        "base_diagnostics": {
+          "method": "2D PCA/OBB axis alignment"
+        },
+        "shape_representation": "observed_occupancy_grid"
+      },
+      "coarse_checks": {
+        "passed": true,
+        "reasons": [],
+        "rigid": {
+          "valid": true,
+          "reasons": [],
+          "determinant": 1.0000000000000007,
+          "orthonormality_error_fro": 8.35946330175473e-16,
+          "last_row_valid": true,
+          "no_reflection": true,
+          "no_scale": true
+        },
+        "board": {
+          "normal_angle_deg": 0.0,
+          "plane_distance_m": 2.220446049250313e-16
+        },
+        "object": {
+          "bidirectional_trimmed_chamfer_m": 0.00491066478633891,
+          "bidirectional_overlap_at_15mm": 0.8911111111111112
+        },
+        "aabb": {
+          "gap_norm_m": 0.0,
+          "completely_disconnected": false
+        }
+      },
+      "status": "canonical",
+      "status_reasons": [],
+      "shape_match": {
+        "score_m": 0.003411178182204568,
+        "occupancy_m": 0.0007642132851125802,
+        "outer_contour_m": 0.0034569084996013064,
+        "height_m": 0.01242403857634446
+      },
+      "input_hashes": {
+        "source_board": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+        "source_object": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+        "target_board": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+        "target_object": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
+      },
+      "config_fingerprint": "13e3860fc88014381c72dbee8849b9492beee5f84cb81bd78f26b7f5c13c9589",
+      "coarse_rank_score": 0.00341117818220479,
+      "coarse_rank_basis": "observed-cell occupancy + supported outer contour + weak height + board diagnostics; not final scoring",
+      "representative_raw_candidate_id": "s3_geo_69c1283cebdb",
+      "member_candidate_ids": [
+        "s3_geo_69c1283cebdb",
+        "s3_geo_cdfa2cf8068b"
+      ],
+      "support_count": 2,
+      "generators": [
+        "geometry"
+      ],
+      "cross_generator_support": false,
+      "support_seeds": [],
+      "rank": 4
+    },
+    {
+      "candidate_id": "s3_can_d839b31da1fe",
+      "generator": "geometry",
+      "source_role": "INSPIRE_2",
+      "target_role": "FAST_LIVO2",
+      "transform_direction": "INSPIRE_TO_FAST",
+      "matrix_m": [
+        [
+          -0.2769010433829652,
+          -0.03955795306816801,
+          -0.9600838403610813,
+          1.236026296572243
+        ],
+        [
+          -0.292669609142169,
+          0.9551515782020498,
+          0.045055105623045745,
+          0.09502641349189415
+        ],
+        [
+          0.9152433075734536,
+          0.2934631680589412,
+          -0.2760598792559585,
+          0.33229285309522905
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "provenance": {
+        "parent_branch": "contour",
+        "continuous_base_angle_deg": 0.0,
+        "discrete_increment_deg": 0,
+        "relative_angle_deg": 0.0,
+        "translation_method": "obb_center",
+        "translation_peak_index": null,
+        "shape_method": "occupancy_grid",
+        "normal_alignment_branch": "observed_object_side"
+      },
+      "generation_parameters": {
+        "method": "obb_center",
+        "shift_uv_m": [
+          -0.003000000000000001,
+          0.009000000000000001
+        ],
+        "base_diagnostics": {
+          "method": "observed occupancy and reliable outer contour angular search",
+          "range_deg": [
+            -45.0,
+            45.0
+          ],
+          "step_deg": 1.0,
+          "best_distance_m": 0.003730074626192041
+        },
+        "shape_representation": "observed_occupancy_grid"
+      },
+      "coarse_checks": {
+        "passed": true,
+        "reasons": [],
+        "rigid": {
+          "valid": true,
+          "reasons": [],
+          "determinant": 1.0000000000000004,
+          "orthonormality_error_fro": 5.077099081685054e-16,
+          "last_row_valid": true,
+          "no_reflection": true,
+          "no_scale": true
+        },
+        "board": {
+          "normal_angle_deg": 0.0,
+          "plane_distance_m": 0.0
+        },
+        "object": {
+          "bidirectional_trimmed_chamfer_m": 0.004843152721382525,
+          "bidirectional_overlap_at_15mm": 0.8875
+        },
+        "aabb": {
+          "gap_norm_m": 0.0,
+          "completely_disconnected": false
+        }
+      },
+      "status": "canonical",
+      "status_reasons": [],
+      "shape_match": {
+        "score_m": 0.0034333572833031333,
+        "occupancy_m": 0.0007730208871777084,
+        "outer_contour_m": 0.0035142416698992263,
+        "height_m": 0.012299670543463604
+      },
+      "input_hashes": {
+        "source_board": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+        "source_object": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+        "target_board": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+        "target_object": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
+      },
+      "config_fingerprint": "13e3860fc88014381c72dbee8849b9492beee5f84cb81bd78f26b7f5c13c9589",
+      "coarse_rank_score": 0.0034333572833031333,
+      "coarse_rank_basis": "observed-cell occupancy + supported outer contour + weak height + board diagnostics; not final scoring",
+      "representative_raw_candidate_id": "s3_geo_d48b993718f2",
+      "member_candidate_ids": [
+        "s3_geo_0ab72ed38e64",
+        "s3_geo_5256e9acd104",
+        "s3_geo_7caff34d81d9",
+        "s3_geo_c3d189dc8776",
+        "s3_geo_d48b993718f2",
+        "s3_geo_d74b91c2df4d",
+        "s3_geo_ea980e86da3d",
+        "s3_geo_f29531a83301"
+      ],
+      "support_count": 8,
+      "generators": [
+        "geometry"
+      ],
+      "cross_generator_support": false,
+      "support_seeds": [],
+      "rank": 5
+    },
+    {
+      "candidate_id": "s3_can_14ee59a1a223",
+      "generator": "geometry",
+      "source_role": "INSPIRE_2",
+      "target_role": "FAST_LIVO2",
+      "transform_direction": "INSPIRE_TO_FAST",
+      "matrix_m": [
+        [
+          0.01628921300631792,
+          0.47051608478641826,
+          -0.882241052942389,
+          1.2452280854966513
+        ],
+        [
+          0.9446915715877469,
+          0.2818171044017373,
+          0.16774073517692056,
+          0.04935281808864269
+        ],
+        [
+          0.32755533289920397,
+          -0.8361780513885069,
+          -0.4399020007517714,
+          0.3106420167025457
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "provenance": {
+        "parent_branch": "contour",
+        "continuous_base_angle_deg": 0.0,
+        "discrete_increment_deg": 90,
+        "relative_angle_deg": 90.0,
+        "translation_method": "contour_search",
+        "translation_peak_index": 1,
+        "shape_method": "occupancy_grid",
+        "normal_alignment_branch": "observed_object_side"
+      },
+      "generation_parameters": {
+        "method": "contour_search",
+        "shift_uv_m": [
+          -0.012000000000000002,
+          0.003000000000000001
+        ],
+        "search_score_m": 0.0034411353607252744,
+        "peak_index": 1,
+        "base_diagnostics": {
+          "method": "observed occupancy and reliable outer contour angular search",
+          "range_deg": [
+            -45.0,
+            45.0
+          ],
+          "step_deg": 1.0,
+          "best_distance_m": 0.003730074626192041
+        },
+        "shape_representation": "observed_occupancy_grid"
+      },
+      "coarse_checks": {
+        "passed": true,
+        "reasons": [],
+        "rigid": {
+          "valid": true,
+          "reasons": [],
+          "determinant": 1.0000000000000004,
+          "orthonormality_error_fro": 6.324257218334133e-16,
+          "last_row_valid": true,
+          "no_reflection": true,
+          "no_scale": true
+        },
+        "board": {
+          "normal_angle_deg": 0.0,
+          "plane_distance_m": 0.0
+        },
+        "object": {
+          "bidirectional_trimmed_chamfer_m": 0.0052185667093875565,
+          "bidirectional_overlap_at_15mm": 0.8783333333333334
+        },
+        "aabb": {
+          "gap_norm_m": 0.0,
+          "completely_disconnected": false
+        }
+      },
+      "status": "canonical",
+      "status_reasons": [],
+      "shape_match": {
+        "score_m": 0.0034411353607252744,
+        "occupancy_m": 0.0008102672137794097,
+        "outer_contour_m": 0.003503282292818059,
+        "height_m": 0.012307365748525484
+      },
+      "input_hashes": {
+        "source_board": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+        "source_object": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+        "target_board": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+        "target_object": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
+      },
+      "config_fingerprint": "13e3860fc88014381c72dbee8849b9492beee5f84cb81bd78f26b7f5c13c9589",
+      "coarse_rank_score": 0.0034411353607252744,
+      "coarse_rank_basis": "observed-cell occupancy + supported outer contour + weak height + board diagnostics; not final scoring",
+      "representative_raw_candidate_id": "s3_geo_0d01722b30e9",
+      "member_candidate_ids": [
+        "s3_geo_0d01722b30e9",
+        "s3_geo_7fc02d90c877",
+        "s3_geo_9e1b9caf2a62",
+        "s3_geo_d9921ddc7aae"
+      ],
+      "support_count": 4,
+      "generators": [
+        "geometry"
+      ],
+      "cross_generator_support": false,
+      "support_seeds": [],
+      "rank": 6
+    },
+    {
+      "candidate_id": "s3_can_c3fca9718717",
+      "generator": "geometry",
+      "source_role": "INSPIRE_2",
+      "target_role": "FAST_LIVO2",
+      "transform_direction": "INSPIRE_TO_FAST",
+      "matrix_m": [
+        [
+          0.2326220798353092,
+          -0.3398850730332169,
+          -0.9112437133403447,
+          1.2165291497446238
+        ],
+        [
+          -0.949054380410556,
+          -0.28410674792936935,
+          -0.13630531465989926,
+          0.07151548975140645
+        ],
+        [
+          -0.21256234614021238,
+          0.8965274635560267,
+          -0.388658919996912,
+          0.37360394946682457
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "provenance": {
+        "parent_branch": "contour",
+        "continuous_base_angle_deg": 0.0,
+        "discrete_increment_deg": 270,
+        "relative_angle_deg": 270.0,
+        "translation_method": "robust_centroid",
+        "translation_peak_index": null,
+        "shape_method": "occupancy_grid",
+        "normal_alignment_branch": "observed_object_side"
+      },
+      "generation_parameters": {
+        "method": "robust_centroid",
+        "shift_uv_m": [
+          0.003000000000000002,
+          1.3010426069826053e-18
+        ],
+        "base_diagnostics": {
+          "method": "observed occupancy and reliable outer contour angular search",
+          "range_deg": [
+            -45.0,
+            45.0
+          ],
+          "step_deg": 1.0,
+          "best_distance_m": 0.003730074626192041
+        },
+        "shape_representation": "observed_occupancy_grid"
+      },
+      "coarse_checks": {
+        "passed": true,
+        "reasons": [],
+        "rigid": {
+          "valid": true,
+          "reasons": [],
+          "determinant": 1.0000000000000009,
+          "orthonormality_error_fro": 8.337740506818381e-16,
+          "last_row_valid": true,
+          "no_reflection": true,
+          "no_scale": true
+        },
+        "board": {
+          "normal_angle_deg": 0.0,
+          "plane_distance_m": 4.440892098500626e-16
+        },
+        "object": {
+          "bidirectional_trimmed_chamfer_m": 0.00474603941466088,
+          "bidirectional_overlap_at_15mm": 0.8933333333333333
+        },
+        "aabb": {
+          "gap_norm_m": 0.0,
+          "completely_disconnected": false
+        }
+      },
+      "status": "canonical",
+      "status_reasons": [],
+      "shape_match": {
+        "score_m": 0.0036574618369862324,
+        "occupancy_m": 0.0008016691747990822,
+        "outer_contour_m": 0.003918473439993093,
+        "height_m": 0.012217172338103523
+      },
+      "input_hashes": {
+        "source_board": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+        "source_object": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+        "target_board": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+        "target_object": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
+      },
+      "config_fingerprint": "13e3860fc88014381c72dbee8849b9492beee5f84cb81bd78f26b7f5c13c9589",
+      "coarse_rank_score": 0.0036574618369866765,
+      "coarse_rank_basis": "observed-cell occupancy + supported outer contour + weak height + board diagnostics; not final scoring",
+      "representative_raw_candidate_id": "s3_geo_c4c73b46b670",
+      "member_candidate_ids": [
+        "s3_geo_c4c73b46b670",
+        "s3_geo_e496553e4c6a"
+      ],
+      "support_count": 2,
+      "generators": [
+        "geometry"
+      ],
+      "cross_generator_support": false,
+      "support_seeds": [],
+      "rank": 7
+    },
+    {
+      "candidate_id": "s3_can_e69f2dc67c0c",
+      "generator": "geometry",
+      "source_role": "INSPIRE_2",
+      "target_role": "FAST_LIVO2",
+      "transform_direction": "INSPIRE_TO_FAST",
+      "matrix_m": [
+        [
+          0.5258123362245922,
+          0.17018896482136947,
+          -0.8334009259216524,
+          1.2247091512513926
+        ],
+        [
+          0.28830680031936007,
+          -0.9574412217296818,
+          -0.013619685106024435,
+          0.022286237528041358
+        ],
+        [
+          -0.800250320814462,
+          -0.2331137558914215,
+          -0.5525010414927249,
+          0.3540299508267673
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "provenance": {
+        "parent_branch": "contour",
+        "continuous_base_angle_deg": 0.0,
+        "discrete_increment_deg": 180,
+        "relative_angle_deg": 180.0,
+        "translation_method": "robust_centroid",
+        "translation_peak_index": null,
+        "shape_method": "occupancy_grid",
+        "normal_alignment_branch": "observed_object_side"
+      },
+      "generation_parameters": {
+        "method": "robust_centroid",
+        "shift_uv_m": [
+          -0.002999999999999999,
+          -0.008999999999999994
+        ],
+        "base_diagnostics": {
+          "method": "observed occupancy and reliable outer contour angular search",
+          "range_deg": [
+            -45.0,
+            45.0
+          ],
+          "step_deg": 1.0,
+          "best_distance_m": 0.003730074626192041
+        },
+        "shape_representation": "observed_occupancy_grid"
+      },
+      "coarse_checks": {
+        "passed": true,
+        "reasons": [],
+        "rigid": {
+          "valid": true,
+          "reasons": [],
+          "determinant": 1.0000000000000007,
+          "orthonormality_error_fro": 8.35946330175473e-16,
+          "last_row_valid": true,
+          "no_reflection": true,
+          "no_scale": true
+        },
+        "board": {
+          "normal_angle_deg": 0.0,
+          "plane_distance_m": 0.0
+        },
+        "object": {
+          "bidirectional_trimmed_chamfer_m": 0.004987537974977628,
+          "bidirectional_overlap_at_15mm": 0.8847222222222222
+        },
+        "aabb": {
+          "gap_norm_m": 0.0,
+          "completely_disconnected": false
+        }
+      },
+      "status": "canonical",
+      "status_reasons": [],
+      "shape_match": {
+        "score_m": 0.004189926584182544,
+        "occupancy_m": 0.0009061017343323692,
+        "outer_contour_m": 0.004787763159858863,
+        "height_m": 0.012395212392438404
+      },
+      "input_hashes": {
+        "source_board": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+        "source_object": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+        "target_board": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+        "target_object": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
+      },
+      "config_fingerprint": "13e3860fc88014381c72dbee8849b9492beee5f84cb81bd78f26b7f5c13c9589",
+      "coarse_rank_score": 0.004189926584182544,
+      "coarse_rank_basis": "observed-cell occupancy + supported outer contour + weak height + board diagnostics; not final scoring",
+      "representative_raw_candidate_id": "s3_geo_c5b600f2a7b3",
+      "member_candidate_ids": [
+        "s3_geo_c5b600f2a7b3",
+        "s3_geo_fe2cdb4a2d4f"
+      ],
+      "support_count": 2,
+      "generators": [
+        "geometry"
+      ],
+      "cross_generator_support": false,
+      "support_seeds": [],
+      "rank": 8
+    }
+  ],
+  "ambiguity_evidence": {
+    "competitive_direction_pairs": [
+      {
+        "candidate_a": "s3_can_b93ef57daae1",
+        "candidate_b": "s3_can_e771838facdd",
+        "rotation_difference_deg": 180.0
+      },
+      {
+        "candidate_a": "s3_can_b93ef57daae1",
+        "candidate_b": "s3_can_c99bbafd36e2",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_b93ef57daae1",
+        "candidate_b": "s3_can_dea4cff531f0",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_b93ef57daae1",
+        "candidate_b": "s3_can_d839b31da1fe",
+        "rotation_difference_deg": 90.0
+      },
+      {
+        "candidate_a": "s3_can_b93ef57daae1",
+        "candidate_b": "s3_can_14ee59a1a223",
+        "rotation_difference_deg": 180.0
+      },
+      {
+        "candidate_a": "s3_can_b93ef57daae1",
+        "candidate_b": "s3_can_e69f2dc67c0c",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_e771838facdd",
+        "candidate_b": "s3_can_c99bbafd36e2",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_e771838facdd",
+        "candidate_b": "s3_can_dea4cff531f0",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_e771838facdd",
+        "candidate_b": "s3_can_d839b31da1fe",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_e771838facdd",
+        "candidate_b": "s3_can_c3fca9718717",
+        "rotation_difference_deg": 180.0
+      },
+      {
+        "candidate_a": "s3_can_e771838facdd",
+        "candidate_b": "s3_can_e69f2dc67c0c",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_c99bbafd36e2",
+        "candidate_b": "s3_can_d839b31da1fe",
+        "rotation_difference_deg": 180.0
+      },
+      {
+        "candidate_a": "s3_can_c99bbafd36e2",
+        "candidate_b": "s3_can_14ee59a1a223",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_c99bbafd36e2",
+        "candidate_b": "s3_can_c3fca9718717",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_dea4cff531f0",
+        "candidate_b": "s3_can_d839b31da1fe",
+        "rotation_difference_deg": 180.0
+      },
+      {
+        "candidate_a": "s3_can_dea4cff531f0",
+        "candidate_b": "s3_can_14ee59a1a223",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_dea4cff531f0",
+        "candidate_b": "s3_can_c3fca9718717",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_d839b31da1fe",
+        "candidate_b": "s3_can_14ee59a1a223",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_d839b31da1fe",
+        "candidate_b": "s3_can_c3fca9718717",
+        "rotation_difference_deg": 90.0
+      },
+      {
+        "candidate_a": "s3_can_d839b31da1fe",
+        "candidate_b": "s3_can_e69f2dc67c0c",
+        "rotation_difference_deg": 180.0
+      },
+      {
+        "candidate_a": "s3_can_14ee59a1a223",
+        "candidate_b": "s3_can_c3fca9718717",
+        "rotation_difference_deg": 180.0
+      },
+      {
+        "candidate_a": "s3_can_14ee59a1a223",
+        "candidate_b": "s3_can_e69f2dc67c0c",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_c3fca9718717",
+        "candidate_b": "s3_can_e69f2dc67c0c",
+        "rotation_difference_deg": 89.99999999999999
+      }
+    ],
+    "final_ambiguity_decision_performed": false
+  },
+  "visualizations": {
+    "fixed_camera": "world Y-Z",
+    "unit": "m",
+    "fixed_colors": {
+      "target": "blue",
+      "transformed_source_diagnostic_copy": "red"
+    },
+    "geometry_candidates": {
+      "displayed_candidate_ids": [
+        "s3_geo_d1e1ed7a2327",
+        "s3_geo_9851cc7b555b",
+        "s3_geo_10013f42ab60",
+        "s3_geo_d48b993718f2",
+        "s3_geo_ff81b458009d",
+        "s3_geo_e6d15dfee850",
+        "s3_geo_449b90c65a78",
+        "s3_geo_a094624466a2",
+        "s3_geo_26e77ef22714",
+        "s3_geo_5be418578d61",
+        "s3_geo_502e1b871338",
+        "s3_geo_0ba9e63f0bb1"
+      ],
+      "undisplayed_candidate_ids": [
+        "s3_geo_5256e9acd104",
+        "s3_geo_f29531a83301",
+        "s3_geo_0ab72ed38e64",
+        "s3_geo_d74b91c2df4d",
+        "s3_geo_9e1b9caf2a62",
+        "s3_geo_79f281143dbf",
+        "s3_geo_7fc02d90c877",
+        "s3_geo_fe2cdb4a2d4f",
+        "s3_geo_6f3b7ec16074",
+        "s3_geo_69c1283cebdb",
+        "s3_geo_e496553e4c6a",
+        "s3_geo_c3d189dc8776",
+        "s3_geo_7caff34d81d9",
+        "s3_geo_ea980e86da3d",
+        "s3_geo_d9921ddc7aae",
+        "s3_geo_d8224f936782",
+        "s3_geo_0d01722b30e9",
+        "s3_geo_c5b600f2a7b3",
+        "s3_geo_cdfa2cf8068b",
+        "s3_geo_c4c73b46b670"
+      ]
+    },
+    "candidate_comparison": {
+      "displayed_candidate_ids": [
+        "s3_can_b93ef57daae1",
+        "s3_can_e771838facdd",
+        "s3_can_c99bbafd36e2",
+        "s3_can_dea4cff531f0",
+        "s3_can_d839b31da1fe",
+        "s3_can_14ee59a1a223",
+        "s3_can_c3fca9718717",
+        "s3_can_e69f2dc67c0c"
+      ],
+      "undisplayed_candidate_ids": []
+    }
+  },
+  "limitations": [
+    "FAST target is sparse/noisy and object depths contain return/depth fusion.",
+    "Only front faces are observed; physical thickness is unavailable and unused.",
+    "The approximately square planar object is highly self-similar at 0/90/180/270 degrees.",
+    "Board plane constrains normal and normal translation, not reliable in-plane translation or rotation."
+  ],
+  "elapsed_s": 8.33640110003762,
+  "peak_memory_bytes": 321114112,
+  "peak_memory_measurement": "maximum process RSS polled at major geometry steps",
+  "artifacts": {
+    "raw_candidates": "D:\\Aproject\\PointCloudLab\\outputs\\stage_03_occupancy_grid\\raw_candidates.json",
+    "canonical_candidates": "D:\\Aproject\\PointCloudLab\\outputs\\stage_03_occupancy_grid\\canonical_candidates.json",
+    "summary_csv": "D:\\Aproject\\PointCloudLab\\outputs\\stage_03_occupancy_grid\\candidate_summary.csv",
+    "matrix_directory": "D:\\Aproject\\PointCloudLab\\outputs\\stage_03_occupancy_grid\\candidate_matrices"
+  }
+}

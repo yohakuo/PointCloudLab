@@ -1,0 +1,58 @@
+{
+  "schema": "pointcloudlab.experiment.v1",
+  "id": "historical_stage_03_search_comparison",
+  "historical": true,
+  "status": "backfilled_from_existing_outputs",
+  "code_commit": null,
+  "code_version_note": "Run predates the first post-initialization commit; exact Git commit is unknown.",
+  "command": null,
+  "command_note": "Exact historical command is not recoverable from these reports.",
+  "configs": {},
+  "inputs": {
+    "run.0": {
+      "path": "D:\\Aproject\\PointCloudLab\\outputs\\stage_03_grid_sequential",
+      "verification": "see comparison report"
+    },
+    "run.1": {
+      "path": "D:\\Aproject\\PointCloudLab\\outputs\\stage_03_grid_joint",
+      "verification": "see comparison report"
+    },
+    "run.2": {
+      "path": "D:\\Aproject\\PointCloudLab\\outputs\\stage_03_grid_joint_fast",
+      "verification": "see comparison report"
+    }
+  },
+  "result_summary": {
+    "identical_input_hashes": true,
+    "runs": 3
+  },
+  "output_directory": "outputs/stage_03_search_comparison",
+  "outputs": [
+    {
+      "path": "outputs/stage_03_search_comparison/search_comparison.json",
+      "size_bytes": 9104,
+      "sha256": "c418083092db69530fedd8d3d286bcabf65391950f025ab34ee1d92543f0bea6"
+    },
+    {
+      "path": "outputs/stage_03_search_comparison/search_comparison.md",
+      "size_bytes": 2851,
+      "sha256": "917e1eab97fb847cf24ac882f97138dd22e62f679395b6015ada571d5edb04a1"
+    },
+    {
+      "path": "outputs/stage_03_search_comparison/search_comparison.png",
+      "size_bytes": 273276,
+      "sha256": "714c1d9a02734b29c1afbe66a6dbd55442a65b054dbb6db5d6e5075373110734"
+    }
+  ],
+  "primary_result": {
+    "path": "outputs/stage_03_search_comparison/search_comparison.json",
+    "size_bytes": 9104,
+    "sha256": "c418083092db69530fedd8d3d286bcabf65391950f025ab34ee1d92543f0bea6",
+    "snapshot": "experiments/historical_stage_03_search_comparison/results/search_comparison.json"
+  },
+  "archive": {
+    "path": "archives/experiments/historical_stage_03_search_comparison.zip",
+    "size_bytes": 285607,
+    "sha256": "c120e09246bc21355c63dd875b346b6eeaf99fd5578f8952640cccf889a7e6a1"
+  }
+}

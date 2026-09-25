@@ -1,0 +1,303 @@
+{
+  "identical_input_hashes": true,
+  "identical_shape_grids_and_frames": true,
+  "identical_scoring_config": true,
+  "runs": [
+    {
+      "directory": "D:\\Aproject\\PointCloudLab\\outputs\\stage_03_grid_sequential",
+      "name": "stage_03_grid_sequential",
+      "search_method": "sequential",
+      "raw_count": 32,
+      "canonical_count": 7,
+      "covered_normal_direction_branches": 4,
+      "branches": [
+        {
+          "normal_branch": "observed_object_side",
+          "direction_branch_deg": 0,
+          "raw_count": 8,
+          "canonical_count": 2,
+          "angles_deg": [
+            0.0,
+            0.0
+          ],
+          "shifts_uv_m": [
+            [
+              -0.003000000000000001,
+              0.009000000000000001
+            ],
+            [
+              -0.009000000000000001,
+              0.009000000000000005
+            ]
+          ],
+          "best_shape_score_m": 0.003230689045358796
+        },
+        {
+          "normal_branch": "observed_object_side",
+          "direction_branch_deg": 90,
+          "raw_count": 8,
+          "canonical_count": 2,
+          "angles_deg": [
+            90.0,
+            90.0
+          ],
+          "shifts_uv_m": [
+            [
+              -0.009000000000000001,
+              0.0029999999999999975
+            ],
+            [
+              -0.011999999999999999,
+              -0.002999999999999994
+            ]
+          ],
+          "best_shape_score_m": 0.0032148224289532882
+        },
+        {
+          "normal_branch": "observed_object_side",
+          "direction_branch_deg": 180,
+          "raw_count": 8,
+          "canonical_count": 2,
+          "angles_deg": [
+            180.0,
+            180.0
+          ],
+          "shifts_uv_m": [
+            [
+              -0.0029999999999999975,
+              -0.0030000000000000027
+            ],
+            [
+              -0.002999999999999999,
+              -0.008999999999999994
+            ]
+          ],
+          "best_shape_score_m": 0.0032264570653674912
+        },
+        {
+          "normal_branch": "observed_object_side",
+          "direction_branch_deg": 270,
+          "raw_count": 8,
+          "canonical_count": 1,
+          "angles_deg": [
+            270.0
+          ],
+          "shifts_uv_m": [
+            [
+              -8.673617379884035e-19,
+              0.002999999999999997
+            ]
+          ],
+          "best_shape_score_m": 0.003213541152418295
+        }
+      ],
+      "best_shape_score_m": 0.003213541152418295,
+      "top_candidate_id": "s3_can_c17128e4aab7",
+      "top_angle_deg": 270.0,
+      "top_shape_score_m": 0.003213541152418295,
+      "top_shape_terms": {
+        "score_m": 0.003213541152418295,
+        "occupancy_m": 0.0008152581120620253,
+        "outer_contour_m": 0.0031334255151489413,
+        "height_m": 0.01204816779864668
+      },
+      "top_point_chamfer_m": 0.004836523174650015,
+      "best_point_chamfer_m": 0.004813920398449311,
+      "search_elapsed_s": 1.2938610997516662,
+      "elapsed_s": 8.113182799890637,
+      "coarse_angle_count_per_normal": [
+        null
+      ],
+      "total_evaluations": null,
+      "translation_boundary_results": 0
+    },
+    {
+      "directory": "D:\\Aproject\\PointCloudLab\\outputs\\stage_03_grid_joint",
+      "name": "stage_03_grid_joint",
+      "search_method": "joint",
+      "raw_count": 8,
+      "canonical_count": 4,
+      "covered_normal_direction_branches": 4,
+      "branches": [
+        {
+          "normal_branch": "observed_object_side",
+          "direction_branch_deg": 0,
+          "raw_count": 2,
+          "canonical_count": 1,
+          "angles_deg": [
+            0.0
+          ],
+          "shifts_uv_m": [
+            [
+              -0.0029999999999999983,
+              0.009000000000000008
+            ]
+          ],
+          "best_shape_score_m": 0.0032301500103865716
+        },
+        {
+          "normal_branch": "observed_object_side",
+          "direction_branch_deg": 90,
+          "raw_count": 2,
+          "canonical_count": 1,
+          "angles_deg": [
+            90.0
+          ],
+          "shifts_uv_m": [
+            [
+              -0.008999999999999998,
+              0.003000000000000006
+            ]
+          ],
+          "best_shape_score_m": 0.0032153002693387175
+        },
+        {
+          "normal_branch": "observed_object_side",
+          "direction_branch_deg": 180,
+          "raw_count": 2,
+          "canonical_count": 1,
+          "angles_deg": [
+            180.0
+          ],
+          "shifts_uv_m": [
+            [
+              -0.002999999999999999,
+              -0.002999999999999994
+            ]
+          ],
+          "best_shape_score_m": 0.0032281504122121632
+        },
+        {
+          "normal_branch": "observed_object_side",
+          "direction_branch_deg": 270,
+          "raw_count": 2,
+          "canonical_count": 1,
+          "angles_deg": [
+            270.0
+          ],
+          "shifts_uv_m": [
+            [
+              1.734723475976807e-18,
+              0.0030000000000000014
+            ]
+          ],
+          "best_shape_score_m": 0.0032135063714290473
+        }
+      ],
+      "best_shape_score_m": 0.0032135063714290473,
+      "top_candidate_id": "s3_can_18f2410c3b81",
+      "top_angle_deg": 270.0,
+      "top_shape_score_m": 0.0032135063714290473,
+      "top_shape_terms": {
+        "score_m": 0.0032135063714290473,
+        "occupancy_m": 0.0008151587378070335,
+        "outer_contour_m": 0.0031334255151489404,
+        "height_m": 0.01204816779864668
+      },
+      "top_point_chamfer_m": 0.004836523174650015,
+      "best_point_chamfer_m": 0.004813920398449311,
+      "search_elapsed_s": 16.537505900021642,
+      "elapsed_s": 22.216070199850947,
+      "coarse_angle_count_per_normal": [
+        72
+      ],
+      "total_evaluations": 11560,
+      "translation_boundary_results": 0
+    },
+    {
+      "directory": "D:\\Aproject\\PointCloudLab\\outputs\\stage_03_grid_joint_fast",
+      "name": "stage_03_grid_joint_fast",
+      "search_method": "joint",
+      "raw_count": 8,
+      "canonical_count": 4,
+      "covered_normal_direction_branches": 4,
+      "branches": [
+        {
+          "normal_branch": "observed_object_side",
+          "direction_branch_deg": 0,
+          "raw_count": 2,
+          "canonical_count": 1,
+          "angles_deg": [
+            0.0
+          ],
+          "shifts_uv_m": [
+            [
+              -0.0029999999999999983,
+              0.009000000000000008
+            ]
+          ],
+          "best_shape_score_m": 0.0032301500103865716
+        },
+        {
+          "normal_branch": "observed_object_side",
+          "direction_branch_deg": 90,
+          "raw_count": 2,
+          "canonical_count": 1,
+          "angles_deg": [
+            90.0
+          ],
+          "shifts_uv_m": [
+            [
+              -0.008999999999999998,
+              0.003000000000000006
+            ]
+          ],
+          "best_shape_score_m": 0.0032153002693387175
+        },
+        {
+          "normal_branch": "observed_object_side",
+          "direction_branch_deg": 180,
+          "raw_count": 2,
+          "canonical_count": 1,
+          "angles_deg": [
+            180.0
+          ],
+          "shifts_uv_m": [
+            [
+              -0.002999999999999999,
+              -0.002999999999999994
+            ]
+          ],
+          "best_shape_score_m": 0.0032281504122121632
+        },
+        {
+          "normal_branch": "observed_object_side",
+          "direction_branch_deg": 270,
+          "raw_count": 2,
+          "canonical_count": 1,
+          "angles_deg": [
+            270.0
+          ],
+          "shifts_uv_m": [
+            [
+              1.734723475976807e-18,
+              0.003000000000000002
+            ]
+          ],
+          "best_shape_score_m": 0.003213506371429047
+        }
+      ],
+      "best_shape_score_m": 0.003213506371429047,
+      "top_candidate_id": "s3_can_c5434cf6fd9d",
+      "top_angle_deg": 270.0,
+      "top_shape_score_m": 0.003213506371429047,
+      "top_shape_terms": {
+        "score_m": 0.003213506371429047,
+        "occupancy_m": 0.0008151587378070335,
+        "outer_contour_m": 0.00313342551514894,
+        "height_m": 0.01204816779864668
+      },
+      "top_point_chamfer_m": 0.004836523174650015,
+      "best_point_chamfer_m": 0.004813920398449311,
+      "search_elapsed_s": 9.41160920006223,
+      "elapsed_s": 15.075454100035131,
+      "coarse_angle_count_per_normal": [
+        36
+      ],
+      "total_evaluations": 6628,
+      "translation_boundary_results": 0
+    }
+  ],
+  "timing_scope": "single sequentially executed run per method; search excludes fitting/rendering, elapsed includes them; process import excluded",
+  "interpretation": "No ground truth: shape score and point Chamfer are fit diagnostics, not pose accuracy."
+}

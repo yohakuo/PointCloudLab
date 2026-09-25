@@ -1,0 +1,229 @@
+{
+  "schema": "pointcloudlab.experiment.v1",
+  "id": "historical_stage_03_occupancy_grid",
+  "historical": true,
+  "status": "backfilled_from_existing_outputs",
+  "code_commit": null,
+  "code_version_note": "Run predates the first post-initialization commit; exact Git commit is unknown.",
+  "command": null,
+  "command_note": "Exact historical command is not recoverable from these reports.",
+  "configs": {
+    "registration.coarse_registration": {
+      "source": "embedded in candidate_report.json",
+      "effective": {
+        "schema_version": "pointcloudlab.stage3.v1",
+        "plane_fit": {
+          "source_distance_threshold_m": 0.0005,
+          "target_distance_threshold_m": 0.003,
+          "ransac_n": 3,
+          "num_iterations": 3000,
+          "random_seed": 42,
+          "repeat_seeds": [
+            42,
+            314159,
+            271828
+          ]
+        },
+        "geometry": {
+          "contour_sample_count": 600,
+          "contour_outlier_percentile": 98.0,
+          "contour_angle_step_deg": 1.0,
+          "pca_degeneracy_eigenvalue_ratio": 0.12,
+          "square_obb_aspect_tolerance": 0.15,
+          "translation_methods": [
+            "robust_centroid",
+            "obb_center",
+            "contour_search"
+          ],
+          "search_window_m": 0.012,
+          "search_step_m": 0.003,
+          "search_trim_fraction": 0.8,
+          "search_peaks_per_direction": 2,
+          "search_nms_distance_m": 0.004,
+          "minimum_valid_points": 30,
+          "shape_grid": {
+            "grid_size_m": 0.003,
+            "confidence_saturation_points": 3,
+            "sparse_cell_count_threshold": 32,
+            "outline_height_quantile": 75,
+            "outline_core_dilation_cells": 1,
+            "minimum_contour_support": 0.11,
+            "crop_margin_m": 0.004,
+            "crop_confidence_factor": 0.15,
+            "match_trim_fraction": 0.85,
+            "minimum_reference_confidence": 0.5,
+            "occupancy_weight": 0.35,
+            "contour_weight": 0.55,
+            "height_weight": 0.1,
+            "height_clip_m": 0.02
+          }
+        },
+        "coarse_gates": {
+          "maximum_board_normal_angle_deg": 40.0,
+          "maximum_board_plane_distance_m": 0.03,
+          "maximum_object_trimmed_chamfer_m": 0.08,
+          "minimum_object_overlap_ratio_at_15mm": 0.01,
+          "aabb_disconnection_margin_m": 0.1,
+          "diagnostic_sample_limit": 1800,
+          "trim_fraction": 0.8
+        },
+        "deduplication": {
+          "rotation_threshold_deg": 3.0,
+          "translation_threshold_m": 0.006,
+          "algorithm": "deterministic_greedy_SE3",
+          "representative_rule": "lowest coarse rank, then stable candidate_id",
+          "minimum_per_generator": 2,
+          "maximum_canonical_candidates": 16
+        }
+      }
+    },
+    "cli_overrides": {
+      "source": "embedded in candidate_report.json",
+      "effective": {}
+    }
+  },
+  "inputs": {
+    "source_board": {
+      "path": "D:\\Aproject\\PointCloudLab\\outputs\\stage_02_segmentation\\source_board_points.ply",
+      "reported_sha256": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+      "current_sha256": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+      "current_matches_report": true
+    },
+    "source_object": {
+      "path": "D:\\Aproject\\PointCloudLab\\outputs\\stage_02_segmentation\\source_object_points.ply",
+      "reported_sha256": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+      "current_sha256": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+      "current_matches_report": true
+    },
+    "target_board": {
+      "path": "D:\\Aproject\\PointCloudLab\\outputs\\stage_02_segmentation\\target_board_points.pcd",
+      "reported_sha256": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+      "current_sha256": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+      "current_matches_report": true
+    },
+    "target_object": {
+      "path": "D:\\Aproject\\PointCloudLab\\outputs\\stage_02_segmentation\\target_object_points.pcd",
+      "reported_sha256": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300",
+      "current_sha256": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300",
+      "current_matches_report": true
+    }
+  },
+  "result_summary": {
+    "status": "success",
+    "candidate_counts": {
+      "raw_total": 32,
+      "geometry_valid": 32,
+      "deduplicated_canonical": 8
+    },
+    "elapsed_s": 8.33640110003762
+  },
+  "output_directory": "outputs/stage_03_occupancy_grid",
+  "outputs": [
+    {
+      "path": "outputs/stage_03_occupancy_grid/baseline_comparison.json",
+      "size_bytes": 3077,
+      "sha256": "b42af41c55402b43b8e49ef2d4e63dd421c068d0684f627c65120b6bacdb1cde"
+    },
+    {
+      "path": "outputs/stage_03_occupancy_grid/baseline_comparison.md",
+      "size_bytes": 1522,
+      "sha256": "8d9191389ecf2d6a3d00e49a7da0790de5c27c36341fd8dc6836daacfa8bdf62"
+    },
+    {
+      "path": "outputs/stage_03_occupancy_grid/candidate_comparison.png",
+      "size_bytes": 925284,
+      "sha256": "0de8ca1105de410462014b46b95fe13b5906d630235e834237a8e022b352e02f"
+    },
+    {
+      "path": "outputs/stage_03_occupancy_grid/candidate_matrices/s3_can_14ee59a1a223.txt",
+      "size_bytes": 254,
+      "sha256": "0f0a925ed5d7a52ec3205793916432d6d2f0d5b3feb1776935937f828eabc330"
+    },
+    {
+      "path": "outputs/stage_03_occupancy_grid/candidate_matrices/s3_can_b93ef57daae1.txt",
+      "size_bytes": 259,
+      "sha256": "d5847f666dce942d1043831dbc6f6907c70e87846f121508f97b8f34d81e764f"
+    },
+    {
+      "path": "outputs/stage_03_occupancy_grid/candidate_matrices/s3_can_c3fca9718717.txt",
+      "size_bytes": 259,
+      "sha256": "e04a540b6cae61174ea6532b6d1431dc1bae5d2470570f5929a15470eb139d58"
+    },
+    {
+      "path": "outputs/stage_03_occupancy_grid/candidate_matrices/s3_can_c99bbafd36e2.txt",
+      "size_bytes": 258,
+      "sha256": "32c35bc6d2d5d91149ea62dc740272df4f1b849e4f1619f74e0c77b194bf9b58"
+    },
+    {
+      "path": "outputs/stage_03_occupancy_grid/candidate_matrices/s3_can_d839b31da1fe.txt",
+      "size_bytes": 256,
+      "sha256": "bc63b38e0677b17ca8aef69cae6117034b1f11be1e2b98b59b01adaf4f125f10"
+    },
+    {
+      "path": "outputs/stage_03_occupancy_grid/candidate_matrices/s3_can_dea4cff531f0.txt",
+      "size_bytes": 258,
+      "sha256": "1642e65492e4ebec0604194a423d95bc6a0ae81bb9c317f5be0e8896372bc679"
+    },
+    {
+      "path": "outputs/stage_03_occupancy_grid/candidate_matrices/s3_can_e69f2dc67c0c.txt",
+      "size_bytes": 257,
+      "sha256": "c6468ca11d4df7afb6d474570f8201e8227a8cc03e8cf7e941baa9fb3ac6e935"
+    },
+    {
+      "path": "outputs/stage_03_occupancy_grid/candidate_matrices/s3_can_e771838facdd.txt",
+      "size_bytes": 255,
+      "sha256": "f2bca22e18125d7d5268a1102c5f5ec93a6168dacbee42c3b2b7ce1b76ec8574"
+    },
+    {
+      "path": "outputs/stage_03_occupancy_grid/candidate_report.json",
+      "size_bytes": 62567,
+      "sha256": "4431ce3835795853072c3936806f80a4fe48a8dbb9b68a91a439adb927b8a0be"
+    },
+    {
+      "path": "outputs/stage_03_occupancy_grid/candidate_summary.csv",
+      "size_bytes": 2380,
+      "sha256": "8d0ed66056a56b3ad823cc99bf9b521111b21734cab26c4e6e7d1f42789bffa5"
+    },
+    {
+      "path": "outputs/stage_03_occupancy_grid/canonical_candidates.json",
+      "size_bytes": 30918,
+      "sha256": "9730c7d99d935a464c6b1f9cbdac16aa71e9a129ee77209d81a989adf42d5719"
+    },
+    {
+      "path": "outputs/stage_03_occupancy_grid/geometry_candidates.png",
+      "size_bytes": 1232987,
+      "sha256": "022e191f2e5a3ef93e1ac5c3f4ef4d73bcf6545343b4a3b165da13496c2ea2da"
+    },
+    {
+      "path": "outputs/stage_03_occupancy_grid/raw_candidates.json",
+      "size_bytes": 112686,
+      "sha256": "272008912dbf982d5f87d4f6e1b6d6f6698e79b2ab9b31d08ecb2db08b7bd511"
+    },
+    {
+      "path": "outputs/stage_03_occupancy_grid/shape_grid_preview.png",
+      "size_bytes": 146299,
+      "sha256": "77351e66da9eb7e67962f2a77e51bbca39771e628a3157a6fedafbd0992324f1"
+    },
+    {
+      "path": "outputs/stage_03_occupancy_grid/shape_grids.json",
+      "size_bytes": 289704,
+      "sha256": "5fe6487703e6e820f9bb544240139c09039cb425bb624302e985d8aac201a383"
+    },
+    {
+      "path": "outputs/stage_03_occupancy_grid/stage_03_candidates.log",
+      "size_bytes": 276,
+      "sha256": "0d4d2fbc31103f474a1f90ef3f96af7a8b029a0767de39d89355f059e65b27a2"
+    }
+  ],
+  "primary_result": {
+    "path": "outputs/stage_03_occupancy_grid/candidate_report.json",
+    "size_bytes": 62567,
+    "sha256": "4431ce3835795853072c3936806f80a4fe48a8dbb9b68a91a439adb927b8a0be",
+    "snapshot": "experiments/historical_stage_03_occupancy_grid/results/candidate_report.json"
+  },
+  "archive": {
+    "path": "archives/experiments/historical_stage_03_occupancy_grid.zip",
+    "size_bytes": 2812374,
+    "sha256": "6c15795eca7ed5b540553d0cd023e114369ba82eba4be1c0e18a51171dca8252"
+  }
+}

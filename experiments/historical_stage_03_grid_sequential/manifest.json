@@ -1,0 +1,241 @@
+{
+  "schema": "pointcloudlab.experiment.v1",
+  "id": "historical_stage_03_grid_sequential",
+  "historical": true,
+  "status": "backfilled_from_existing_outputs",
+  "code_commit": null,
+  "code_version_note": "Run predates the first post-initialization commit; exact Git commit is unknown.",
+  "command": null,
+  "command_note": "Exact historical command is not recoverable from these reports.",
+  "configs": {
+    "registration.coarse_registration": {
+      "source": "embedded in candidate_report.json",
+      "effective": {
+        "schema_version": "pointcloudlab.stage3.v1",
+        "plane_fit": {
+          "source_distance_threshold_m": 0.0005,
+          "target_distance_threshold_m": 0.003,
+          "ransac_n": 3,
+          "num_iterations": 3000,
+          "random_seed": 42,
+          "repeat_seeds": [
+            42,
+            314159,
+            271828
+          ]
+        },
+        "geometry": {
+          "contour_sample_count": 600,
+          "contour_outlier_percentile": 98.0,
+          "contour_angle_step_deg": 1.0,
+          "pca_degeneracy_eigenvalue_ratio": 0.12,
+          "square_obb_aspect_tolerance": 0.15,
+          "translation_methods": [
+            "robust_centroid",
+            "obb_center",
+            "contour_search"
+          ],
+          "search_window_m": 0.012,
+          "search_step_m": 0.003,
+          "search_trim_fraction": 0.8,
+          "search_peaks_per_direction": 2,
+          "search_nms_distance_m": 0.004,
+          "minimum_valid_points": 30,
+          "joint_search": {
+            "angle_start_deg": 0.0,
+            "angle_step_deg": 5.0,
+            "translation_window_m": 0.012,
+            "translation_step_m": 0.003,
+            "seeds_per_branch": 2,
+            "nms_angle_deg": 6.0,
+            "nms_translation_m": 0.004,
+            "refinement_levels": [
+              {
+                "angle_radius_deg": 5.0,
+                "angle_step_deg": 1.0,
+                "translation_radius_m": 0.003,
+                "translation_step_m": 0.0015
+              },
+              {
+                "angle_radius_deg": 1.0,
+                "angle_step_deg": 0.25,
+                "translation_radius_m": 0.0015,
+                "translation_step_m": 0.0005
+              }
+            ]
+          },
+          "shape_grid": {
+            "grid_size_m": 0.003,
+            "confidence_saturation_points": 3,
+            "sparse_cell_count_threshold": 32,
+            "outline_height_quantile": 75,
+            "outline_core_dilation_cells": 1,
+            "minimum_contour_support": 0.11,
+            "crop_margin_m": 0.004,
+            "crop_confidence_factor": 0.15,
+            "match_trim_fraction": 0.85,
+            "minimum_reference_confidence": 0.5,
+            "occupancy_weight": 0.35,
+            "contour_weight": 0.55,
+            "height_weight": 0.1,
+            "height_clip_m": 0.02
+          },
+          "search_method": "sequential"
+        },
+        "coarse_gates": {
+          "maximum_board_normal_angle_deg": 40.0,
+          "maximum_board_plane_distance_m": 0.03,
+          "maximum_object_trimmed_chamfer_m": 0.08,
+          "minimum_object_overlap_ratio_at_15mm": 0.01,
+          "aabb_disconnection_margin_m": 0.1,
+          "diagnostic_sample_limit": 1800,
+          "trim_fraction": 0.8
+        },
+        "deduplication": {
+          "rotation_threshold_deg": 3.0,
+          "translation_threshold_m": 0.006,
+          "algorithm": "deterministic_greedy_SE3",
+          "representative_rule": "lowest coarse rank, then stable candidate_id",
+          "minimum_per_generator": 2,
+          "maximum_canonical_candidates": 16
+        }
+      }
+    },
+    "cli_overrides": {
+      "source": "embedded in candidate_report.json",
+      "effective": {
+        "shape_method": "occupancy_grid",
+        "search_method": "sequential"
+      }
+    }
+  },
+  "inputs": {
+    "source_board": {
+      "path": "D:\\Aproject\\PointCloudLab\\outputs\\stage_02_segmentation\\source_board_points.ply",
+      "reported_sha256": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+      "current_sha256": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+      "current_matches_report": true
+    },
+    "source_object": {
+      "path": "D:\\Aproject\\PointCloudLab\\outputs\\stage_02_segmentation\\source_object_points.ply",
+      "reported_sha256": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+      "current_sha256": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+      "current_matches_report": true
+    },
+    "target_board": {
+      "path": "D:\\Aproject\\PointCloudLab\\outputs\\stage_02_segmentation\\target_board_points.pcd",
+      "reported_sha256": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+      "current_sha256": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+      "current_matches_report": true
+    },
+    "target_object": {
+      "path": "D:\\Aproject\\PointCloudLab\\outputs\\stage_02_segmentation\\target_object_points.pcd",
+      "reported_sha256": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300",
+      "current_sha256": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300",
+      "current_matches_report": true
+    }
+  },
+  "result_summary": {
+    "status": "success",
+    "candidate_counts": {
+      "raw_total": 32,
+      "geometry_valid": 32,
+      "deduplicated_canonical": 7
+    },
+    "elapsed_s": 8.113182799890637
+  },
+  "output_directory": "outputs/stage_03_grid_sequential",
+  "outputs": [
+    {
+      "path": "outputs/stage_03_grid_sequential/candidate_comparison.png",
+      "size_bytes": 839194,
+      "sha256": "a02dedfa713b4fe13af271952f7a003263c97ab1abf1d91ecf169e4b3589f909"
+    },
+    {
+      "path": "outputs/stage_03_grid_sequential/candidate_matrices/s3_can_7bb7c118d2b8.txt",
+      "size_bytes": 256,
+      "sha256": "cd0455d5a87989afe3308ee35fd64dae0635ad8dd1a3acf94aae09713f5ee563"
+    },
+    {
+      "path": "outputs/stage_03_grid_sequential/candidate_matrices/s3_can_876e7703df40.txt",
+      "size_bytes": 258,
+      "sha256": "8621c61bd6ceac255e43b30d1976ada481f9a206c27b07ebf063436e8f39c178"
+    },
+    {
+      "path": "outputs/stage_03_grid_sequential/candidate_matrices/s3_can_9e2af958d266.txt",
+      "size_bytes": 258,
+      "sha256": "3e6475116b03f03e7c339654ca6d9dc9388db9a09efc99730d9f4bddc8e9d88c"
+    },
+    {
+      "path": "outputs/stage_03_grid_sequential/candidate_matrices/s3_can_c17128e4aab7.txt",
+      "size_bytes": 259,
+      "sha256": "a38249bcd7e59f2ce0be0de1b560268ca04be77b02ca8665b1e85dde04ee8042"
+    },
+    {
+      "path": "outputs/stage_03_grid_sequential/candidate_matrices/s3_can_da59292ef177.txt",
+      "size_bytes": 255,
+      "sha256": "66b85486cf4221c92de0def947fe4212bd0e15939862b28a65f4bcc1bbb14a76"
+    },
+    {
+      "path": "outputs/stage_03_grid_sequential/candidate_matrices/s3_can_e69f2dc67c0c.txt",
+      "size_bytes": 256,
+      "sha256": "71bada33d0a4c2316eb5cae8d44315a37b0a25536598c53ed40c6f35a4120982"
+    },
+    {
+      "path": "outputs/stage_03_grid_sequential/candidate_matrices/s3_can_f178cd9f2c4a.txt",
+      "size_bytes": 256,
+      "sha256": "505e71d12eaf960dbe0f2c9d873ab6b5efb4a4ad644e152ea524e49924ee4d9a"
+    },
+    {
+      "path": "outputs/stage_03_grid_sequential/candidate_report.json",
+      "size_bytes": 58146,
+      "sha256": "69ca179b781ff2d2c8ba2d79a29cc0186ce834c7678c711dfe78196a33f06d67"
+    },
+    {
+      "path": "outputs/stage_03_grid_sequential/candidate_summary.csv",
+      "size_bytes": 2121,
+      "sha256": "b0fdd49b2fc6a61bcd41e8a5517cc7a3fadf05fcbd29a8dd2fd5257238fe97f4"
+    },
+    {
+      "path": "outputs/stage_03_grid_sequential/canonical_candidates.json",
+      "size_bytes": 26825,
+      "sha256": "f0f5cd1c26ec4a11b6bd39bd1416af566e6549ac9c6807488d90d3b2509c7f7c"
+    },
+    {
+      "path": "outputs/stage_03_grid_sequential/geometry_candidates.png",
+      "size_bytes": 1259375,
+      "sha256": "89099665b97870be17c2db31e9284d1e083b3d0aaef2655be890ad8746897018"
+    },
+    {
+      "path": "outputs/stage_03_grid_sequential/raw_candidates.json",
+      "size_bytes": 112788,
+      "sha256": "a6dc925ad270eacaf5e1a7e76bd28f7b1f47b8af42981dbfffaf3d3b77dd0d38"
+    },
+    {
+      "path": "outputs/stage_03_grid_sequential/shape_grid_preview.png",
+      "size_bytes": 145049,
+      "sha256": "9f4033808faf6c65efb4c9362029d0ec5ba034bfd901922744d75be87e6e0cf2"
+    },
+    {
+      "path": "outputs/stage_03_grid_sequential/shape_grids.json",
+      "size_bytes": 289879,
+      "sha256": "f120db3ad5043b887c54675380623ba5d5efaa44540b6c900273687405573ed8"
+    },
+    {
+      "path": "outputs/stage_03_grid_sequential/stage_03_candidates.log",
+      "size_bytes": 369,
+      "sha256": "69e2a70ff19561a65c4d14d59390f66a14b4bf9aa3776525ff26db2c963f6745"
+    }
+  ],
+  "primary_result": {
+    "path": "outputs/stage_03_grid_sequential/candidate_report.json",
+    "size_bytes": 58146,
+    "sha256": "69ca179b781ff2d2c8ba2d79a29cc0186ce834c7678c711dfe78196a33f06d67",
+    "snapshot": "experiments/historical_stage_03_grid_sequential/results/candidate_report.json"
+  },
+  "archive": {
+    "path": "archives/experiments/historical_stage_03_grid_sequential.zip",
+    "size_bytes": 2737758,
+    "sha256": "c755cd7786fee9eb2e17cfbec3e24273f5e48795220694497836b18d8c6ed78d"
+  }
+}

@@ -1,0 +1,3060 @@
+{
+  "stage": 3,
+  "coarse_registration_performed": true,
+  "coarse_transforms_estimated": true,
+  "refinement_performed": false,
+  "final_transform_selected": false,
+  "full_cloud_transformed": false,
+  "transform_direction": "INSPIRE_TO_FAST",
+  "stage_name": "multi_candidate_coarse_registration",
+  "status": "success",
+  "failure_reasons": [],
+  "warnings": [
+    "source object projection orientation is degenerate: robust OBB approximately square"
+  ],
+  "created_at": "2026-09-17T06:16:50.797769+00:00",
+  "dataset": {
+    "id": "20260916_formal",
+    "manifest": "D:\\Aproject\\PointCloudLab\\configs\\dataset.json"
+  },
+  "software": {
+    "python": "3.12.14 (main, Sep  1 2026, 14:17:39) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "open3d": "0.19.0",
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "matplotlib": "3.11.1"
+  },
+  "config_path": "D:\\Aproject\\PointCloudLab\\configs\\registration.yaml",
+  "config": {
+    "schema_version": "pointcloudlab.stage3.v1",
+    "plane_fit": {
+      "source_distance_threshold_m": 0.0005,
+      "target_distance_threshold_m": 0.003,
+      "ransac_n": 3,
+      "num_iterations": 3000,
+      "random_seed": 42,
+      "repeat_seeds": [
+        42,
+        314159,
+        271828
+      ]
+    },
+    "geometry": {
+      "contour_sample_count": 600,
+      "contour_outlier_percentile": 98.0,
+      "contour_angle_step_deg": 1.0,
+      "pca_degeneracy_eigenvalue_ratio": 0.12,
+      "square_obb_aspect_tolerance": 0.15,
+      "translation_methods": [
+        "robust_centroid",
+        "obb_center",
+        "contour_search"
+      ],
+      "search_window_m": 0.012,
+      "search_step_m": 0.003,
+      "search_trim_fraction": 0.8,
+      "search_peaks_per_direction": 2,
+      "search_nms_distance_m": 0.004,
+      "minimum_valid_points": 30
+    },
+    "coarse_gates": {
+      "maximum_board_normal_angle_deg": 40.0,
+      "maximum_board_plane_distance_m": 0.03,
+      "maximum_object_trimmed_chamfer_m": 0.08,
+      "minimum_object_overlap_ratio_at_15mm": 0.01,
+      "aabb_disconnection_margin_m": 0.1,
+      "diagnostic_sample_limit": 1800,
+      "trim_fraction": 0.8
+    },
+    "deduplication": {
+      "rotation_threshold_deg": 3.0,
+      "translation_threshold_m": 0.006,
+      "algorithm": "deterministic_greedy_SE3",
+      "representative_rule": "lowest coarse rank, then stable candidate_id",
+      "minimum_per_generator": 2,
+      "maximum_canonical_candidates": 16
+    }
+  },
+  "cli_overrides": {},
+  "config_fingerprint": "af048130a252ca7a10dfef0920dcf1d6d519795fd6fa4d31d21dd4aef3b5f47d",
+  "preconditions": {
+    "stage2_status": "success",
+    "parameter_search_required": false,
+    "passed": true
+  },
+  "inputs": {
+    "source_board": {
+      "path": "D:\\Aproject\\PointCloudLab\\outputs\\stage_02_segmentation\\source_board_points.ply",
+      "responsibility": "authoritative stage 2 source board canonical output",
+      "unit": "m",
+      "unit_conversion": "none; stage 2 output already uses metre working coordinates",
+      "coordinates_modified": false,
+      "file_size_bytes": 82292031,
+      "sha256": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+      "point_count": 1613564,
+      "format": "ply",
+      "header": {
+        "encoding": "binary_little_endian",
+        "declared_point_count": 1613564,
+        "fields_or_properties": [
+          "x",
+          "y",
+          "z",
+          "nx",
+          "ny",
+          "nz",
+          "red",
+          "green",
+          "blue"
+        ],
+        "comments": [
+          "comment Created by Open3D"
+        ],
+        "header_text": "ply\nformat binary_little_endian 1.0\ncomment Created by Open3D\nelement vertex 1613564\nproperty double x\nproperty double y\nproperty double z\nproperty double nx\nproperty double ny\nproperty double nz\nproperty uchar red\nproperty uchar green\nproperty uchar blue\nend_header",
+        "cloudcompare_global_shift_scale": {
+          "status": "unknown / not recoverable from current file",
+          "matching_header_lines": []
+        }
+      },
+      "xyz_min_m": [
+        -0.08490000152587891,
+        -0.13110000610351563,
+        -0.34184844970703127
+      ],
+      "xyz_max_m": [
+        0.22717208862304689,
+        0.1030999984741211,
+        -0.28870001220703123
+      ]
+    },
+    "source_object": {
+      "path": "D:\\Aproject\\PointCloudLab\\outputs\\stage_02_segmentation\\source_object_points.ply",
+      "responsibility": "authoritative stage 2 source object canonical output",
+      "unit": "m",
+      "unit_conversion": "none; stage 2 output already uses metre working coordinates",
+      "coordinates_modified": false,
+      "file_size_bytes": 12624959,
+      "sha256": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+      "point_count": 247543,
+      "format": "ply",
+      "header": {
+        "encoding": "binary_little_endian",
+        "declared_point_count": 247543,
+        "fields_or_properties": [
+          "x",
+          "y",
+          "z",
+          "nx",
+          "ny",
+          "nz",
+          "red",
+          "green",
+          "blue"
+        ],
+        "comments": [
+          "comment Created by Open3D"
+        ],
+        "header_text": "ply\nformat binary_little_endian 1.0\ncomment Created by Open3D\nelement vertex 247543\nproperty double x\nproperty double y\nproperty double z\nproperty double nx\nproperty double ny\nproperty double nz\nproperty uchar red\nproperty uchar green\nproperty uchar blue\nend_header",
+        "cloudcompare_global_shift_scale": {
+          "status": "unknown / not recoverable from current file",
+          "matching_header_lines": []
+        }
+      },
+      "xyz_min_m": [
+        0.0320825309753418,
+        -0.03570000076293946,
+        -0.31970001220703126
+      ],
+      "xyz_max_m": [
+        0.09142280578613281,
+        0.020146711349487305,
+        -0.261697509765625
+      ]
+    },
+    "target_board": {
+      "path": "D:\\Aproject\\PointCloudLab\\outputs\\stage_02_segmentation\\target_board_points.pcd",
+      "responsibility": "authoritative stage 2 target board canonical output",
+      "unit": "m",
+      "unit_conversion": "none; stage 2 output already uses metre working coordinates",
+      "coordinates_modified": false,
+      "file_size_bytes": 817446,
+      "sha256": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+      "point_count": 51079,
+      "format": "pcd",
+      "header": {
+        "encoding": "binary",
+        "declared_point_count": 51079,
+        "fields_or_properties": [
+          "x",
+          "y",
+          "z",
+          "rgb"
+        ],
+        "comments": [
+          "# .PCD v0.7 - Point Cloud Data file format"
+        ],
+        "header_text": "# .PCD v0.7 - Point Cloud Data file format\nVERSION 0.7\nFIELDS x y z rgb\nSIZE 4 4 4 4\nTYPE F F F F\nCOUNT 1 1 1 1\nWIDTH 51079\nHEIGHT 1\nVIEWPOINT 0 0 0 1 0 0 0\nPOINTS 51079\nDATA binary",
+        "cloudcompare_global_shift_scale": {
+          "status": "unknown / not recoverable from current file",
+          "matching_header_lines": []
+        }
+      },
+      "xyz_min_m": [
+        1.4226351976394653,
+        -0.17019879817962646,
+        0.34871044754981995
+      ],
+      "xyz_max_m": [
+        1.5811405181884766,
+        0.2946889400482178,
+        0.6972687840461731
+      ]
+    },
+    "target_object": {
+      "path": "D:\\Aproject\\PointCloudLab\\outputs\\stage_02_segmentation\\target_object_points.pcd",
+      "responsibility": "authoritative stage 2 target object canonical output",
+      "unit": "m",
+      "unit_conversion": "none; stage 2 output already uses metre working coordinates",
+      "coordinates_modified": false,
+      "file_size_bytes": 107604,
+      "sha256": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300",
+      "point_count": 6714,
+      "format": "pcd",
+      "header": {
+        "encoding": "binary",
+        "declared_point_count": 6714,
+        "fields_or_properties": [
+          "x",
+          "y",
+          "z",
+          "rgb"
+        ],
+        "comments": [
+          "# .PCD v0.7 - Point Cloud Data file format"
+        ],
+        "header_text": "# .PCD v0.7 - Point Cloud Data file format\nVERSION 0.7\nFIELDS x y z rgb\nSIZE 4 4 4 4\nTYPE F F F F\nCOUNT 1 1 1 1\nWIDTH 6714\nHEIGHT 1\nVIEWPOINT 0 0 0 1 0 0 0\nPOINTS 6714\nDATA binary",
+        "cloudcompare_global_shift_scale": {
+          "status": "unknown / not recoverable from current file",
+          "matching_header_lines": []
+        }
+      },
+      "xyz_min_m": [
+        1.441653847694397,
+        0.011273559182882309,
+        0.40758103132247925
+      ],
+      "xyz_max_m": [
+        1.5427932739257812,
+        0.10331026464700699,
+        0.5238372683525085
+      ]
+    }
+  },
+  "input_integrity": {
+    "before": {
+      "source_board": {
+        "size": 82292031,
+        "sha256": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310"
+      },
+      "source_object": {
+        "size": 12624959,
+        "sha256": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2"
+      },
+      "target_board": {
+        "size": 817446,
+        "sha256": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef"
+      },
+      "target_object": {
+        "size": 107604,
+        "sha256": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
+      }
+    },
+    "after": {
+      "source_board": {
+        "size": 82292031,
+        "sha256": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310"
+      },
+      "source_object": {
+        "size": 12624959,
+        "sha256": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2"
+      },
+      "target_board": {
+        "size": 817446,
+        "sha256": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef"
+      },
+      "target_object": {
+        "size": 107604,
+        "sha256": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
+      }
+    },
+    "unchanged": true
+  },
+  "planes": {
+    "source": {
+      "plane_model_ax_by_cz_d": [
+        -0.13711241082472095,
+        -0.07195789610618464,
+        0.9879383826867972,
+        0.3216481006852746
+      ],
+      "unit_normal": [
+        -0.13711241082472095,
+        -0.07195789610618464,
+        0.9879383826867972
+      ],
+      "normal_norm": 1.0,
+      "normal_sign_rule": "normalize; force largest-absolute normal component positive",
+      "ransac": {
+        "distance_threshold_m": 0.0005,
+        "ransac_n": 3,
+        "num_iterations": 3000,
+        "random_seed": 42
+      },
+      "plane_inlier_count": 1611775,
+      "plane_inlier_ratio": 0.9988912742227765,
+      "absolute_residual_m": {
+        "p50": 7.131869572518656e-05,
+        "p90": 0.0001746288951645192,
+        "p95": 0.00022838739583483882
+      },
+      "residual_median_m": 7.131869572518656e-05,
+      "residual_mad_m": 4.0339699100777615e-05,
+      "mad_robust_noise_sigma_m": 5.980763788681289e-05,
+      "oriented_plane_model": [
+        -0.13711241082472095,
+        -0.07195789610618464,
+        0.9879383826867972,
+        0.3216481006852746
+      ],
+      "object_side_orientation": {
+        "rule": "orient normal so the observed object signed-distance median is non-negative",
+        "pre_orientation_object_signed_distance_m": {
+          "median": 0.03199977582040592,
+          "p25": 0.01563310078443364,
+          "p75": 0.05056403792413172
+        },
+        "sign_evidence_weak": false,
+        "weak_epsilon_m": 0.0005,
+        "opposite_alignment_branch_required": false
+      },
+      "coverage": {
+        "robust_extent_uv_m": [
+          0.2821920247535388,
+          0.19959732277000808
+        ],
+        "robust_area_m2": 0.05632477264785419
+      },
+      "repeat_stability": {
+        "seeds": [
+          42,
+          314159,
+          271828
+        ],
+        "normal_angle_to_mean_deg": {
+          "p95": 0.00022523698134558883,
+          "max": 0.00022891644190010772
+        },
+        "inlier_ratios": [
+          0.9988912742227765,
+          0.9992910104588352,
+          0.9988361168196613
+        ]
+      },
+      "frame": {
+        "origin": [
+          0.06546707521197855,
+          0.000768105742209927,
+          -0.31643317678368627
+        ],
+        "u": [
+          0.9866237347878503,
+          0.07885374190495398,
+          0.14267337993073856
+        ],
+        "v": [
+          -0.08816911449655665,
+          0.9942857479495311,
+          0.06018354154862142
+        ],
+        "n": [
+          -0.13711241082472095,
+          -0.07195789610618464,
+          0.9879383826867972
+        ],
+        "determinant": 1.0000000000000002,
+        "source": "continuous object-projection PCA; not inherited from world axes",
+        "pca_eigenvalues": [
+          0.00042696716556150027,
+          0.00028060784909163174
+        ],
+        "pca_relative_gap": 0.34278822418907284,
+        "robust_obb_extent_uv_m": [
+          0.05181221306875154,
+          0.049906644009862916
+        ],
+        "robust_obb_aspect_ratio": 1.0381826728022832,
+        "orientation_degenerate": true,
+        "degeneracy_evidence": [
+          "robust OBB approximately square"
+        ],
+        "degeneracy_handling": "do not choose one PCA direction; enumerate 0/90/180/270 and contour parent branches"
+      }
+    },
+    "target": {
+      "plane_model_ax_by_cz_d": [
+        0.9076905997948842,
+        -0.015909605835704815,
+        0.419338359187609,
+        -1.5814088581872694
+      ],
+      "unit_normal": [
+        0.9076905997948842,
+        -0.015909605835704815,
+        0.419338359187609
+      ],
+      "normal_norm": 1.0,
+      "normal_sign_rule": "normalize; force largest-absolute normal component positive",
+      "ransac": {
+        "distance_threshold_m": 0.003,
+        "ransac_n": 3,
+        "num_iterations": 3000,
+        "random_seed": 42
+      },
+      "plane_inlier_count": 45380,
+      "plane_inlier_ratio": 0.8884277295953327,
+      "absolute_residual_m": {
+        "p50": 0.0012820830648692105,
+        "p90": 0.0023907271880347913,
+        "p95": 0.0025798118123976366
+      },
+      "residual_median_m": 0.0012820830648692105,
+      "residual_mad_m": 0.0006556334943096376,
+      "mad_robust_noise_sigma_m": 0.0009720422186634686,
+      "oriented_plane_model": [
+        -0.9076905997948842,
+        0.015909605835704815,
+        -0.419338359187609,
+        1.5814088581872694
+      ],
+      "object_side_orientation": {
+        "rule": "orient normal so the observed object signed-distance median is non-negative",
+        "pre_orientation_object_signed_distance_m": {
+          "median": -0.024730970003438046,
+          "p25": -0.04170000468647134,
+          "p75": -0.009847278844318907
+        },
+        "sign_evidence_weak": false,
+        "weak_epsilon_m": 0.003,
+        "opposite_alignment_branch_required": false
+      },
+      "coverage": {
+        "robust_extent_uv_m": [
+          0.37165645244298995,
+          0.4495948128294729
+        ],
+        "robust_area_m2": 0.16709481317297195
+      },
+      "repeat_stability": {
+        "seeds": [
+          42,
+          314159,
+          271828
+        ],
+        "normal_angle_to_mean_deg": {
+          "p95": 0.1579890321496575,
+          "max": 0.1609522804342665
+        },
+        "inlier_ratios": [
+          0.8884277295953327,
+          0.9510953620861803,
+          0.8745081148808708
+        ]
+      },
+      "frame": {
+        "origin": [
+          1.5210847968235244,
+          0.052918002982459786,
+          0.48070105386787326
+        ],
+        "u": [
+          -0.4132948407318783,
+          -0.2070093426007168,
+          0.8867550432337166
+        ],
+        "v": [
+          -0.07269903485201838,
+          0.9782095974371606,
+          0.19447579235836387
+        ],
+        "n": [
+          -0.9076905997948842,
+          0.015909605835704815,
+          -0.419338359187609
+        ],
+        "determinant": 1.0000000000000002,
+        "source": "continuous object-projection PCA; not inherited from world axes",
+        "pca_eigenvalues": [
+          0.0005965485163465449,
+          0.0004083280890587146
+        ],
+        "pca_relative_gap": 0.3155157076587043,
+        "robust_obb_extent_uv_m": [
+          0.09246561473249201,
+          0.07455262503056628
+        ],
+        "robust_obb_aspect_ratio": 1.2402730915857285,
+        "orientation_degenerate": false,
+        "degeneracy_evidence": [],
+        "degeneracy_handling": "do not choose one PCA direction; enumerate 0/90/180/270 and contour parent branches"
+      }
+    }
+  },
+  "geometry_route": {
+    "executed": true,
+    "audit": [
+      {
+        "normal_branch": "observed_object_side",
+        "continuous_bases": [
+          [
+            "pca_obb",
+            0.0,
+            {
+              "method": "2D PCA/OBB axis alignment"
+            }
+          ],
+          [
+            "contour",
+            9.0,
+            {
+              "method": "centered bidirectional trimmed contour distance angular search",
+              "range_deg": [
+                -45.0,
+                45.0
+              ],
+              "step_deg": 1.0,
+              "best_distance_m": 0.0022869662995217074
+            }
+          ]
+        ],
+        "contour": {
+          "method": "centered bidirectional trimmed contour distance angular search",
+          "range_deg": [
+            -45.0,
+            45.0
+          ],
+          "step_deg": 1.0,
+          "best_distance_m": 0.0022869662995217074
+        },
+        "enumerated_increments_deg": [
+          0,
+          90,
+          180,
+          270
+        ]
+      }
+    ],
+    "raw_candidate_count": 32,
+    "valid_candidate_count": 32
+  },
+  "candidate_counts": {
+    "raw_total": 32,
+    "geometry_valid": 32,
+    "deduplicated_canonical": 16
+  },
+  "route_coverage": {
+    "passed": true,
+    "status": "geometry_only",
+    "geometry_valid": 32,
+    "active_routes": [
+      "geometry"
+    ]
+  },
+  "serialization_validation": {
+    "passed": true,
+    "candidate_count": 16,
+    "json_csv_id_order_identical": true,
+    "matrix_text_json_values_identical": true,
+    "numeric_comparison": "IEEE-754 exact after %.17g text round-trip"
+  },
+  "reproducibility": {
+    "comparison_available": false,
+    "reason": "no previous canonical output was available at run start"
+  },
+  "deduplication": {
+    "rotation_threshold_deg": 3.0,
+    "translation_threshold_m": 0.006,
+    "algorithm": "deterministic_greedy_SE3",
+    "representative_rule": "lowest coarse rank, then stable candidate_id",
+    "minimum_per_generator": 2,
+    "maximum_canonical_candidates": 16,
+    "rotation_difference_formula": "geodesic_angle(R_a.T @ R_b)",
+    "translation_difference_formula": "norm(t_a-t_b)",
+    "clusters": [
+      {
+        "canonical_candidate_id": "s3_can_809f3f18e824",
+        "cluster_id": "s3_can_809f3f18e824",
+        "selected_for_stage4": true,
+        "representative_raw_candidate_id": "s3_geo_2ef119eddf26",
+        "member_candidate_ids": [
+          "s3_geo_2ef119eddf26",
+          "s3_geo_808a60d2c89a",
+          "s3_geo_cf5b05bb4a11"
+        ],
+        "generators": [
+          "geometry"
+        ],
+        "support_seeds": []
+      },
+      {
+        "canonical_candidate_id": "s3_can_efffad0c4fa1",
+        "cluster_id": "s3_can_efffad0c4fa1",
+        "selected_for_stage4": true,
+        "representative_raw_candidate_id": "s3_geo_0e5505724290",
+        "member_candidate_ids": [
+          "s3_geo_0c23b4953f2a",
+          "s3_geo_0e5505724290",
+          "s3_geo_31c9b33de874",
+          "s3_geo_3208319fe474"
+        ],
+        "generators": [
+          "geometry"
+        ],
+        "support_seeds": []
+      },
+      {
+        "canonical_candidate_id": "s3_can_3028513d50d0",
+        "cluster_id": "s3_can_3028513d50d0",
+        "selected_for_stage4": true,
+        "representative_raw_candidate_id": "s3_geo_ecc7d3f9c291",
+        "member_candidate_ids": [
+          "s3_geo_8b5ead73c24d",
+          "s3_geo_ecc7d3f9c291",
+          "s3_geo_f2b5e6e99715"
+        ],
+        "generators": [
+          "geometry"
+        ],
+        "support_seeds": []
+      },
+      {
+        "canonical_candidate_id": "s3_can_36ddb98ba7ca",
+        "cluster_id": "s3_can_36ddb98ba7ca",
+        "selected_for_stage4": true,
+        "representative_raw_candidate_id": "s3_geo_7c09f70e9b8b",
+        "member_candidate_ids": [
+          "s3_geo_7c09f70e9b8b",
+          "s3_geo_9e87bcb352dd",
+          "s3_geo_de2410ec6ef5"
+        ],
+        "generators": [
+          "geometry"
+        ],
+        "support_seeds": []
+      },
+      {
+        "canonical_candidate_id": "s3_can_773bf6d37833",
+        "cluster_id": "s3_can_773bf6d37833",
+        "selected_for_stage4": true,
+        "representative_raw_candidate_id": "s3_geo_d7de50e71d60",
+        "member_candidate_ids": [
+          "s3_geo_59bbed9f2ecc",
+          "s3_geo_d7de50e71d60"
+        ],
+        "generators": [
+          "geometry"
+        ],
+        "support_seeds": []
+      },
+      {
+        "canonical_candidate_id": "s3_can_d04c605e83e3",
+        "cluster_id": "s3_can_d04c605e83e3",
+        "selected_for_stage4": true,
+        "representative_raw_candidate_id": "s3_geo_77fdd5adeea0",
+        "member_candidate_ids": [
+          "s3_geo_77fdd5adeea0",
+          "s3_geo_dae9f2fbee1a"
+        ],
+        "generators": [
+          "geometry"
+        ],
+        "support_seeds": []
+      },
+      {
+        "canonical_candidate_id": "s3_can_97b8fd9ff51e",
+        "cluster_id": "s3_can_97b8fd9ff51e",
+        "selected_for_stage4": true,
+        "representative_raw_candidate_id": "s3_geo_0258fa62f941",
+        "member_candidate_ids": [
+          "s3_geo_0258fa62f941"
+        ],
+        "generators": [
+          "geometry"
+        ],
+        "support_seeds": []
+      },
+      {
+        "canonical_candidate_id": "s3_can_4080ef322ffc",
+        "cluster_id": "s3_can_4080ef322ffc",
+        "selected_for_stage4": true,
+        "representative_raw_candidate_id": "s3_geo_a42ebeecba80",
+        "member_candidate_ids": [
+          "s3_geo_a42ebeecba80"
+        ],
+        "generators": [
+          "geometry"
+        ],
+        "support_seeds": []
+      },
+      {
+        "canonical_candidate_id": "s3_can_c847b484a748",
+        "cluster_id": "s3_can_c847b484a748",
+        "selected_for_stage4": true,
+        "representative_raw_candidate_id": "s3_geo_78ab050a4e4c",
+        "member_candidate_ids": [
+          "s3_geo_78ab050a4e4c"
+        ],
+        "generators": [
+          "geometry"
+        ],
+        "support_seeds": []
+      },
+      {
+        "canonical_candidate_id": "s3_can_b95f8cc0de38",
+        "cluster_id": "s3_can_b95f8cc0de38",
+        "selected_for_stage4": true,
+        "representative_raw_candidate_id": "s3_geo_db29bef37f86",
+        "member_candidate_ids": [
+          "s3_geo_a9e521b6e11f",
+          "s3_geo_db29bef37f86"
+        ],
+        "generators": [
+          "geometry"
+        ],
+        "support_seeds": []
+      },
+      {
+        "canonical_candidate_id": "s3_can_90bb0dd51775",
+        "cluster_id": "s3_can_90bb0dd51775",
+        "selected_for_stage4": true,
+        "representative_raw_candidate_id": "s3_geo_a3f81082a32b",
+        "member_candidate_ids": [
+          "s3_geo_a3f81082a32b",
+          "s3_geo_fad870e69cda"
+        ],
+        "generators": [
+          "geometry"
+        ],
+        "support_seeds": []
+      },
+      {
+        "canonical_candidate_id": "s3_can_fca1cc1ac072",
+        "cluster_id": "s3_can_fca1cc1ac072",
+        "selected_for_stage4": true,
+        "representative_raw_candidate_id": "s3_geo_bcb13a536b66",
+        "member_candidate_ids": [
+          "s3_geo_bcb13a536b66"
+        ],
+        "generators": [
+          "geometry"
+        ],
+        "support_seeds": []
+      },
+      {
+        "canonical_candidate_id": "s3_can_eaf3e1a1fdf0",
+        "cluster_id": "s3_can_eaf3e1a1fdf0",
+        "selected_for_stage4": true,
+        "representative_raw_candidate_id": "s3_geo_9c1bab19e9a5",
+        "member_candidate_ids": [
+          "s3_geo_9c1bab19e9a5"
+        ],
+        "generators": [
+          "geometry"
+        ],
+        "support_seeds": []
+      },
+      {
+        "canonical_candidate_id": "s3_can_e6f819e6eae6",
+        "cluster_id": "s3_can_e6f819e6eae6",
+        "selected_for_stage4": true,
+        "representative_raw_candidate_id": "s3_geo_a2c082e863fc",
+        "member_candidate_ids": [
+          "s3_geo_a2c082e863fc"
+        ],
+        "generators": [
+          "geometry"
+        ],
+        "support_seeds": []
+      },
+      {
+        "canonical_candidate_id": "s3_can_e8c2dfcb2e41",
+        "cluster_id": "s3_can_e8c2dfcb2e41",
+        "selected_for_stage4": true,
+        "representative_raw_candidate_id": "s3_geo_67edead82916",
+        "member_candidate_ids": [
+          "s3_geo_67edead82916",
+          "s3_geo_e0291b91e90c"
+        ],
+        "generators": [
+          "geometry"
+        ],
+        "support_seeds": []
+      },
+      {
+        "canonical_candidate_id": "s3_can_936dd06a2756",
+        "cluster_id": "s3_can_936dd06a2756",
+        "selected_for_stage4": true,
+        "representative_raw_candidate_id": "s3_geo_7599ba5c5ac9",
+        "member_candidate_ids": [
+          "s3_geo_7599ba5c5ac9",
+          "s3_geo_85078c9b4af3"
+        ],
+        "generators": [
+          "geometry"
+        ],
+        "support_seeds": []
+      },
+      {
+        "canonical_candidate_id": null,
+        "cluster_id": "s3_can_58ee2eab21d2",
+        "selected_for_stage4": false,
+        "representative_raw_candidate_id": "s3_geo_ae33e46349fc",
+        "member_candidate_ids": [
+          "s3_geo_ae33e46349fc"
+        ],
+        "generators": [
+          "geometry"
+        ],
+        "support_seeds": []
+      }
+    ]
+  },
+  "canonical_candidates": [
+    {
+      "candidate_id": "s3_can_809f3f18e824",
+      "generator": "geometry",
+      "source_role": "INSPIRE_2",
+      "target_role": "FAST_LIVO2",
+      "transform_direction": "INSPIRE_TO_FAST",
+      "matrix_m": [
+        [
+          0.1685043524882992,
+          -0.35130220496196973,
+          -0.9209739648770521,
+          1.2174835065073857
+        ],
+        [
+          -0.9828391697379403,
+          -0.13102530132131648,
+          -0.1298442792058821,
+          0.07865311611257009
+        ],
+        [
+          -0.07505630967037924,
+          0.9270486131819176,
+          -0.36735190101066273,
+          0.3718089697710506
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "provenance": {
+        "parent_branch": "contour",
+        "continuous_base_angle_deg": 9.0,
+        "discrete_increment_deg": 270,
+        "relative_angle_deg": 279.0,
+        "translation_method": "obb_center",
+        "translation_peak_index": null,
+        "normal_alignment_branch": "observed_object_side"
+      },
+      "generation_parameters": {
+        "method": "obb_center",
+        "shift_uv_m": [
+          0.002883741739201388,
+          0.0030411327419397494
+        ],
+        "base_diagnostics": {
+          "method": "centered bidirectional trimmed contour distance angular search",
+          "range_deg": [
+            -45.0,
+            45.0
+          ],
+          "step_deg": 1.0,
+          "best_distance_m": 0.0022869662995217074
+        }
+      },
+      "coarse_checks": {
+        "passed": true,
+        "reasons": [],
+        "rigid": {
+          "valid": true,
+          "reasons": [],
+          "determinant": 1.0000000000000007,
+          "orthonormality_error_fro": 8.32632878927154e-16,
+          "last_row_valid": true,
+          "no_reflection": true,
+          "no_scale": true
+        },
+        "board": {
+          "normal_angle_deg": 0.0,
+          "plane_distance_m": 2.220446049250313e-16
+        },
+        "object": {
+          "bidirectional_trimmed_chamfer_m": 0.00465790849720516,
+          "bidirectional_overlap_at_15mm": 0.8972222222222221
+        },
+        "aabb": {
+          "gap_norm_m": 0.0,
+          "completely_disconnected": false
+        }
+      },
+      "status": "canonical",
+      "status_reasons": [],
+      "input_hashes": {
+        "source_board": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+        "source_object": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+        "target_board": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+        "target_object": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
+      },
+      "config_fingerprint": "af048130a252ca7a10dfef0920dcf1d6d519795fd6fa4d31d21dd4aef3b5f47d",
+      "coarse_rank_score": 0.0046579084972053824,
+      "coarse_rank_basis": "equal diagnostic terms: object trimmed distance + board plane distance + board angle/1800; not final scoring",
+      "representative_raw_candidate_id": "s3_geo_2ef119eddf26",
+      "member_candidate_ids": [
+        "s3_geo_2ef119eddf26",
+        "s3_geo_808a60d2c89a",
+        "s3_geo_cf5b05bb4a11"
+      ],
+      "support_count": 3,
+      "generators": [
+        "geometry"
+      ],
+      "cross_generator_support": false,
+      "support_seeds": [],
+      "rank": 1
+    },
+    {
+      "candidate_id": "s3_can_efffad0c4fa1",
+      "generator": "geometry",
+      "source_role": "INSPIRE_2",
+      "target_role": "FAST_LIVO2",
+      "transform_direction": "INSPIRE_TO_FAST",
+      "matrix_m": [
+        [
+          0.2326220798353092,
+          -0.3398850730332169,
+          -0.9112437133403447,
+          1.2164023181916346
+        ],
+        [
+          -0.949054380410556,
+          -0.28410674792936935,
+          -0.13630531465989926,
+          0.07368389961177256
+        ],
+        [
+          -0.21256234614021238,
+          0.8965274635560267,
+          -0.388658919996912,
+          0.37396075525693706
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "provenance": {
+        "parent_branch": "pca_obb",
+        "continuous_base_angle_deg": 0.0,
+        "discrete_increment_deg": 270,
+        "relative_angle_deg": 270.0,
+        "translation_method": "obb_center",
+        "translation_peak_index": null,
+        "normal_alignment_branch": "observed_object_side"
+      },
+      "generation_parameters": {
+        "method": "obb_center",
+        "shift_uv_m": [
+          0.002919937060646371,
+          0.0021997699568287784
+        ],
+        "base_diagnostics": {
+          "method": "2D PCA/OBB axis alignment"
+        }
+      },
+      "coarse_checks": {
+        "passed": true,
+        "reasons": [],
+        "rigid": {
+          "valid": true,
+          "reasons": [],
+          "determinant": 1.0000000000000009,
+          "orthonormality_error_fro": 8.337740506818381e-16,
+          "last_row_valid": true,
+          "no_reflection": true,
+          "no_scale": true
+        },
+        "board": {
+          "normal_angle_deg": 0.0,
+          "plane_distance_m": 2.220446049250313e-16
+        },
+        "object": {
+          "bidirectional_trimmed_chamfer_m": 0.004756917769386037,
+          "bidirectional_overlap_at_15mm": 0.893888888888889
+        },
+        "aabb": {
+          "gap_norm_m": 0.0,
+          "completely_disconnected": false
+        }
+      },
+      "status": "canonical",
+      "status_reasons": [],
+      "input_hashes": {
+        "source_board": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+        "source_object": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+        "target_board": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+        "target_object": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
+      },
+      "config_fingerprint": "af048130a252ca7a10dfef0920dcf1d6d519795fd6fa4d31d21dd4aef3b5f47d",
+      "coarse_rank_score": 0.004756917769386259,
+      "coarse_rank_basis": "equal diagnostic terms: object trimmed distance + board plane distance + board angle/1800; not final scoring",
+      "representative_raw_candidate_id": "s3_geo_0e5505724290",
+      "member_candidate_ids": [
+        "s3_geo_0c23b4953f2a",
+        "s3_geo_0e5505724290",
+        "s3_geo_31c9b33de874",
+        "s3_geo_3208319fe474"
+      ],
+      "support_count": 4,
+      "generators": [
+        "geometry"
+      ],
+      "cross_generator_support": false,
+      "support_seeds": [],
+      "rank": 2
+    },
+    {
+      "candidate_id": "s3_can_3028513d50d0",
+      "generator": "geometry",
+      "source_role": "INSPIRE_2",
+      "target_role": "FAST_LIVO2",
+      "transform_direction": "INSPIRE_TO_FAST",
+      "matrix_m": [
+        [
+          0.5377919275063715,
+          0.1055104627184825,
+          -0.8364492722011979,
+          1.222072778234256
+        ],
+        [
+          0.13660684102010637,
+          -0.9899326237096677,
+          -0.037040133663379625,
+          0.03044100292574584
+        ],
+        [
+          -0.8319365442721515,
+          -0.09434480787105017,
+          -0.5467912248128033,
+          0.36004597596039734
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "provenance": {
+        "parent_branch": "contour",
+        "continuous_base_angle_deg": 9.0,
+        "discrete_increment_deg": 180,
+        "relative_angle_deg": 189.0,
+        "translation_method": "obb_center",
+        "translation_peak_index": null,
+        "normal_alignment_branch": "observed_object_side"
+      },
+      "generation_parameters": {
+        "method": "obb_center",
+        "shift_uv_m": [
+          -0.001786273583658281,
+          -0.0030087322985029325
+        ],
+        "base_diagnostics": {
+          "method": "centered bidirectional trimmed contour distance angular search",
+          "range_deg": [
+            -45.0,
+            45.0
+          ],
+          "step_deg": 1.0,
+          "best_distance_m": 0.0022869662995217074
+        }
+      },
+      "coarse_checks": {
+        "passed": true,
+        "reasons": [],
+        "rigid": {
+          "valid": true,
+          "reasons": [],
+          "determinant": 1.0000000000000004,
+          "orthonormality_error_fro": 5.484461277788969e-16,
+          "last_row_valid": true,
+          "no_reflection": true,
+          "no_scale": true
+        },
+        "board": {
+          "normal_angle_deg": 0.0,
+          "plane_distance_m": 2.220446049250313e-16
+        },
+        "object": {
+          "bidirectional_trimmed_chamfer_m": 0.0048097371639079164,
+          "bidirectional_overlap_at_15mm": 0.893888888888889
+        },
+        "aabb": {
+          "gap_norm_m": 0.0,
+          "completely_disconnected": false
+        }
+      },
+      "status": "canonical",
+      "status_reasons": [],
+      "input_hashes": {
+        "source_board": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+        "source_object": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+        "target_board": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+        "target_object": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
+      },
+      "config_fingerprint": "af048130a252ca7a10dfef0920dcf1d6d519795fd6fa4d31d21dd4aef3b5f47d",
+      "coarse_rank_score": 0.0048097371639081385,
+      "coarse_rank_basis": "equal diagnostic terms: object trimmed distance + board plane distance + board angle/1800; not final scoring",
+      "representative_raw_candidate_id": "s3_geo_ecc7d3f9c291",
+      "member_candidate_ids": [
+        "s3_geo_8b5ead73c24d",
+        "s3_geo_ecc7d3f9c291",
+        "s3_geo_f2b5e6e99715"
+      ],
+      "support_count": 3,
+      "generators": [
+        "geometry"
+      ],
+      "cross_generator_support": false,
+      "support_seeds": [],
+      "rank": 3
+    },
+    {
+      "candidate_id": "s3_can_36ddb98ba7ca",
+      "generator": "geometry",
+      "source_role": "INSPIRE_2",
+      "target_role": "FAST_LIVO2",
+      "transform_direction": "INSPIRE_TO_FAST",
+      "matrix_m": [
+        [
+          0.5258123362245922,
+          0.17018896482136947,
+          -0.8334009259216524,
+          1.2241223272692252
+        ],
+        [
+          0.28830680031936007,
+          -0.9574412217296818,
+          -0.013619685106024435,
+          0.028034463733131763
+        ],
+        [
+          -0.800250320814462,
+          -0.2331137558914215,
+          -0.5525010414927249,
+          0.35551826357434
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "provenance": {
+        "parent_branch": "pca_obb",
+        "continuous_base_angle_deg": 0.0,
+        "discrete_increment_deg": 180,
+        "relative_angle_deg": 180.0,
+        "translation_method": "obb_center",
+        "translation_peak_index": null,
+        "normal_alignment_branch": "observed_object_side"
+      },
+      "generation_parameters": {
+        "method": "obb_center",
+        "shift_uv_m": [
+          -0.002627636368769254,
+          -0.0030449276199479153
+        ],
+        "base_diagnostics": {
+          "method": "2D PCA/OBB axis alignment"
+        }
+      },
+      "coarse_checks": {
+        "passed": true,
+        "reasons": [],
+        "rigid": {
+          "valid": true,
+          "reasons": [],
+          "determinant": 1.0000000000000007,
+          "orthonormality_error_fro": 8.35946330175473e-16,
+          "last_row_valid": true,
+          "no_reflection": true,
+          "no_scale": true
+        },
+        "board": {
+          "normal_angle_deg": 0.0,
+          "plane_distance_m": 0.0
+        },
+        "object": {
+          "bidirectional_trimmed_chamfer_m": 0.0048228092852930565,
+          "bidirectional_overlap_at_15mm": 0.8930555555555555
+        },
+        "aabb": {
+          "gap_norm_m": 0.0,
+          "completely_disconnected": false
+        }
+      },
+      "status": "canonical",
+      "status_reasons": [],
+      "input_hashes": {
+        "source_board": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+        "source_object": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+        "target_board": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+        "target_object": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
+      },
+      "config_fingerprint": "af048130a252ca7a10dfef0920dcf1d6d519795fd6fa4d31d21dd4aef3b5f47d",
+      "coarse_rank_score": 0.0048228092852930565,
+      "coarse_rank_basis": "equal diagnostic terms: object trimmed distance + board plane distance + board angle/1800; not final scoring",
+      "representative_raw_candidate_id": "s3_geo_7c09f70e9b8b",
+      "member_candidate_ids": [
+        "s3_geo_7c09f70e9b8b",
+        "s3_geo_9e87bcb352dd",
+        "s3_geo_de2410ec6ef5"
+      ],
+      "support_count": 3,
+      "generators": [
+        "geometry"
+      ],
+      "cross_generator_support": false,
+      "support_seeds": [],
+      "rank": 4
+    },
+    {
+      "candidate_id": "s3_can_773bf6d37833",
+      "generator": "geometry",
+      "source_role": "INSPIRE_2",
+      "target_role": "FAST_LIVO2",
+      "transform_direction": "INSPIRE_TO_FAST",
+      "matrix_m": [
+        [
+          -0.2769010433829652,
+          -0.03955795306816801,
+          -0.9600838403610813,
+          1.2358382905041223
+        ],
+        [
+          -0.292669609142169,
+          0.9551515782020498,
+          0.045055105623045745,
+          0.09366127188837138
+        ],
+        [
+          0.9152433075734536,
+          0.2934631680589412,
+          -0.2760598792559585,
+          0.33264801372542796
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "provenance": {
+        "parent_branch": "pca_obb",
+        "continuous_base_angle_deg": 0.0,
+        "discrete_increment_deg": 0,
+        "relative_angle_deg": 0.0,
+        "translation_method": "obb_center",
+        "translation_peak_index": null,
+        "normal_alignment_branch": "observed_object_side"
+      },
+      "generation_parameters": {
+        "method": "obb_center",
+        "shift_uv_m": [
+          -0.002324760516130323,
+          0.007747343386244401
+        ],
+        "base_diagnostics": {
+          "method": "2D PCA/OBB axis alignment"
+        }
+      },
+      "coarse_checks": {
+        "passed": true,
+        "reasons": [],
+        "rigid": {
+          "valid": true,
+          "reasons": [],
+          "determinant": 1.0000000000000004,
+          "orthonormality_error_fro": 5.077099081685054e-16,
+          "last_row_valid": true,
+          "no_reflection": true,
+          "no_scale": true
+        },
+        "board": {
+          "normal_angle_deg": 0.0,
+          "plane_distance_m": 0.0
+        },
+        "object": {
+          "bidirectional_trimmed_chamfer_m": 0.004844312361138958,
+          "bidirectional_overlap_at_15mm": 0.8872222222222222
+        },
+        "aabb": {
+          "gap_norm_m": 0.0,
+          "completely_disconnected": false
+        }
+      },
+      "status": "canonical",
+      "status_reasons": [],
+      "input_hashes": {
+        "source_board": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+        "source_object": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+        "target_board": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+        "target_object": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
+      },
+      "config_fingerprint": "af048130a252ca7a10dfef0920dcf1d6d519795fd6fa4d31d21dd4aef3b5f47d",
+      "coarse_rank_score": 0.004844312361138958,
+      "coarse_rank_basis": "equal diagnostic terms: object trimmed distance + board plane distance + board angle/1800; not final scoring",
+      "representative_raw_candidate_id": "s3_geo_d7de50e71d60",
+      "member_candidate_ids": [
+        "s3_geo_59bbed9f2ecc",
+        "s3_geo_d7de50e71d60"
+      ],
+      "support_count": 2,
+      "generators": [
+        "geometry"
+      ],
+      "cross_generator_support": false,
+      "support_seeds": [],
+      "rank": 5
+    },
+    {
+      "candidate_id": "s3_can_d04c605e83e3",
+      "generator": "geometry",
+      "source_role": "INSPIRE_2",
+      "target_role": "FAST_LIVO2",
+      "transform_direction": "INSPIRE_TO_FAST",
+      "matrix_m": [
+        [
+          -0.2888806346647445,
+          0.025120549034718942,
+          -0.9570354940815357,
+          1.237887839539091
+        ],
+        [
+          -0.14096964984291532,
+          0.9876429801820358,
+          0.06847555418040094,
+          0.0912547326957573
+        ],
+        [
+          0.9469295310311432,
+          0.15469422003856984,
+          -0.28176969593588,
+          0.3281203013393707
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "provenance": {
+        "parent_branch": "contour",
+        "continuous_base_angle_deg": 9.0,
+        "discrete_increment_deg": 0,
+        "relative_angle_deg": 9.0,
+        "translation_method": "obb_center",
+        "translation_peak_index": null,
+        "normal_alignment_branch": "observed_object_side"
+      },
+      "generation_parameters": {
+        "method": "obb_center",
+        "shift_uv_m": [
+          -0.003166123301241294,
+          0.00771114806479942
+        ],
+        "base_diagnostics": {
+          "method": "centered bidirectional trimmed contour distance angular search",
+          "range_deg": [
+            -45.0,
+            45.0
+          ],
+          "step_deg": 1.0,
+          "best_distance_m": 0.0022869662995217074
+        }
+      },
+      "coarse_checks": {
+        "passed": true,
+        "reasons": [],
+        "rigid": {
+          "valid": true,
+          "reasons": [],
+          "determinant": 1.0000000000000007,
+          "orthonormality_error_fro": 5.464475422831415e-16,
+          "last_row_valid": true,
+          "no_reflection": true,
+          "no_scale": true
+        },
+        "board": {
+          "normal_angle_deg": 0.0,
+          "plane_distance_m": 2.220446049250313e-16
+        },
+        "object": {
+          "bidirectional_trimmed_chamfer_m": 0.0048514383162079,
+          "bidirectional_overlap_at_15mm": 0.8869444444444444
+        },
+        "aabb": {
+          "gap_norm_m": 0.0,
+          "completely_disconnected": false
+        }
+      },
+      "status": "canonical",
+      "status_reasons": [],
+      "input_hashes": {
+        "source_board": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+        "source_object": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+        "target_board": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+        "target_object": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
+      },
+      "config_fingerprint": "af048130a252ca7a10dfef0920dcf1d6d519795fd6fa4d31d21dd4aef3b5f47d",
+      "coarse_rank_score": 0.004851438316208122,
+      "coarse_rank_basis": "equal diagnostic terms: object trimmed distance + board plane distance + board angle/1800; not final scoring",
+      "representative_raw_candidate_id": "s3_geo_77fdd5adeea0",
+      "member_candidate_ids": [
+        "s3_geo_77fdd5adeea0",
+        "s3_geo_dae9f2fbee1a"
+      ],
+      "support_count": 2,
+      "generators": [
+        "geometry"
+      ],
+      "cross_generator_support": false,
+      "support_seeds": [],
+      "rank": 6
+    },
+    {
+      "candidate_id": "s3_can_97b8fd9ff51e",
+      "generator": "geometry",
+      "source_role": "INSPIRE_2",
+      "target_role": "FAST_LIVO2",
+      "transform_direction": "INSPIRE_TO_FAST",
+      "matrix_m": [
+        [
+          -0.2888806346647445,
+          0.025120549034718942,
+          -0.9570354940815357,
+          1.235201846094457
+        ],
+        [
+          -0.14096964984291532,
+          0.9876429801820358,
+          0.06847555418040094,
+          0.08834630455448028
+        ],
+        [
+          0.9469295310311432,
+          0.15469422003856984,
+          -0.28176969593588,
+          0.33382399861168705
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "provenance": {
+        "parent_branch": "contour",
+        "continuous_base_angle_deg": 9.0,
+        "discrete_increment_deg": 0,
+        "relative_angle_deg": 9.0,
+        "translation_method": "contour_search",
+        "translation_peak_index": 1,
+        "normal_alignment_branch": "observed_object_side"
+      },
+      "generation_parameters": {
+        "method": "contour_search",
+        "shift_uv_m": [
+          0.0036038380504977577,
+          0.006170595920995618
+        ],
+        "search_score_m": 0.00208710022189374,
+        "peak_index": 1,
+        "base_diagnostics": {
+          "method": "centered bidirectional trimmed contour distance angular search",
+          "range_deg": [
+            -45.0,
+            45.0
+          ],
+          "step_deg": 1.0,
+          "best_distance_m": 0.0022869662995217074
+        }
+      },
+      "coarse_checks": {
+        "passed": true,
+        "reasons": [],
+        "rigid": {
+          "valid": true,
+          "reasons": [],
+          "determinant": 1.0000000000000007,
+          "orthonormality_error_fro": 5.464475422831415e-16,
+          "last_row_valid": true,
+          "no_reflection": true,
+          "no_scale": true
+        },
+        "board": {
+          "normal_angle_deg": 0.0,
+          "plane_distance_m": 2.220446049250313e-16
+        },
+        "object": {
+          "bidirectional_trimmed_chamfer_m": 0.004973813898333688,
+          "bidirectional_overlap_at_15mm": 0.8836111111111111
+        },
+        "aabb": {
+          "gap_norm_m": 0.0,
+          "completely_disconnected": false
+        }
+      },
+      "status": "canonical",
+      "status_reasons": [],
+      "input_hashes": {
+        "source_board": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+        "source_object": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+        "target_board": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+        "target_object": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
+      },
+      "config_fingerprint": "af048130a252ca7a10dfef0920dcf1d6d519795fd6fa4d31d21dd4aef3b5f47d",
+      "coarse_rank_score": 0.00497381389833391,
+      "coarse_rank_basis": "equal diagnostic terms: object trimmed distance + board plane distance + board angle/1800; not final scoring",
+      "representative_raw_candidate_id": "s3_geo_0258fa62f941",
+      "member_candidate_ids": [
+        "s3_geo_0258fa62f941"
+      ],
+      "support_count": 1,
+      "generators": [
+        "geometry"
+      ],
+      "cross_generator_support": false,
+      "support_seeds": [],
+      "rank": 7
+    },
+    {
+      "candidate_id": "s3_can_4080ef322ffc",
+      "generator": "geometry",
+      "source_role": "INSPIRE_2",
+      "target_role": "FAST_LIVO2",
+      "transform_direction": "INSPIRE_TO_FAST",
+      "matrix_m": [
+        [
+          0.5258123362245922,
+          0.17018896482136947,
+          -0.8334009259216524,
+          1.221821632597078
+        ],
+        [
+          0.28830680031936007,
+          -0.9574412217296818,
+          -0.013619685106024435,
+          0.03037345087538939
+        ],
+        [
+          -0.800250320814462,
+          -0.2331137558914215,
+          -0.5525010414927249,
+          0.36058703737913095
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "provenance": {
+        "parent_branch": "pca_obb",
+        "continuous_base_angle_deg": 0.0,
+        "discrete_increment_deg": 180,
+        "relative_angle_deg": 180.0,
+        "translation_method": "robust_centroid",
+        "translation_peak_index": null,
+        "normal_alignment_branch": "observed_object_side"
+      },
+      "generation_parameters": {
+        "method": "robust_centroid",
+        "shift_uv_m": [
+          0.0023337974130674746,
+          0.0003961041350169178
+        ],
+        "base_diagnostics": {
+          "method": "2D PCA/OBB axis alignment"
+        }
+      },
+      "coarse_checks": {
+        "passed": true,
+        "reasons": [],
+        "rigid": {
+          "valid": true,
+          "reasons": [],
+          "determinant": 1.0000000000000007,
+          "orthonormality_error_fro": 8.35946330175473e-16,
+          "last_row_valid": true,
+          "no_reflection": true,
+          "no_scale": true
+        },
+        "board": {
+          "normal_angle_deg": 0.0,
+          "plane_distance_m": 2.220446049250313e-16
+        },
+        "object": {
+          "bidirectional_trimmed_chamfer_m": 0.004989232190803509,
+          "bidirectional_overlap_at_15mm": 0.8888888888888888
+        },
+        "aabb": {
+          "gap_norm_m": 0.0,
+          "completely_disconnected": false
+        }
+      },
+      "status": "canonical",
+      "status_reasons": [],
+      "input_hashes": {
+        "source_board": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+        "source_object": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+        "target_board": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+        "target_object": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
+      },
+      "config_fingerprint": "af048130a252ca7a10dfef0920dcf1d6d519795fd6fa4d31d21dd4aef3b5f47d",
+      "coarse_rank_score": 0.004989232190803731,
+      "coarse_rank_basis": "equal diagnostic terms: object trimmed distance + board plane distance + board angle/1800; not final scoring",
+      "representative_raw_candidate_id": "s3_geo_a42ebeecba80",
+      "member_candidate_ids": [
+        "s3_geo_a42ebeecba80"
+      ],
+      "support_count": 1,
+      "generators": [
+        "geometry"
+      ],
+      "cross_generator_support": false,
+      "support_seeds": [],
+      "rank": 8
+    },
+    {
+      "candidate_id": "s3_can_c847b484a748",
+      "generator": "geometry",
+      "source_role": "INSPIRE_2",
+      "target_role": "FAST_LIVO2",
+      "transform_direction": "INSPIRE_TO_FAST",
+      "matrix_m": [
+        [
+          0.5377919275063715,
+          0.1055104627184825,
+          -0.8364492722011979,
+          1.21950501953153
+        ],
+        [
+          0.13660684102010637,
+          -0.9899326237096677,
+          -0.037040133663379625,
+          0.02678107306908884
+        ],
+        [
+          -0.8319365442721515,
+          -0.09434480787105017,
+          -0.5467912248128033,
+          0.3654652330968127
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "provenance": {
+        "parent_branch": "contour",
+        "continuous_base_angle_deg": 9.0,
+        "discrete_increment_deg": 180,
+        "relative_angle_deg": 189.0,
+        "translation_method": "contour_search",
+        "translation_peak_index": 1,
+        "normal_alignment_branch": "observed_object_side"
+      },
+      "generation_parameters": {
+        "method": "contour_search",
+        "shift_uv_m": [
+          0.004838161110310713,
+          -0.005348322905212466
+        ],
+        "search_score_m": 0.002078640846632127,
+        "peak_index": 1,
+        "base_diagnostics": {
+          "method": "centered bidirectional trimmed contour distance angular search",
+          "range_deg": [
+            -45.0,
+            45.0
+          ],
+          "step_deg": 1.0,
+          "best_distance_m": 0.0022869662995217074
+        }
+      },
+      "coarse_checks": {
+        "passed": true,
+        "reasons": [],
+        "rigid": {
+          "valid": true,
+          "reasons": [],
+          "determinant": 1.0000000000000004,
+          "orthonormality_error_fro": 5.484461277788969e-16,
+          "last_row_valid": true,
+          "no_reflection": true,
+          "no_scale": true
+        },
+        "board": {
+          "normal_angle_deg": 0.0,
+          "plane_distance_m": 2.220446049250313e-16
+        },
+        "object": {
+          "bidirectional_trimmed_chamfer_m": 0.005014429932291846,
+          "bidirectional_overlap_at_15mm": 0.8902777777777777
+        },
+        "aabb": {
+          "gap_norm_m": 0.0,
+          "completely_disconnected": false
+        }
+      },
+      "status": "canonical",
+      "status_reasons": [],
+      "input_hashes": {
+        "source_board": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+        "source_object": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+        "target_board": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+        "target_object": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
+      },
+      "config_fingerprint": "af048130a252ca7a10dfef0920dcf1d6d519795fd6fa4d31d21dd4aef3b5f47d",
+      "coarse_rank_score": 0.005014429932292068,
+      "coarse_rank_basis": "equal diagnostic terms: object trimmed distance + board plane distance + board angle/1800; not final scoring",
+      "representative_raw_candidate_id": "s3_geo_78ab050a4e4c",
+      "member_candidate_ids": [
+        "s3_geo_78ab050a4e4c"
+      ],
+      "support_count": 1,
+      "generators": [
+        "geometry"
+      ],
+      "cross_generator_support": false,
+      "support_seeds": [],
+      "rank": 9
+    },
+    {
+      "candidate_id": "s3_can_b95f8cc0de38",
+      "generator": "geometry",
+      "source_role": "INSPIRE_2",
+      "target_role": "FAST_LIVO2",
+      "transform_direction": "INSPIRE_TO_FAST",
+      "matrix_m": [
+        [
+          0.08040694035332792,
+          0.4819332167151711,
+          -0.8725108014056815,
+          1.2424771112659616
+        ],
+        [
+          0.9784763609151312,
+          0.12873565779368434,
+          0.1612796997229034,
+          0.04304261950893307
+        ],
+        [
+          0.19004929642937082,
+          -0.8666992010143978,
+          -0.46120901973802064,
+          0.31635730752871744
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "provenance": {
+        "parent_branch": "contour",
+        "continuous_base_angle_deg": 9.0,
+        "discrete_increment_deg": 90,
+        "relative_angle_deg": 99.0,
+        "translation_method": "obb_center",
+        "translation_peak_index": null,
+        "normal_alignment_branch": "observed_object_side"
+      },
+      "generation_parameters": {
+        "method": "obb_center",
+        "shift_uv_m": [
+          -0.007836138624100965,
+          0.0016612830243567349
+        ],
+        "base_diagnostics": {
+          "method": "centered bidirectional trimmed contour distance angular search",
+          "range_deg": [
+            -45.0,
+            45.0
+          ],
+          "step_deg": 1.0,
+          "best_distance_m": 0.0022869662995217074
+        }
+      },
+      "coarse_checks": {
+        "passed": true,
+        "reasons": [],
+        "rigid": {
+          "valid": true,
+          "reasons": [],
+          "determinant": 1.0000000000000004,
+          "orthonormality_error_fro": 8.383947378885965e-16,
+          "last_row_valid": true,
+          "no_reflection": true,
+          "no_scale": true
+        },
+        "board": {
+          "normal_angle_deg": 0.0,
+          "plane_distance_m": 0.0
+        },
+        "object": {
+          "bidirectional_trimmed_chamfer_m": 0.0050816882325844855,
+          "bidirectional_overlap_at_15mm": 0.8822222222222222
+        },
+        "aabb": {
+          "gap_norm_m": 0.0,
+          "completely_disconnected": false
+        }
+      },
+      "status": "canonical",
+      "status_reasons": [],
+      "input_hashes": {
+        "source_board": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+        "source_object": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+        "target_board": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+        "target_object": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
+      },
+      "config_fingerprint": "af048130a252ca7a10dfef0920dcf1d6d519795fd6fa4d31d21dd4aef3b5f47d",
+      "coarse_rank_score": 0.0050816882325844855,
+      "coarse_rank_basis": "equal diagnostic terms: object trimmed distance + board plane distance + board angle/1800; not final scoring",
+      "representative_raw_candidate_id": "s3_geo_db29bef37f86",
+      "member_candidate_ids": [
+        "s3_geo_a9e521b6e11f",
+        "s3_geo_db29bef37f86"
+      ],
+      "support_count": 2,
+      "generators": [
+        "geometry"
+      ],
+      "cross_generator_support": false,
+      "support_seeds": [],
+      "rank": 10
+    },
+    {
+      "candidate_id": "s3_can_90bb0dd51775",
+      "generator": "geometry",
+      "source_role": "INSPIRE_2",
+      "target_role": "FAST_LIVO2",
+      "transform_direction": "INSPIRE_TO_FAST",
+      "matrix_m": [
+        [
+          0.01628921300631792,
+          0.47051608478641826,
+          -0.882241052942389,
+          1.242082809423844
+        ],
+        [
+          0.9446915715877469,
+          0.2818171044017373,
+          0.16774073517692056,
+          0.05010937250447904
+        ],
+        [
+          0.32755533289920397,
+          -0.8361780513885069,
+          -0.4399020007517714,
+          0.3174789157001723
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "provenance": {
+        "parent_branch": "pca_obb",
+        "continuous_base_angle_deg": 0.0,
+        "discrete_increment_deg": 90,
+        "relative_angle_deg": 90.0,
+        "translation_method": "contour_search",
+        "translation_peak_index": 0,
+        "normal_alignment_branch": "observed_object_side"
+      },
+      "generation_parameters": {
+        "method": "contour_search",
+        "shift_uv_m": [
+          -0.004794032792470419,
+          0.005298338675228341
+        ],
+        "search_score_m": 0.0020494815325362674,
+        "peak_index": 0,
+        "base_diagnostics": {
+          "method": "2D PCA/OBB axis alignment"
+        }
+      },
+      "coarse_checks": {
+        "passed": true,
+        "reasons": [],
+        "rigid": {
+          "valid": true,
+          "reasons": [],
+          "determinant": 1.0000000000000004,
+          "orthonormality_error_fro": 6.324257218334133e-16,
+          "last_row_valid": true,
+          "no_reflection": true,
+          "no_scale": true
+        },
+        "board": {
+          "normal_angle_deg": 0.0,
+          "plane_distance_m": 0.0
+        },
+        "object": {
+          "bidirectional_trimmed_chamfer_m": 0.0051334387136153445,
+          "bidirectional_overlap_at_15mm": 0.8808333333333334
+        },
+        "aabb": {
+          "gap_norm_m": 0.0,
+          "completely_disconnected": false
+        }
+      },
+      "status": "canonical",
+      "status_reasons": [],
+      "input_hashes": {
+        "source_board": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+        "source_object": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+        "target_board": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+        "target_object": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
+      },
+      "config_fingerprint": "af048130a252ca7a10dfef0920dcf1d6d519795fd6fa4d31d21dd4aef3b5f47d",
+      "coarse_rank_score": 0.0051334387136153445,
+      "coarse_rank_basis": "equal diagnostic terms: object trimmed distance + board plane distance + board angle/1800; not final scoring",
+      "representative_raw_candidate_id": "s3_geo_a3f81082a32b",
+      "member_candidate_ids": [
+        "s3_geo_a3f81082a32b",
+        "s3_geo_fad870e69cda"
+      ],
+      "support_count": 2,
+      "generators": [
+        "geometry"
+      ],
+      "cross_generator_support": false,
+      "support_seeds": [],
+      "rank": 11
+    },
+    {
+      "candidate_id": "s3_can_fca1cc1ac072",
+      "generator": "geometry",
+      "source_role": "INSPIRE_2",
+      "target_role": "FAST_LIVO2",
+      "transform_direction": "INSPIRE_TO_FAST",
+      "matrix_m": [
+        [
+          0.1685043524882992,
+          -0.35130220496196973,
+          -0.9209739648770521,
+          1.2163728797516633
+        ],
+        [
+          -0.9828391697379403,
+          -0.13102530132131648,
+          -0.1298442792058821,
+          0.06996682555666604
+        ],
+        [
+          -0.07505630967037924,
+          0.9270486131819176,
+          -0.36735190101066273,
+          0.37388345207888524
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "provenance": {
+        "parent_branch": "contour",
+        "continuous_base_angle_deg": 9.0,
+        "discrete_increment_deg": 270,
+        "relative_angle_deg": 279.0,
+        "translation_method": "contour_search",
+        "translation_peak_index": 0,
+        "normal_alignment_branch": "observed_object_side"
+      },
+      "generation_parameters": {
+        "method": "contour_search",
+        "shift_uv_m": [
+          0.0069804589935082775,
+          -0.0049717019622019494
+        ],
+        "search_score_m": 0.0020662970369649375,
+        "peak_index": 0,
+        "base_diagnostics": {
+          "method": "centered bidirectional trimmed contour distance angular search",
+          "range_deg": [
+            -45.0,
+            45.0
+          ],
+          "step_deg": 1.0,
+          "best_distance_m": 0.0022869662995217074
+        }
+      },
+      "coarse_checks": {
+        "passed": true,
+        "reasons": [],
+        "rigid": {
+          "valid": true,
+          "reasons": [],
+          "determinant": 1.0000000000000007,
+          "orthonormality_error_fro": 8.32632878927154e-16,
+          "last_row_valid": true,
+          "no_reflection": true,
+          "no_scale": true
+        },
+        "board": {
+          "normal_angle_deg": 0.0,
+          "plane_distance_m": 0.0
+        },
+        "object": {
+          "bidirectional_trimmed_chamfer_m": 0.005154556671023769,
+          "bidirectional_overlap_at_15mm": 0.8797222222222223
+        },
+        "aabb": {
+          "gap_norm_m": 0.0,
+          "completely_disconnected": false
+        }
+      },
+      "status": "canonical",
+      "status_reasons": [],
+      "input_hashes": {
+        "source_board": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+        "source_object": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+        "target_board": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+        "target_object": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
+      },
+      "config_fingerprint": "af048130a252ca7a10dfef0920dcf1d6d519795fd6fa4d31d21dd4aef3b5f47d",
+      "coarse_rank_score": 0.005154556671023769,
+      "coarse_rank_basis": "equal diagnostic terms: object trimmed distance + board plane distance + board angle/1800; not final scoring",
+      "representative_raw_candidate_id": "s3_geo_bcb13a536b66",
+      "member_candidate_ids": [
+        "s3_geo_bcb13a536b66"
+      ],
+      "support_count": 1,
+      "generators": [
+        "geometry"
+      ],
+      "cross_generator_support": false,
+      "support_seeds": [],
+      "rank": 12
+    },
+    {
+      "candidate_id": "s3_can_eaf3e1a1fdf0",
+      "generator": "geometry",
+      "source_role": "INSPIRE_2",
+      "target_role": "FAST_LIVO2",
+      "transform_direction": "INSPIRE_TO_FAST",
+      "matrix_m": [
+        [
+          -0.2888806346647445,
+          0.025120549034718942,
+          -0.9570354940815357,
+          1.2368779248257646
+        ],
+        [
+          -0.14096964984291532,
+          0.9876429801820358,
+          0.06847555418040094,
+          0.08309807499765946
+        ],
+        [
+          0.9469295310311432,
+          0.15469422003856984,
+          -0.28176969593588,
+          0.32999687872783573
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "provenance": {
+        "parent_branch": "contour",
+        "continuous_base_angle_deg": 9.0,
+        "discrete_increment_deg": 0,
+        "relative_angle_deg": 9.0,
+        "translation_method": "robust_centroid",
+        "translation_peak_index": null,
+        "normal_alignment_branch": "observed_object_side"
+      },
+      "generation_parameters": {
+        "method": "robust_centroid",
+        "shift_uv_m": [
+          0.000603838050497762,
+          0.00017059592099562365
+        ],
+        "base_diagnostics": {
+          "method": "centered bidirectional trimmed contour distance angular search",
+          "range_deg": [
+            -45.0,
+            45.0
+          ],
+          "step_deg": 1.0,
+          "best_distance_m": 0.0022869662995217074
+        }
+      },
+      "coarse_checks": {
+        "passed": true,
+        "reasons": [],
+        "rigid": {
+          "valid": true,
+          "reasons": [],
+          "determinant": 1.0000000000000007,
+          "orthonormality_error_fro": 5.464475422831415e-16,
+          "last_row_valid": true,
+          "no_reflection": true,
+          "no_scale": true
+        },
+        "board": {
+          "normal_angle_deg": 0.0,
+          "plane_distance_m": 2.220446049250313e-16
+        },
+        "object": {
+          "bidirectional_trimmed_chamfer_m": 0.005205605446048709,
+          "bidirectional_overlap_at_15mm": 0.8780555555555556
+        },
+        "aabb": {
+          "gap_norm_m": 0.0,
+          "completely_disconnected": false
+        }
+      },
+      "status": "canonical",
+      "status_reasons": [],
+      "input_hashes": {
+        "source_board": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+        "source_object": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+        "target_board": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+        "target_object": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
+      },
+      "config_fingerprint": "af048130a252ca7a10dfef0920dcf1d6d519795fd6fa4d31d21dd4aef3b5f47d",
+      "coarse_rank_score": 0.005205605446048931,
+      "coarse_rank_basis": "equal diagnostic terms: object trimmed distance + board plane distance + board angle/1800; not final scoring",
+      "representative_raw_candidate_id": "s3_geo_9c1bab19e9a5",
+      "member_candidate_ids": [
+        "s3_geo_9c1bab19e9a5"
+      ],
+      "support_count": 1,
+      "generators": [
+        "geometry"
+      ],
+      "cross_generator_support": false,
+      "support_seeds": [],
+      "rank": 13
+    },
+    {
+      "candidate_id": "s3_can_e6f819e6eae6",
+      "generator": "geometry",
+      "source_role": "INSPIRE_2",
+      "target_role": "FAST_LIVO2",
+      "transform_direction": "INSPIRE_TO_FAST",
+      "matrix_m": [
+        [
+          -0.2769010433829652,
+          -0.03955795306816801,
+          -0.9600838403610813,
+          1.2353650020733005
+        ],
+        [
+          -0.292669609142169,
+          0.9551515782020498,
+          0.045055105623045745,
+          0.08599598280378402
+        ],
+        [
+          0.9152433075734536,
+          0.2934631680589412,
+          -0.2760598792559585,
+          0.33338166406996644
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "provenance": {
+        "parent_branch": "pca_obb",
+        "continuous_base_angle_deg": 0.0,
+        "discrete_increment_deg": 0,
+        "relative_angle_deg": 0.0,
+        "translation_method": "robust_centroid",
+        "translation_peak_index": null,
+        "normal_alignment_branch": "observed_object_side"
+      },
+      "generation_parameters": {
+        "method": "robust_centroid",
+        "shift_uv_m": [
+          0.00010820174774100913,
+          0.00042616888076623554
+        ],
+        "base_diagnostics": {
+          "method": "2D PCA/OBB axis alignment"
+        }
+      },
+      "coarse_checks": {
+        "passed": true,
+        "reasons": [],
+        "rigid": {
+          "valid": true,
+          "reasons": [],
+          "determinant": 1.0000000000000004,
+          "orthonormality_error_fro": 5.077099081685054e-16,
+          "last_row_valid": true,
+          "no_reflection": true,
+          "no_scale": true
+        },
+        "board": {
+          "normal_angle_deg": 0.0,
+          "plane_distance_m": 0.0
+        },
+        "object": {
+          "bidirectional_trimmed_chamfer_m": 0.005211210618114619,
+          "bidirectional_overlap_at_15mm": 0.875
+        },
+        "aabb": {
+          "gap_norm_m": 0.0,
+          "completely_disconnected": false
+        }
+      },
+      "status": "canonical",
+      "status_reasons": [],
+      "input_hashes": {
+        "source_board": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+        "source_object": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+        "target_board": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+        "target_object": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
+      },
+      "config_fingerprint": "af048130a252ca7a10dfef0920dcf1d6d519795fd6fa4d31d21dd4aef3b5f47d",
+      "coarse_rank_score": 0.005211210618114619,
+      "coarse_rank_basis": "equal diagnostic terms: object trimmed distance + board plane distance + board angle/1800; not final scoring",
+      "representative_raw_candidate_id": "s3_geo_a2c082e863fc",
+      "member_candidate_ids": [
+        "s3_geo_a2c082e863fc"
+      ],
+      "support_count": 1,
+      "generators": [
+        "geometry"
+      ],
+      "cross_generator_support": false,
+      "support_seeds": [],
+      "rank": 14
+    },
+    {
+      "candidate_id": "s3_can_e8c2dfcb2e41",
+      "generator": "geometry",
+      "source_role": "INSPIRE_2",
+      "target_role": "FAST_LIVO2",
+      "transform_direction": "INSPIRE_TO_FAST",
+      "matrix_m": [
+        [
+          0.08040694035332792,
+          0.4819332167151711,
+          -0.8725108014056815,
+          1.2385520829788799
+        ],
+        [
+          0.9784763609151312,
+          0.12873565779368434,
+          0.1612796997229034,
+          0.04222592327459159
+        ],
+        [
+          0.19004929642937082,
+          -0.8666992010143978,
+          -0.46120901973802064,
+          0.3248223522525394
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "provenance": {
+        "parent_branch": "contour",
+        "continuous_base_angle_deg": 9.0,
+        "discrete_increment_deg": 90,
+        "relative_angle_deg": 99.0,
+        "translation_method": "contour_search",
+        "translation_peak_index": 1,
+        "normal_alignment_branch": "observed_object_side"
+      },
+      "generation_parameters": {
+        "method": "contour_search",
+        "shift_uv_m": [
+          0.001461540167300194,
+          0.002793974977985096
+        ],
+        "search_score_m": 0.002063027847919922,
+        "peak_index": 1,
+        "base_diagnostics": {
+          "method": "centered bidirectional trimmed contour distance angular search",
+          "range_deg": [
+            -45.0,
+            45.0
+          ],
+          "step_deg": 1.0,
+          "best_distance_m": 0.0022869662995217074
+        }
+      },
+      "coarse_checks": {
+        "passed": true,
+        "reasons": [],
+        "rigid": {
+          "valid": true,
+          "reasons": [],
+          "determinant": 1.0000000000000004,
+          "orthonormality_error_fro": 8.383947378885965e-16,
+          "last_row_valid": true,
+          "no_reflection": true,
+          "no_scale": true
+        },
+        "board": {
+          "normal_angle_deg": 0.0,
+          "plane_distance_m": 0.0
+        },
+        "object": {
+          "bidirectional_trimmed_chamfer_m": 0.005232204758688525,
+          "bidirectional_overlap_at_15mm": 0.8777777777777778
+        },
+        "aabb": {
+          "gap_norm_m": 0.0,
+          "completely_disconnected": false
+        }
+      },
+      "status": "canonical",
+      "status_reasons": [],
+      "input_hashes": {
+        "source_board": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+        "source_object": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+        "target_board": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+        "target_object": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
+      },
+      "config_fingerprint": "af048130a252ca7a10dfef0920dcf1d6d519795fd6fa4d31d21dd4aef3b5f47d",
+      "coarse_rank_score": 0.005232204758688525,
+      "coarse_rank_basis": "equal diagnostic terms: object trimmed distance + board plane distance + board angle/1800; not final scoring",
+      "representative_raw_candidate_id": "s3_geo_67edead82916",
+      "member_candidate_ids": [
+        "s3_geo_67edead82916",
+        "s3_geo_e0291b91e90c"
+      ],
+      "support_count": 2,
+      "generators": [
+        "geometry"
+      ],
+      "cross_generator_support": false,
+      "support_seeds": [],
+      "rank": 15
+    },
+    {
+      "candidate_id": "s3_can_936dd06a2756",
+      "generator": "geometry",
+      "source_role": "INSPIRE_2",
+      "target_role": "FAST_LIVO2",
+      "transform_direction": "INSPIRE_TO_FAST",
+      "matrix_m": [
+        [
+          0.01628921300631792,
+          0.47051608478641826,
+          -0.882241052942389,
+          1.240039234588565
+        ],
+        [
+          0.9446915715877469,
+          0.2818171044017373,
+          0.16774073517692056,
+          0.04299805886425178
+        ],
+        [
+          0.32755533289920397,
+          -0.8361780513885069,
+          -0.4399020007517714,
+          0.32163259120542437
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "provenance": {
+        "parent_branch": "pca_obb",
+        "continuous_base_angle_deg": 0.0,
+        "discrete_increment_deg": 90,
+        "relative_angle_deg": 90.0,
+        "translation_method": "robust_centroid",
+        "translation_peak_index": null,
+        "normal_alignment_branch": "observed_object_side"
+      },
+      "generation_parameters": {
+        "method": "robust_centroid",
+        "shift_uv_m": [
+          0.0012059672075295828,
+          -0.0007016613247716545
+        ],
+        "base_diagnostics": {
+          "method": "2D PCA/OBB axis alignment"
+        }
+      },
+      "coarse_checks": {
+        "passed": true,
+        "reasons": [],
+        "rigid": {
+          "valid": true,
+          "reasons": [],
+          "determinant": 1.0000000000000004,
+          "orthonormality_error_fro": 6.324257218334133e-16,
+          "last_row_valid": true,
+          "no_reflection": true,
+          "no_scale": true
+        },
+        "board": {
+          "normal_angle_deg": 0.0,
+          "plane_distance_m": 2.220446049250313e-16
+        },
+        "object": {
+          "bidirectional_trimmed_chamfer_m": 0.005312304916539471,
+          "bidirectional_overlap_at_15mm": 0.87
+        },
+        "aabb": {
+          "gap_norm_m": 0.0,
+          "completely_disconnected": false
+        }
+      },
+      "status": "canonical",
+      "status_reasons": [],
+      "input_hashes": {
+        "source_board": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+        "source_object": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+        "target_board": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+        "target_object": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300"
+      },
+      "config_fingerprint": "af048130a252ca7a10dfef0920dcf1d6d519795fd6fa4d31d21dd4aef3b5f47d",
+      "coarse_rank_score": 0.005312304916539693,
+      "coarse_rank_basis": "equal diagnostic terms: object trimmed distance + board plane distance + board angle/1800; not final scoring",
+      "representative_raw_candidate_id": "s3_geo_7599ba5c5ac9",
+      "member_candidate_ids": [
+        "s3_geo_7599ba5c5ac9",
+        "s3_geo_85078c9b4af3"
+      ],
+      "support_count": 2,
+      "generators": [
+        "geometry"
+      ],
+      "cross_generator_support": false,
+      "support_seeds": [],
+      "rank": 16
+    }
+  ],
+  "ambiguity_evidence": {
+    "competitive_direction_pairs": [
+      {
+        "candidate_a": "s3_can_809f3f18e824",
+        "candidate_b": "s3_can_3028513d50d0",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_809f3f18e824",
+        "candidate_b": "s3_can_36ddb98ba7ca",
+        "rotation_difference_deg": 98.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_809f3f18e824",
+        "candidate_b": "s3_can_773bf6d37833",
+        "rotation_difference_deg": 81.0
+      },
+      {
+        "candidate_a": "s3_can_809f3f18e824",
+        "candidate_b": "s3_can_d04c605e83e3",
+        "rotation_difference_deg": 90.00000000000001
+      },
+      {
+        "candidate_a": "s3_can_809f3f18e824",
+        "candidate_b": "s3_can_97b8fd9ff51e",
+        "rotation_difference_deg": 90.00000000000001
+      },
+      {
+        "candidate_a": "s3_can_809f3f18e824",
+        "candidate_b": "s3_can_4080ef322ffc",
+        "rotation_difference_deg": 98.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_809f3f18e824",
+        "candidate_b": "s3_can_c847b484a748",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_809f3f18e824",
+        "candidate_b": "s3_can_b95f8cc0de38",
+        "rotation_difference_deg": 180.0
+      },
+      {
+        "candidate_a": "s3_can_809f3f18e824",
+        "candidate_b": "s3_can_90bb0dd51775",
+        "rotation_difference_deg": 171.00000000000003
+      },
+      {
+        "candidate_a": "s3_can_809f3f18e824",
+        "candidate_b": "s3_can_eaf3e1a1fdf0",
+        "rotation_difference_deg": 90.00000000000001
+      },
+      {
+        "candidate_a": "s3_can_809f3f18e824",
+        "candidate_b": "s3_can_e6f819e6eae6",
+        "rotation_difference_deg": 81.0
+      },
+      {
+        "candidate_a": "s3_can_809f3f18e824",
+        "candidate_b": "s3_can_e8c2dfcb2e41",
+        "rotation_difference_deg": 180.0
+      },
+      {
+        "candidate_a": "s3_can_809f3f18e824",
+        "candidate_b": "s3_can_936dd06a2756",
+        "rotation_difference_deg": 171.00000000000003
+      },
+      {
+        "candidate_a": "s3_can_efffad0c4fa1",
+        "candidate_b": "s3_can_3028513d50d0",
+        "rotation_difference_deg": 80.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_efffad0c4fa1",
+        "candidate_b": "s3_can_36ddb98ba7ca",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_efffad0c4fa1",
+        "candidate_b": "s3_can_773bf6d37833",
+        "rotation_difference_deg": 90.0
+      },
+      {
+        "candidate_a": "s3_can_efffad0c4fa1",
+        "candidate_b": "s3_can_d04c605e83e3",
+        "rotation_difference_deg": 99.0
+      },
+      {
+        "candidate_a": "s3_can_efffad0c4fa1",
+        "candidate_b": "s3_can_97b8fd9ff51e",
+        "rotation_difference_deg": 99.0
+      },
+      {
+        "candidate_a": "s3_can_efffad0c4fa1",
+        "candidate_b": "s3_can_4080ef322ffc",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_efffad0c4fa1",
+        "candidate_b": "s3_can_c847b484a748",
+        "rotation_difference_deg": 80.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_efffad0c4fa1",
+        "candidate_b": "s3_can_b95f8cc0de38",
+        "rotation_difference_deg": 171.0000000000001
+      },
+      {
+        "candidate_a": "s3_can_efffad0c4fa1",
+        "candidate_b": "s3_can_90bb0dd51775",
+        "rotation_difference_deg": 180.0
+      },
+      {
+        "candidate_a": "s3_can_efffad0c4fa1",
+        "candidate_b": "s3_can_eaf3e1a1fdf0",
+        "rotation_difference_deg": 99.0
+      },
+      {
+        "candidate_a": "s3_can_efffad0c4fa1",
+        "candidate_b": "s3_can_e6f819e6eae6",
+        "rotation_difference_deg": 90.0
+      },
+      {
+        "candidate_a": "s3_can_efffad0c4fa1",
+        "candidate_b": "s3_can_e8c2dfcb2e41",
+        "rotation_difference_deg": 171.0000000000001
+      },
+      {
+        "candidate_a": "s3_can_efffad0c4fa1",
+        "candidate_b": "s3_can_936dd06a2756",
+        "rotation_difference_deg": 180.0
+      },
+      {
+        "candidate_a": "s3_can_3028513d50d0",
+        "candidate_b": "s3_can_773bf6d37833",
+        "rotation_difference_deg": 171.00000000000003
+      },
+      {
+        "candidate_a": "s3_can_3028513d50d0",
+        "candidate_b": "s3_can_d04c605e83e3",
+        "rotation_difference_deg": 180.0
+      },
+      {
+        "candidate_a": "s3_can_3028513d50d0",
+        "candidate_b": "s3_can_97b8fd9ff51e",
+        "rotation_difference_deg": 180.0
+      },
+      {
+        "candidate_a": "s3_can_3028513d50d0",
+        "candidate_b": "s3_can_b95f8cc0de38",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_3028513d50d0",
+        "candidate_b": "s3_can_90bb0dd51775",
+        "rotation_difference_deg": 98.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_3028513d50d0",
+        "candidate_b": "s3_can_fca1cc1ac072",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_3028513d50d0",
+        "candidate_b": "s3_can_eaf3e1a1fdf0",
+        "rotation_difference_deg": 180.0
+      },
+      {
+        "candidate_a": "s3_can_3028513d50d0",
+        "candidate_b": "s3_can_e6f819e6eae6",
+        "rotation_difference_deg": 171.00000000000003
+      },
+      {
+        "candidate_a": "s3_can_3028513d50d0",
+        "candidate_b": "s3_can_e8c2dfcb2e41",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_3028513d50d0",
+        "candidate_b": "s3_can_936dd06a2756",
+        "rotation_difference_deg": 98.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_36ddb98ba7ca",
+        "candidate_b": "s3_can_773bf6d37833",
+        "rotation_difference_deg": 180.0
+      },
+      {
+        "candidate_a": "s3_can_36ddb98ba7ca",
+        "candidate_b": "s3_can_d04c605e83e3",
+        "rotation_difference_deg": 171.00000000000003
+      },
+      {
+        "candidate_a": "s3_can_36ddb98ba7ca",
+        "candidate_b": "s3_can_97b8fd9ff51e",
+        "rotation_difference_deg": 171.00000000000003
+      },
+      {
+        "candidate_a": "s3_can_36ddb98ba7ca",
+        "candidate_b": "s3_can_b95f8cc0de38",
+        "rotation_difference_deg": 80.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_36ddb98ba7ca",
+        "candidate_b": "s3_can_90bb0dd51775",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_36ddb98ba7ca",
+        "candidate_b": "s3_can_fca1cc1ac072",
+        "rotation_difference_deg": 98.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_36ddb98ba7ca",
+        "candidate_b": "s3_can_eaf3e1a1fdf0",
+        "rotation_difference_deg": 171.00000000000003
+      },
+      {
+        "candidate_a": "s3_can_36ddb98ba7ca",
+        "candidate_b": "s3_can_e6f819e6eae6",
+        "rotation_difference_deg": 180.0
+      },
+      {
+        "candidate_a": "s3_can_36ddb98ba7ca",
+        "candidate_b": "s3_can_e8c2dfcb2e41",
+        "rotation_difference_deg": 80.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_36ddb98ba7ca",
+        "candidate_b": "s3_can_936dd06a2756",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_773bf6d37833",
+        "candidate_b": "s3_can_4080ef322ffc",
+        "rotation_difference_deg": 180.0
+      },
+      {
+        "candidate_a": "s3_can_773bf6d37833",
+        "candidate_b": "s3_can_c847b484a748",
+        "rotation_difference_deg": 171.00000000000003
+      },
+      {
+        "candidate_a": "s3_can_773bf6d37833",
+        "candidate_b": "s3_can_b95f8cc0de38",
+        "rotation_difference_deg": 98.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_773bf6d37833",
+        "candidate_b": "s3_can_90bb0dd51775",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_773bf6d37833",
+        "candidate_b": "s3_can_fca1cc1ac072",
+        "rotation_difference_deg": 81.0
+      },
+      {
+        "candidate_a": "s3_can_773bf6d37833",
+        "candidate_b": "s3_can_e8c2dfcb2e41",
+        "rotation_difference_deg": 98.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_773bf6d37833",
+        "candidate_b": "s3_can_936dd06a2756",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_d04c605e83e3",
+        "candidate_b": "s3_can_4080ef322ffc",
+        "rotation_difference_deg": 171.00000000000003
+      },
+      {
+        "candidate_a": "s3_can_d04c605e83e3",
+        "candidate_b": "s3_can_c847b484a748",
+        "rotation_difference_deg": 180.0
+      },
+      {
+        "candidate_a": "s3_can_d04c605e83e3",
+        "candidate_b": "s3_can_b95f8cc0de38",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_d04c605e83e3",
+        "candidate_b": "s3_can_90bb0dd51775",
+        "rotation_difference_deg": 80.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_d04c605e83e3",
+        "candidate_b": "s3_can_fca1cc1ac072",
+        "rotation_difference_deg": 90.00000000000001
+      },
+      {
+        "candidate_a": "s3_can_d04c605e83e3",
+        "candidate_b": "s3_can_e8c2dfcb2e41",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_d04c605e83e3",
+        "candidate_b": "s3_can_936dd06a2756",
+        "rotation_difference_deg": 80.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_97b8fd9ff51e",
+        "candidate_b": "s3_can_4080ef322ffc",
+        "rotation_difference_deg": 171.00000000000003
+      },
+      {
+        "candidate_a": "s3_can_97b8fd9ff51e",
+        "candidate_b": "s3_can_c847b484a748",
+        "rotation_difference_deg": 180.0
+      },
+      {
+        "candidate_a": "s3_can_97b8fd9ff51e",
+        "candidate_b": "s3_can_b95f8cc0de38",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_97b8fd9ff51e",
+        "candidate_b": "s3_can_90bb0dd51775",
+        "rotation_difference_deg": 80.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_97b8fd9ff51e",
+        "candidate_b": "s3_can_fca1cc1ac072",
+        "rotation_difference_deg": 90.00000000000001
+      },
+      {
+        "candidate_a": "s3_can_97b8fd9ff51e",
+        "candidate_b": "s3_can_e8c2dfcb2e41",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_97b8fd9ff51e",
+        "candidate_b": "s3_can_936dd06a2756",
+        "rotation_difference_deg": 80.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_4080ef322ffc",
+        "candidate_b": "s3_can_b95f8cc0de38",
+        "rotation_difference_deg": 80.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_4080ef322ffc",
+        "candidate_b": "s3_can_90bb0dd51775",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_4080ef322ffc",
+        "candidate_b": "s3_can_fca1cc1ac072",
+        "rotation_difference_deg": 98.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_4080ef322ffc",
+        "candidate_b": "s3_can_eaf3e1a1fdf0",
+        "rotation_difference_deg": 171.00000000000003
+      },
+      {
+        "candidate_a": "s3_can_4080ef322ffc",
+        "candidate_b": "s3_can_e6f819e6eae6",
+        "rotation_difference_deg": 180.0
+      },
+      {
+        "candidate_a": "s3_can_4080ef322ffc",
+        "candidate_b": "s3_can_e8c2dfcb2e41",
+        "rotation_difference_deg": 80.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_4080ef322ffc",
+        "candidate_b": "s3_can_936dd06a2756",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_c847b484a748",
+        "candidate_b": "s3_can_b95f8cc0de38",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_c847b484a748",
+        "candidate_b": "s3_can_90bb0dd51775",
+        "rotation_difference_deg": 98.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_c847b484a748",
+        "candidate_b": "s3_can_fca1cc1ac072",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_c847b484a748",
+        "candidate_b": "s3_can_eaf3e1a1fdf0",
+        "rotation_difference_deg": 180.0
+      },
+      {
+        "candidate_a": "s3_can_c847b484a748",
+        "candidate_b": "s3_can_e6f819e6eae6",
+        "rotation_difference_deg": 171.00000000000003
+      },
+      {
+        "candidate_a": "s3_can_c847b484a748",
+        "candidate_b": "s3_can_e8c2dfcb2e41",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_c847b484a748",
+        "candidate_b": "s3_can_936dd06a2756",
+        "rotation_difference_deg": 98.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_b95f8cc0de38",
+        "candidate_b": "s3_can_fca1cc1ac072",
+        "rotation_difference_deg": 180.0
+      },
+      {
+        "candidate_a": "s3_can_b95f8cc0de38",
+        "candidate_b": "s3_can_eaf3e1a1fdf0",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_b95f8cc0de38",
+        "candidate_b": "s3_can_e6f819e6eae6",
+        "rotation_difference_deg": 98.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_90bb0dd51775",
+        "candidate_b": "s3_can_fca1cc1ac072",
+        "rotation_difference_deg": 171.00000000000003
+      },
+      {
+        "candidate_a": "s3_can_90bb0dd51775",
+        "candidate_b": "s3_can_eaf3e1a1fdf0",
+        "rotation_difference_deg": 80.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_90bb0dd51775",
+        "candidate_b": "s3_can_e6f819e6eae6",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_fca1cc1ac072",
+        "candidate_b": "s3_can_eaf3e1a1fdf0",
+        "rotation_difference_deg": 90.00000000000001
+      },
+      {
+        "candidate_a": "s3_can_fca1cc1ac072",
+        "candidate_b": "s3_can_e6f819e6eae6",
+        "rotation_difference_deg": 81.0
+      },
+      {
+        "candidate_a": "s3_can_fca1cc1ac072",
+        "candidate_b": "s3_can_e8c2dfcb2e41",
+        "rotation_difference_deg": 180.0
+      },
+      {
+        "candidate_a": "s3_can_fca1cc1ac072",
+        "candidate_b": "s3_can_936dd06a2756",
+        "rotation_difference_deg": 171.00000000000003
+      },
+      {
+        "candidate_a": "s3_can_eaf3e1a1fdf0",
+        "candidate_b": "s3_can_e8c2dfcb2e41",
+        "rotation_difference_deg": 89.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_eaf3e1a1fdf0",
+        "candidate_b": "s3_can_936dd06a2756",
+        "rotation_difference_deg": 80.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_e6f819e6eae6",
+        "candidate_b": "s3_can_e8c2dfcb2e41",
+        "rotation_difference_deg": 98.99999999999999
+      },
+      {
+        "candidate_a": "s3_can_e6f819e6eae6",
+        "candidate_b": "s3_can_936dd06a2756",
+        "rotation_difference_deg": 89.99999999999999
+      }
+    ],
+    "final_ambiguity_decision_performed": false
+  },
+  "visualizations": {
+    "fixed_camera": "world Y-Z",
+    "unit": "m",
+    "fixed_colors": {
+      "target": "blue",
+      "transformed_source_diagnostic_copy": "red"
+    },
+    "geometry_candidates": {
+      "displayed_candidate_ids": [
+        "s3_geo_2ef119eddf26",
+        "s3_geo_ecc7d3f9c291",
+        "s3_geo_d7de50e71d60",
+        "s3_geo_db29bef37f86",
+        "s3_geo_808a60d2c89a",
+        "s3_geo_0e5505724290",
+        "s3_geo_31c9b33de874",
+        "s3_geo_cf5b05bb4a11",
+        "s3_geo_3208319fe474",
+        "s3_geo_0c23b4953f2a",
+        "s3_geo_7c09f70e9b8b",
+        "s3_geo_77fdd5adeea0"
+      ],
+      "undisplayed_candidate_ids": [
+        "s3_geo_a2c082e863fc",
+        "s3_geo_ae33e46349fc",
+        "s3_geo_59bbed9f2ecc",
+        "s3_geo_7599ba5c5ac9",
+        "s3_geo_fad870e69cda",
+        "s3_geo_a3f81082a32b",
+        "s3_geo_85078c9b4af3",
+        "s3_geo_a42ebeecba80",
+        "s3_geo_9e87bcb352dd",
+        "s3_geo_de2410ec6ef5",
+        "s3_geo_9c1bab19e9a5",
+        "s3_geo_dae9f2fbee1a",
+        "s3_geo_0258fa62f941",
+        "s3_geo_e0291b91e90c",
+        "s3_geo_a9e521b6e11f",
+        "s3_geo_67edead82916",
+        "s3_geo_8b5ead73c24d",
+        "s3_geo_f2b5e6e99715",
+        "s3_geo_78ab050a4e4c",
+        "s3_geo_bcb13a536b66"
+      ]
+    },
+    "candidate_comparison": {
+      "displayed_candidate_ids": [
+        "s3_can_809f3f18e824",
+        "s3_can_efffad0c4fa1",
+        "s3_can_3028513d50d0",
+        "s3_can_36ddb98ba7ca",
+        "s3_can_773bf6d37833",
+        "s3_can_d04c605e83e3",
+        "s3_can_97b8fd9ff51e",
+        "s3_can_4080ef322ffc",
+        "s3_can_c847b484a748",
+        "s3_can_b95f8cc0de38",
+        "s3_can_90bb0dd51775",
+        "s3_can_fca1cc1ac072"
+      ],
+      "undisplayed_candidate_ids": [
+        "s3_can_eaf3e1a1fdf0",
+        "s3_can_e6f819e6eae6",
+        "s3_can_e8c2dfcb2e41",
+        "s3_can_936dd06a2756"
+      ]
+    }
+  },
+  "limitations": [
+    "FAST target is sparse/noisy and object depths contain return/depth fusion.",
+    "Only front faces are observed; physical thickness is unavailable and unused.",
+    "The approximately square planar object is highly self-similar at 0/90/180/270 degrees.",
+    "Board plane constrains normal and normal translation, not reliable in-plane translation or rotation."
+  ],
+  "elapsed_s": 8.432098799967207,
+  "peak_memory_bytes": 320901120,
+  "peak_memory_measurement": "maximum process RSS polled at major geometry steps",
+  "artifacts": {
+    "raw_candidates": "D:\\Aproject\\PointCloudLab\\outputs\\stage_03_candidates\\raw_candidates.json",
+    "canonical_candidates": "D:\\Aproject\\PointCloudLab\\outputs\\stage_03_candidates\\canonical_candidates.json",
+    "summary_csv": "D:\\Aproject\\PointCloudLab\\outputs\\stage_03_candidates\\candidate_summary.csv",
+    "matrix_directory": "D:\\Aproject\\PointCloudLab\\outputs\\stage_03_candidates\\candidate_matrices"
+  }
+}

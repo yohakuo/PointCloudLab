@@ -1,0 +1,141 @@
+{
+  "schema": "pointcloudlab.experiment.v1",
+  "id": "historical_stage_03_model_prior_rescore",
+  "historical": true,
+  "status": "backfilled_from_existing_outputs",
+  "code_commit": null,
+  "code_version_note": "Run predates the first post-initialization commit; exact Git commit is unknown.",
+  "command": null,
+  "command_note": "Exact historical command is not recoverable from these reports.",
+  "configs": {
+    "model_prior": {
+      "source": "embedded in model_rescore.json",
+      "effective": {
+        "grid_size_m": 0.003,
+        "source_min_confidence": 0.5,
+        "front_seed_quantile": 0.65,
+        "source_inlier_threshold_m": 0.001,
+        "minimum_source_cells": 80,
+        "minimum_face_extent_m": 0.03,
+        "minimum_source_coverage": 0.45,
+        "maximum_fit_p90_m": 0.0008,
+        "maximum_design_condition": 10000000,
+        "uncertainty_floor_m": 5e-05,
+        "nominal_face_size_m": 0.06,
+        "face_size_sigma_m": 0.015,
+        "maximum_size_z": 3.0,
+        "radar_min_confidence": 0.5,
+        "radar_min_front_height_m": 0.025,
+        "radar_max_height_iqr_m": 0.04,
+        "radar_height_uncertainty_floor_m": 0.003,
+        "radar_iqr_uncertainty_fraction": 0.25,
+        "radar_height_weight_scale_m": 0.012,
+        "minimum_radar_cells": 80,
+        "minimum_matched_radar_cells": 50,
+        "minimum_radar_support_fraction": 0.2,
+        "minimum_source_match_coverage": 0.25,
+        "match_lateral_tolerance_m": 0.0045,
+        "match_vertical_tolerance_m": 0.012,
+        "model_distance_clip_m": 0.02,
+        "model_trim_fraction": 0.8,
+        "coverage_penalty_scale_m": 0.001,
+        "score_weights": {
+          "model": 0.8,
+          "occupancy": 0.08,
+          "contour": 0.1,
+          "height": 0.02
+        }
+      },
+      "reported_sha256": "2f26cc18535fee4d861f3fe8ae689b9ebda9c08d6625f43ef441ea68b26107c8"
+    }
+  },
+  "inputs": {
+    "source_board": {
+      "path": "D:\\Aproject\\PointCloudLab\\outputs\\stage_02_segmentation\\source_board_points.ply",
+      "reported_sha256": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+      "current_sha256": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+      "current_matches_report": true
+    },
+    "source_object": {
+      "path": "D:\\Aproject\\PointCloudLab\\outputs\\stage_02_segmentation\\source_object_points.ply",
+      "reported_sha256": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+      "current_sha256": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+      "current_matches_report": true
+    },
+    "target_board": {
+      "path": "D:\\Aproject\\PointCloudLab\\outputs\\stage_02_segmentation\\target_board_points.pcd",
+      "reported_sha256": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+      "current_sha256": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+      "current_matches_report": true
+    },
+    "target_object": {
+      "path": "D:\\Aproject\\PointCloudLab\\outputs\\stage_02_segmentation\\target_object_points.pcd",
+      "reported_sha256": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300",
+      "current_sha256": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300",
+      "current_matches_report": true
+    },
+    "frozen.candidate_report.json": {
+      "path": "D:\\Aproject\\PointCloudLab\\outputs\\stage_03_grid_joint\\candidate_report.json",
+      "reported_sha256": "4d3b47004087f5163b1e4d43d8b469f7a7d66ef9385cde8fe1c817fc39efce98",
+      "current_sha256": "4d3b47004087f5163b1e4d43d8b469f7a7d66ef9385cde8fe1c817fc39efce98",
+      "current_matches_report": true
+    },
+    "frozen.raw_candidates.json": {
+      "path": "D:\\Aproject\\PointCloudLab\\outputs\\stage_03_grid_joint\\raw_candidates.json",
+      "reported_sha256": "58ec3547f721ab7bba0ced404aaef509cf4975273b6b651e5b1dad0711c9c6b1",
+      "current_sha256": "58ec3547f721ab7bba0ced404aaef509cf4975273b6b651e5b1dad0711c9c6b1",
+      "current_matches_report": true
+    },
+    "frozen.canonical_candidates.json": {
+      "path": "D:\\Aproject\\PointCloudLab\\outputs\\stage_03_grid_joint\\canonical_candidates.json",
+      "reported_sha256": "124ab30e87e9d7f61944084014050c996685b22376ffdca88b48ab5ef10fb416",
+      "current_sha256": "124ab30e87e9d7f61944084014050c996685b22376ffdca88b48ab5ef10fb416",
+      "current_matches_report": true
+    },
+    "frozen.shape_grids.json": {
+      "path": "D:\\Aproject\\PointCloudLab\\outputs\\stage_03_grid_joint\\shape_grids.json",
+      "reported_sha256": "f120db3ad5043b887c54675380623ba5d5efaa44540b6c900273687405573ed8",
+      "current_sha256": "f120db3ad5043b887c54675380623ba5d5efaa44540b6c900273687405573ed8",
+      "current_matches_report": true
+    }
+  },
+  "result_summary": {
+    "canonical_count": 4,
+    "canonical_old_rank_ids": [
+      "s3_can_18f2410c3b81",
+      "s3_can_834f64b11803",
+      "s3_can_e31526f8513b",
+      "s3_can_51266db928b1"
+    ],
+    "canonical_new_rank_ids": [
+      "s3_can_18f2410c3b81",
+      "s3_can_51266db928b1",
+      "s3_can_e31526f8513b",
+      "s3_can_834f64b11803"
+    ]
+  },
+  "output_directory": "outputs/stage_03_model_prior_rescore",
+  "outputs": [
+    {
+      "path": "outputs/stage_03_model_prior_rescore/model_rescore.json",
+      "size_bytes": 38639,
+      "sha256": "88a048214c0c89dc9cd5f003ef536b92589e7f29a56e77b0bded77cbf211ce1a"
+    },
+    {
+      "path": "outputs/stage_03_model_prior_rescore/model_rescore.md",
+      "size_bytes": 3115,
+      "sha256": "f41b1acdd5e2f343396a4a5e3557a1ee137d40db4d06b482eea1cda814ecdd4a"
+    }
+  ],
+  "primary_result": {
+    "path": "outputs/stage_03_model_prior_rescore/model_rescore.json",
+    "size_bytes": 38639,
+    "sha256": "88a048214c0c89dc9cd5f003ef536b92589e7f29a56e77b0bded77cbf211ce1a",
+    "snapshot": "experiments/historical_stage_03_model_prior_rescore/results/model_rescore.json"
+  },
+  "archive": {
+    "path": "archives/experiments/historical_stage_03_model_prior_rescore.zip",
+    "size_bytes": 41996,
+    "sha256": "ec08b96e907bc435f640671e058da7205c259f06d8d3aca96e5a9f97346d5956"
+  }
+}

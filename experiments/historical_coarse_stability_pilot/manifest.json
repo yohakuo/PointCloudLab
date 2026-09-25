@@ -1,0 +1,476 @@
+{
+  "schema": "pointcloudlab.experiment.v1",
+  "id": "historical_coarse_stability_pilot",
+  "historical": true,
+  "status": "backfilled_from_existing_outputs",
+  "code_commit": null,
+  "code_version_note": "Run predates the first post-initialization commit; exact Git commit is unknown.",
+  "command": null,
+  "command_note": "Exact historical command is not recoverable from these reports.",
+  "configs": {
+    "stability": {
+      "source": "embedded in paired_manifest.json",
+      "effective": {
+        "schema": "pointcloudlab.coarse_stability.v1",
+        "seed": 20260924,
+        "pilot_repeats": 1,
+        "repeats": 4,
+        "maximum_repeats": 6,
+        "batch_size": 2,
+        "convergence": {
+          "position_p90_tolerance_m": 0.0015,
+          "winner_frequency_tolerance": 0.15,
+          "tie_frequency_tolerance": 0.15
+        },
+        "threads": {
+          "OMP_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1"
+        },
+        "groups": [
+          "spatial",
+          "boundary",
+          "board",
+          "combined"
+        ],
+        "combined_components": [
+          "boundary",
+          "spatial",
+          "board"
+        ],
+        "boundary_direction_rule": "even_repeat_erodes_odd_repeat_dilates",
+        "strengths": {
+          "low": {
+            "source_voxel_m": 0.0003,
+            "target_voxel_m": 0.0015,
+            "source_boundary_m": 0.0003,
+            "target_boundary_m": 0.0015,
+            "board_voxel_m": 0.0015
+          },
+          "high": {
+            "source_voxel_m": 0.0006,
+            "target_voxel_m": 0.003,
+            "source_boundary_m": 0.0006,
+            "target_boundary_m": 0.003,
+            "board_voxel_m": 0.003
+          }
+        },
+        "boundary_addition_3d_tolerance_m": 0.0045,
+        "plane_quality": {
+          "minimum_target_inlier_ratio": 0.75,
+          "maximum_target_residual_p90_m": 0.003,
+          "maximum_target_normal_change_deg": 3.0,
+          "minimum_target_coverage_fraction": 0.8
+        },
+        "matching": {
+          "orientation_cluster_deg": 35.0,
+          "maximum_rotation_distance_deg": 40.0,
+          "near_tie_gap_m": 0.00025
+        },
+        "search": {
+          "angle_step_deg": 10.0,
+          "translation_step_m": 0.006
+        },
+        "input_paths": {
+          "source_board": "outputs/stage_02_segmentation/source_board_points.ply",
+          "source_object": "outputs/stage_02_segmentation/source_object_points.ply",
+          "target_board": "outputs/stage_02_segmentation/target_board_points.pcd",
+          "target_object": "outputs/stage_02_segmentation/target_object_points.pcd",
+          "source_roi": "data/processed/20260916_181134_pc_roi.ply",
+          "target_roi": "data/processed/09171118roi.pcd"
+        }
+      },
+      "reported_sha256": "b61357a78449efdd096fb422d1bf49dd2b04ba2beb5276429f0508060ad83c34"
+    },
+    "registration": {
+      "reported_sha256": "2ebdfb1d9de4e3c422e2d0644a3d150862c720649d995091984f05a1772b5350"
+    },
+    "model_prior": {
+      "reported_sha256": "2f26cc18535fee4d861f3fe8ae689b9ebda9c08d6625f43ef441ea68b26107c8"
+    },
+    "implementation_file_hashes": {
+      "source": "paired_manifest.json",
+      "sha256": {
+        "D:\\Aproject\\PointCloudLab\\scripts\\study_coarse_perturbations.py": "a63eedd0282b6279a74e8e21b4f0fa35bc0f205c4ccb5354f356da06c3da59ca",
+        "D:\\Aproject\\PointCloudLab\\scripts\\03_generate_candidates.py": "f175a58a5d2dd5107df92ae483b26747e914157c57340105da325a2d8a79c1a9",
+        "D:\\Aproject\\PointCloudLab\\src\\pointcloud_registration\\candidates.py": "0a99adc0324779c8b8b77a73f65f1f8f92fdc81741ecf6565f3a30436f7a30fb",
+        "D:\\Aproject\\PointCloudLab\\src\\pointcloud_registration\\joint_search.py": "0b7c50238704f9182125055e0e7e0268d8485677eab45f7ad16ca6cfd2bd777f",
+        "D:\\Aproject\\PointCloudLab\\src\\pointcloud_registration\\shape_grid.py": "62334e0de0afa1a56d494eb70867ef5067b78f33e56d6a3335d29589c5ab7ee4",
+        "D:\\Aproject\\PointCloudLab\\src\\pointcloud_registration\\model_prior.py": "1de10a1d9aa0ebcad8d4b15251dd3b81d1c9e8b49a236487fd57838e42da13d0"
+      }
+    }
+  },
+  "inputs": {
+    "source_board": {
+      "path": "outputs/stage_02_segmentation/source_board_points.ply",
+      "reported_sha256": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+      "current_sha256": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+      "current_matches_report": true
+    },
+    "source_object": {
+      "path": "outputs/stage_02_segmentation/source_object_points.ply",
+      "reported_sha256": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+      "current_sha256": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+      "current_matches_report": true
+    },
+    "target_board": {
+      "path": "outputs/stage_02_segmentation/target_board_points.pcd",
+      "reported_sha256": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+      "current_sha256": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+      "current_matches_report": true
+    },
+    "target_object": {
+      "path": "outputs/stage_02_segmentation/target_object_points.pcd",
+      "reported_sha256": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300",
+      "current_sha256": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300",
+      "current_matches_report": true
+    },
+    "source_roi": {
+      "path": "data/processed/20260916_181134_pc_roi.ply",
+      "reported_sha256": "c1f996525b75fff74924b7495788506231787d82328d0c81b31309d95799197d",
+      "current_sha256": "c1f996525b75fff74924b7495788506231787d82328d0c81b31309d95799197d",
+      "current_matches_report": true
+    },
+    "target_roi": {
+      "path": "data/processed/09171118roi.pcd",
+      "reported_sha256": "2cf5fc16cdcfc15dcc44b198e37db2fdd042dd15a6dc43d5558d83ef89646383",
+      "current_sha256": "2cf5fc16cdcfc15dcc44b198e37db2fdd042dd15a6dc43d5558d83ef89646383",
+      "current_matches_report": true
+    }
+  },
+  "result_summary": {
+    "total_attempts": 45,
+    "valid_runs": 45,
+    "failed_runs": 0,
+    "overall_failure_rate": 0.0
+  },
+  "output_directory": "outputs/coarse_stability_pilot",
+  "outputs": [
+    {
+      "path": "outputs/coarse_stability_pilot/branch_summary.csv",
+      "size_bytes": 124431,
+      "sha256": "ee542403aef214a77d7818a68c2df5a9000b903a429cc30bd8752046a19bc930"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/direction_frequency.png",
+      "size_bytes": 67853,
+      "sha256": "44f9b285a189c2cf94ea784d790b438700f1586dc839fd2c1634c9d23df8f62d"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/fixed_plane_positions.png",
+      "size_bytes": 83807,
+      "sha256": "16e025b423bde7945c0f1e0bd2dfea75f9f882750a4b4a0287e38069639339ad"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/paired_inputs/board_high_00.json",
+      "size_bytes": 1433,
+      "sha256": "35583556769b901ea596c7db9fcca67c514854dc67659bcd5819aec99999f985"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/paired_inputs/board_low_00.json",
+      "size_bytes": 1435,
+      "sha256": "65e747e7e16b2e663833a2e710c15b2008414e71ab702b128d854c25cd8f5e5d"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/paired_inputs/boundary_high_00.json",
+      "size_bytes": 1394,
+      "sha256": "4ce0ac979cd5706e1ed561aed396e58e658a9e616741754aeb0301fe6828ad10"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/paired_inputs/boundary_low_00.json",
+      "size_bytes": 1391,
+      "sha256": "95eb2f1fc26d6813c80000ae1864aab57b0381fb4a0b53c88a64cf386ac1ac2c"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/paired_inputs/combined_high_00.json",
+      "size_bytes": 1859,
+      "sha256": "b683596ff75ed44e5668ee794ac7712d828cb2a45889bee6e025412528be8c5f"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/paired_inputs/combined_low_00.json",
+      "size_bytes": 1863,
+      "sha256": "6501b89617ae4e6ac27e7618c632b9a12a685ab5e8de5496e112c1b24a74aa67"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/paired_inputs/reference.json",
+      "size_bytes": 1116,
+      "sha256": "e22ec195a2413b680f5b9174923d189b5b945c61a354cb638295e478735c1952"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/paired_inputs/spatial_high_00.json",
+      "size_bytes": 1446,
+      "sha256": "b15cff16c8fd7af0eef10274887b2cc4d807b7353d87cfe22f2d1c69b1895590"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/paired_inputs/spatial_low_00.json",
+      "size_bytes": 1447,
+      "sha256": "41f684decbf8b97d8a8351da7e8f56863ceadac596923490ddf64b5159d87128"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/paired_manifest.json",
+      "size_bytes": 7945,
+      "sha256": "c0b3dcf3bc7f03a3f9148d61e8d8ca551267140fd25d2bde8bd90c3ae6344612"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/pool_changes.csv",
+      "size_bytes": 853,
+      "sha256": "88ec803d8804b4848607718b0a428c80d2e44cd38dad1bedad35864a381b3a3e"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/report.md",
+      "size_bytes": 24113,
+      "sha256": "1fde42eebbe74572edae9ea4ed86bb5b5b144e45c4796d17d3cbe3f2a9709da4"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/board_high_00__grid_joint.json",
+      "size_bytes": 115405,
+      "sha256": "d9fd9f9f0b6ef473380046f496eaaddcdb114f796f2bdc80361f2bc7cbc06648"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/board_high_00__grid_sequential.json",
+      "size_bytes": 213347,
+      "sha256": "babbb4caca8e29b92c37e44a7efc42ef5af7ac17f4dcc17d1fffdfdb371c9164"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/board_high_00__joint_rescore.json",
+      "size_bytes": 132225,
+      "sha256": "bbb76628c4d53f7e3db19c6cff3d19ee28674f3927f168ad3ca2f92aeee7c0dd"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/board_high_00__model_in_search.json",
+      "size_bytes": 132228,
+      "sha256": "51378a27e93921ae62cfcac2fcb68164ff17baff751ba879788a5a4a89d5629f"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/board_high_00__sampled_random.json",
+      "size_bytes": 180587,
+      "sha256": "a8a0d6a715230e4013e7d083df58df3a6e11509d2c4e46019f152e037305da43"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/board_low_00__grid_joint.json",
+      "size_bytes": 103484,
+      "sha256": "8d350dac0fa01f40fac384524657ae48817e6a768ab8fff5d34f7204fbe158d7"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/board_low_00__grid_sequential.json",
+      "size_bytes": 177558,
+      "sha256": "6c4f1b221b2ae1896e9080200349522190b26a66b53f42a6a29899e4ffbe7546"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/board_low_00__joint_rescore.json",
+      "size_bytes": 117691,
+      "sha256": "04f6d13fc0f731d525f7327e426fda7adcd745e3fbb14c5c26d5f96120d3a67e"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/board_low_00__model_in_search.json",
+      "size_bytes": 117685,
+      "sha256": "bcbd5a8edad4bdd61aba9be675031f1d1a43459ec7b23f683b47b136948ccf93"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/board_low_00__sampled_random.json",
+      "size_bytes": 180747,
+      "sha256": "c270020e4b507da350ece22339738e8fc12905cedd441ecb504331651b5354ba"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/boundary_high_00__grid_joint.json",
+      "size_bytes": 113139,
+      "sha256": "d09b3be246ff4423a60d8b2d40ad04f62594e16978c92bcb7a5f92a8fd7e52cb"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/boundary_high_00__grid_sequential.json",
+      "size_bytes": 183317,
+      "sha256": "38a1148eda75a934fc38c4f92b06ade24ba019bb4c1d727020780e2e024f19c5"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/boundary_high_00__joint_rescore.json",
+      "size_bytes": 129959,
+      "sha256": "fd6933b72ecc0df1ce47a59897e04585d3f35181bc4345cfa151b28a75643b12"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/boundary_high_00__model_in_search.json",
+      "size_bytes": 134732,
+      "sha256": "cbf9b70e481c6c3653c1b69bdb65033366ba1dca17b2025f6125404b95fbae40"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/boundary_high_00__sampled_random.json",
+      "size_bytes": 183791,
+      "sha256": "8784bb7153b47106eeb760cc957ed2be77cfae1f8912b6e759c4465552101baa"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/boundary_low_00__grid_joint.json",
+      "size_bytes": 110275,
+      "sha256": "2d5f0bf381c5a438e49555f58d35a48f27b8930d4a25935c804513e4f7fc32da"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/boundary_low_00__grid_sequential.json",
+      "size_bytes": 177040,
+      "sha256": "7a992fd68ea6cef03c8fa0b5917ce0888d35cc00dda25922d295bdc8dce25b8f"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/boundary_low_00__joint_rescore.json",
+      "size_bytes": 126220,
+      "sha256": "477d225949b99539e6d1a221a68bdedda55424a9839189aa6fe26d35fef9510a"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/boundary_low_00__model_in_search.json",
+      "size_bytes": 121176,
+      "sha256": "5b3f46a9007d17ea95389c27e73dd12fc570d5311166feb271aa2ea8fa3dab18"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/boundary_low_00__sampled_random.json",
+      "size_bytes": 177212,
+      "sha256": "677c6d3301ec947631b74334621548824a05477af0e4969425ecd56bba2255e5"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/combined_high_00__grid_joint.json",
+      "size_bytes": 113986,
+      "sha256": "598a38a50e1763e503f5ac74b195a58d4820d8272706e3162a15acbe6f801f52"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/combined_high_00__grid_sequential.json",
+      "size_bytes": 195822,
+      "sha256": "7c7dc194e3bc4d3a76b332f80e13f03ea49d406e19407f46bbce71c1e067a081"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/combined_high_00__joint_rescore.json",
+      "size_bytes": 130800,
+      "sha256": "01963360a1409c7ee644e95fbd9ec113823868a4403c740e788cc619db7eb0c4"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/combined_high_00__model_in_search.json",
+      "size_bytes": 120736,
+      "sha256": "a9572d003ab5b1693d50aefb4138af31dfd0d2f370c8fd04e990142d0b16a982"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/combined_high_00__sampled_random.json",
+      "size_bytes": 181927,
+      "sha256": "cddb00b268174f99469855353af66c9449ae952d7cd640b42c06c21d0423dd2f"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/combined_low_00__grid_joint.json",
+      "size_bytes": 106140,
+      "sha256": "e8bdff75b2b8c0b1c4ca70af492fd1a0336f2918b3b98dfba766589fe007a378"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/combined_low_00__grid_sequential.json",
+      "size_bytes": 199843,
+      "sha256": "a505af891671b45bf237fbe90c07f6f4f202d199d7d054feba2a4642905be235"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/combined_low_00__joint_rescore.json",
+      "size_bytes": 121210,
+      "sha256": "397afbcd13227f686ff9cb10735a5ab06e0494e46d2b2de06e720189aa4580eb"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/combined_low_00__model_in_search.json",
+      "size_bytes": 126044,
+      "sha256": "426a9bd9a8e25592c79a4658bf9d9ac3fbe40822e757bc1ba2b9c829b7a7fe13"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/combined_low_00__sampled_random.json",
+      "size_bytes": 180696,
+      "sha256": "c5eaabd978fe5669d5398a2a17a7d213025e5726b25b2c98cb792fe22f1fddd7"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/reference__grid_joint.json",
+      "size_bytes": 103462,
+      "sha256": "11a6c3535a0a429728fbfcef178981ce299b05303171e7bde2dcf811b0c0717f"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/reference__grid_sequential.json",
+      "size_bytes": 177695,
+      "sha256": "91ddcd013480b6398f734627b573ea590e4dc2352d6be27b46699f78465fd2c3"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/reference__joint_rescore.json",
+      "size_bytes": 117665,
+      "sha256": "a117ce49aa5458e0ff4a99d88e41a37f8cf94692edc17528f8df3c10357fa422"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/reference__model_in_search.json",
+      "size_bytes": 117529,
+      "sha256": "d2b610182d031bce0b8192f474c2b6a225bd7b42495ac6de98b594fd286fef1c"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/reference__sampled_random.json",
+      "size_bytes": 181019,
+      "sha256": "372e9a24a05224e14f9cb1c798ec69b37fa4c6b5695ae870378bb648c0fb50b3"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/spatial_high_00__grid_joint.json",
+      "size_bytes": 109878,
+      "sha256": "5b5ed616b78e8fff7e7e4806c13281580d653f8d19fda8ac913edf84dc397fa8"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/spatial_high_00__grid_sequential.json",
+      "size_bytes": 188869,
+      "sha256": "e81457ed9d3c583a3e94bcd4e34e066df4ebd4f8d07285b2fba6e66e72d09819"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/spatial_high_00__joint_rescore.json",
+      "size_bytes": 124930,
+      "sha256": "368f4eda04e7d80b75c67f352d6cb01f77d9826cbf2e08229c16adba7399b99f"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/spatial_high_00__model_in_search.json",
+      "size_bytes": 127028,
+      "sha256": "12226195301cbdd03fc50a71190ab55a5e0355b2686b2ca6dca2ea723a4dcc19"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/spatial_high_00__sampled_random.json",
+      "size_bytes": 181217,
+      "sha256": "b3b02d3cfddaa27015c8c51ce9a5f38f262c3673ac6ee794e7e2c4e1baf91d6e"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/spatial_low_00__grid_joint.json",
+      "size_bytes": 103779,
+      "sha256": "57989e71a607c1476e85becbee0ee832426d500adb531708f2d5f06610c9b184"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/spatial_low_00__grid_sequential.json",
+      "size_bytes": 178306,
+      "sha256": "816c18284d53fe5c6f3983873fa2c3363019c927f1e061c2f961b0bc3f83a2c1"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/spatial_low_00__joint_rescore.json",
+      "size_bytes": 117983,
+      "sha256": "b5eea2db97638fb7815eb5de52dfa33e1c8053f361187ed07be9817fbd5e6a22"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/spatial_low_00__model_in_search.json",
+      "size_bytes": 122693,
+      "sha256": "7fb97606134d36b98e04a7e0aa7216753a554567dd3e19e08710a6344ffdee31"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/runs/spatial_low_00__sampled_random.json",
+      "size_bytes": 181345,
+      "sha256": "542849f609759cccb83f04d83878b85744e3b508435750753669c6fed58f0698"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/score_gaps.png",
+      "size_bytes": 40280,
+      "sha256": "14b93402316f67f0672e696984b2420b0a5d5cd2657b0b8bbb9e31a07c20d7a5"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/summary.csv",
+      "size_bytes": 39815,
+      "sha256": "ec5b7af764b17e8ecbe177023cfd63538dea5a877e37db5579bd383e38986bb3"
+    },
+    {
+      "path": "outputs/coarse_stability_pilot/summary.json",
+      "size_bytes": 330773,
+      "sha256": "bf7c1bee197824811859eede79ea2b4ff6ed1036f156b3a86a066cf6e7a63058"
+    }
+  ],
+  "primary_result": {
+    "path": "outputs/coarse_stability_pilot/summary.json",
+    "size_bytes": 330773,
+    "sha256": "bf7c1bee197824811859eede79ea2b4ff6ed1036f156b3a86a066cf6e7a63058",
+    "snapshot": "experiments/historical_coarse_stability_pilot/results/summary.json"
+  },
+  "archive": {
+    "path": "archives/experiments/historical_coarse_stability_pilot.zip",
+    "size_bytes": 7280908,
+    "sha256": "c5a9d784fa51504dacd39047485fd4f044d1c7748103c19fb626831b1ba380d9"
+  }
+}

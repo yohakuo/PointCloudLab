@@ -1,0 +1,522 @@
+{
+  "config": {
+    "schema": "pointcloudlab.coarse_stability.v1",
+    "seed": 20260924,
+    "pilot_repeats": 1,
+    "repeats": 4,
+    "maximum_repeats": 6,
+    "batch_size": 2,
+    "convergence": {
+      "position_p90_tolerance_m": 0.0015,
+      "winner_frequency_tolerance": 0.15,
+      "tie_frequency_tolerance": 0.15
+    },
+    "threads": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    },
+    "groups": [
+      "spatial",
+      "boundary",
+      "board",
+      "combined"
+    ],
+    "combined_components": [
+      "boundary",
+      "spatial",
+      "board"
+    ],
+    "boundary_direction_rule": "even_repeat_erodes_odd_repeat_dilates",
+    "strengths": {
+      "low": {
+        "source_voxel_m": 0.0003,
+        "target_voxel_m": 0.0015,
+        "source_boundary_m": 0.0003,
+        "target_boundary_m": 0.0015,
+        "board_voxel_m": 0.0015
+      },
+      "high": {
+        "source_voxel_m": 0.0006,
+        "target_voxel_m": 0.003,
+        "source_boundary_m": 0.0006,
+        "target_boundary_m": 0.003,
+        "board_voxel_m": 0.003
+      }
+    },
+    "boundary_addition_3d_tolerance_m": 0.0045,
+    "plane_quality": {
+      "minimum_target_inlier_ratio": 0.75,
+      "maximum_target_residual_p90_m": 0.003,
+      "maximum_target_normal_change_deg": 3.0,
+      "minimum_target_coverage_fraction": 0.8
+    },
+    "matching": {
+      "orientation_cluster_deg": 35.0,
+      "maximum_rotation_distance_deg": 40.0,
+      "near_tie_gap_m": 0.00025
+    },
+    "search": {
+      "angle_step_deg": 10.0,
+      "translation_step_m": 0.006
+    },
+    "input_paths": {
+      "source_board": "outputs/stage_02_segmentation/source_board_points.ply",
+      "source_object": "outputs/stage_02_segmentation/source_object_points.ply",
+      "target_board": "outputs/stage_02_segmentation/target_board_points.pcd",
+      "target_object": "outputs/stage_02_segmentation/target_object_points.pcd",
+      "source_roi": "data/processed/20260916_181134_pc_roi.ply",
+      "target_roi": "data/processed/09171118roi.pcd"
+    }
+  },
+  "config_sha256": "b61357a78449efdd096fb422d1bf49dd2b04ba2beb5276429f0508060ad83c34",
+  "registration_config_sha256": "2ebdfb1d9de4e3c422e2d0644a3d150862c720649d995091984f05a1772b5350",
+  "model_config_sha256": "2f26cc18535fee4d861f3fe8ae689b9ebda9c08d6625f43ef441ea68b26107c8",
+  "implementation_sha256": {
+    "D:\\Aproject\\PointCloudLab\\scripts\\study_coarse_perturbations.py": "a63eedd0282b6279a74e8e21b4f0fa35bc0f205c4ccb5354f356da06c3da59ca",
+    "D:\\Aproject\\PointCloudLab\\scripts\\03_generate_candidates.py": "f175a58a5d2dd5107df92ae483b26747e914157c57340105da325a2d8a79c1a9",
+    "D:\\Aproject\\PointCloudLab\\src\\pointcloud_registration\\candidates.py": "0a99adc0324779c8b8b77a73f65f1f8f92fdc81741ecf6565f3a30436f7a30fb",
+    "D:\\Aproject\\PointCloudLab\\src\\pointcloud_registration\\joint_search.py": "0b7c50238704f9182125055e0e7e0268d8485677eab45f7ad16ca6cfd2bd777f",
+    "D:\\Aproject\\PointCloudLab\\src\\pointcloud_registration\\shape_grid.py": "62334e0de0afa1a56d494eb70867ef5067b78f33e56d6a3335d29589c5ab7ee4",
+    "D:\\Aproject\\PointCloudLab\\src\\pointcloud_registration\\model_prior.py": "1de10a1d9aa0ebcad8d4b15251dd3b81d1c9e8b49a236487fd57838e42da13d0"
+  },
+  "input_file_sha256": {
+    "source_board": "ad3b7fbccd701eda42933e976158f6cd413b81c1dc9c03e01041a6585d668310",
+    "source_object": "0158ee974e89fac44f282814d2766f347dcbe6650d27d2a9ec8315277c7834f2",
+    "target_board": "ac9227af35f568d7632ccc4a63af789ebab0cf8f8c109a3fbd1f6ed1ca02f5ef",
+    "target_object": "ffbdf6d2107ebf9c09b9c1a1422cd21ab648df73d2088b65d843fe5718cf4300",
+    "source_roi": "c1f996525b75fff74924b7495788506231787d82328d0c81b31309d95799197d",
+    "target_roi": "2cf5fc16cdcfc15dcc44b198e37db2fdd042dd15a6dc43d5558d83ef89646383"
+  },
+  "original_point_sha256": {
+    "source_board": "736f44c2237d406f8c8b7cb9295c87842ba08810374553b9b0b76e1adb84b944",
+    "source_object": "7e883085abe22048197fdc86b69d7378f0c16ac7df51b4b5a48ee9c3dce2c2e7",
+    "target_board": "fc4f36e512a33c3bd8e6b141fd72c231923bc5fc6b57f16d4db84dd12caa653b",
+    "target_object": "ca588c040d2f9ecabf4ac82e7c65ef44e2c920cd8718d5176850b9872056ea2a"
+  },
+  "fixed_reference": {
+    "source_reference_point_m": [
+      0.06114530563354492,
+      -0.0015,
+      -0.28529345703125003
+    ],
+    "target_plane": [
+      -0.9093461170627672,
+      0.015903294626956624,
+      -0.41573636430179683,
+      1.5825052510301005
+    ],
+    "target_frame": {
+      "origin": [
+        1.5214113795115956,
+        0.05291325989904684,
+        0.480730657549329
+      ],
+      "u": [
+        -0.40974809887451313,
+        -0.20737026599037636,
+        0.8883152977697744
+      ],
+      "v": [
+        -0.07208422054507019,
+        0.9781332516600634,
+        0.1950876909118587
+      ],
+      "n": [
+        -0.9093461170627672,
+        0.015903294626956624,
+        -0.41573636430179683
+      ]
+    }
+  },
+  "rows": [
+    {
+      "id": "reference",
+      "group": "reference",
+      "strength": "none",
+      "repeat": 0,
+      "seed": 20260923,
+      "components": []
+    },
+    {
+      "id": "spatial_low_00",
+      "group": "spatial",
+      "strength": "low",
+      "repeat": 0,
+      "seed": 20260924,
+      "components": [
+        "spatial"
+      ],
+      "boundary_rule": "even repeat erodes; odd repeat dilates observed ROI support"
+    },
+    {
+      "id": "spatial_low_01",
+      "group": "spatial",
+      "strength": "low",
+      "repeat": 1,
+      "seed": 20260925,
+      "components": [
+        "spatial"
+      ],
+      "boundary_rule": "even repeat erodes; odd repeat dilates observed ROI support"
+    },
+    {
+      "id": "spatial_low_02",
+      "group": "spatial",
+      "strength": "low",
+      "repeat": 2,
+      "seed": 20260926,
+      "components": [
+        "spatial"
+      ],
+      "boundary_rule": "even repeat erodes; odd repeat dilates observed ROI support"
+    },
+    {
+      "id": "spatial_low_03",
+      "group": "spatial",
+      "strength": "low",
+      "repeat": 3,
+      "seed": 20260927,
+      "components": [
+        "spatial"
+      ],
+      "boundary_rule": "even repeat erodes; odd repeat dilates observed ROI support"
+    },
+    {
+      "id": "spatial_high_00",
+      "group": "spatial",
+      "strength": "high",
+      "repeat": 0,
+      "seed": 20261924,
+      "components": [
+        "spatial"
+      ],
+      "boundary_rule": "even repeat erodes; odd repeat dilates observed ROI support"
+    },
+    {
+      "id": "spatial_high_01",
+      "group": "spatial",
+      "strength": "high",
+      "repeat": 1,
+      "seed": 20261925,
+      "components": [
+        "spatial"
+      ],
+      "boundary_rule": "even repeat erodes; odd repeat dilates observed ROI support"
+    },
+    {
+      "id": "spatial_high_02",
+      "group": "spatial",
+      "strength": "high",
+      "repeat": 2,
+      "seed": 20261926,
+      "components": [
+        "spatial"
+      ],
+      "boundary_rule": "even repeat erodes; odd repeat dilates observed ROI support"
+    },
+    {
+      "id": "spatial_high_03",
+      "group": "spatial",
+      "strength": "high",
+      "repeat": 3,
+      "seed": 20261927,
+      "components": [
+        "spatial"
+      ],
+      "boundary_rule": "even repeat erodes; odd repeat dilates observed ROI support"
+    },
+    {
+      "id": "boundary_low_00",
+      "group": "boundary",
+      "strength": "low",
+      "repeat": 0,
+      "seed": 20270924,
+      "components": [
+        "boundary"
+      ],
+      "boundary_rule": "even repeat erodes; odd repeat dilates observed ROI support"
+    },
+    {
+      "id": "boundary_low_01",
+      "group": "boundary",
+      "strength": "low",
+      "repeat": 1,
+      "seed": 20270925,
+      "components": [
+        "boundary"
+      ],
+      "boundary_rule": "even repeat erodes; odd repeat dilates observed ROI support"
+    },
+    {
+      "id": "boundary_low_02",
+      "group": "boundary",
+      "strength": "low",
+      "repeat": 2,
+      "seed": 20270926,
+      "components": [
+        "boundary"
+      ],
+      "boundary_rule": "even repeat erodes; odd repeat dilates observed ROI support"
+    },
+    {
+      "id": "boundary_low_03",
+      "group": "boundary",
+      "strength": "low",
+      "repeat": 3,
+      "seed": 20270927,
+      "components": [
+        "boundary"
+      ],
+      "boundary_rule": "even repeat erodes; odd repeat dilates observed ROI support"
+    },
+    {
+      "id": "boundary_high_00",
+      "group": "boundary",
+      "strength": "high",
+      "repeat": 0,
+      "seed": 20271924,
+      "components": [
+        "boundary"
+      ],
+      "boundary_rule": "even repeat erodes; odd repeat dilates observed ROI support"
+    },
+    {
+      "id": "boundary_high_01",
+      "group": "boundary",
+      "strength": "high",
+      "repeat": 1,
+      "seed": 20271925,
+      "components": [
+        "boundary"
+      ],
+      "boundary_rule": "even repeat erodes; odd repeat dilates observed ROI support"
+    },
+    {
+      "id": "boundary_high_02",
+      "group": "boundary",
+      "strength": "high",
+      "repeat": 2,
+      "seed": 20271926,
+      "components": [
+        "boundary"
+      ],
+      "boundary_rule": "even repeat erodes; odd repeat dilates observed ROI support"
+    },
+    {
+      "id": "boundary_high_03",
+      "group": "boundary",
+      "strength": "high",
+      "repeat": 3,
+      "seed": 20271927,
+      "components": [
+        "boundary"
+      ],
+      "boundary_rule": "even repeat erodes; odd repeat dilates observed ROI support"
+    },
+    {
+      "id": "board_low_00",
+      "group": "board",
+      "strength": "low",
+      "repeat": 0,
+      "seed": 20280924,
+      "components": [
+        "board"
+      ],
+      "boundary_rule": "even repeat erodes; odd repeat dilates observed ROI support"
+    },
+    {
+      "id": "board_low_01",
+      "group": "board",
+      "strength": "low",
+      "repeat": 1,
+      "seed": 20280925,
+      "components": [
+        "board"
+      ],
+      "boundary_rule": "even repeat erodes; odd repeat dilates observed ROI support"
+    },
+    {
+      "id": "board_low_02",
+      "group": "board",
+      "strength": "low",
+      "repeat": 2,
+      "seed": 20280926,
+      "components": [
+        "board"
+      ],
+      "boundary_rule": "even repeat erodes; odd repeat dilates observed ROI support"
+    },
+    {
+      "id": "board_low_03",
+      "group": "board",
+      "strength": "low",
+      "repeat": 3,
+      "seed": 20280927,
+      "components": [
+        "board"
+      ],
+      "boundary_rule": "even repeat erodes; odd repeat dilates observed ROI support"
+    },
+    {
+      "id": "board_high_00",
+      "group": "board",
+      "strength": "high",
+      "repeat": 0,
+      "seed": 20281924,
+      "components": [
+        "board"
+      ],
+      "boundary_rule": "even repeat erodes; odd repeat dilates observed ROI support"
+    },
+    {
+      "id": "board_high_01",
+      "group": "board",
+      "strength": "high",
+      "repeat": 1,
+      "seed": 20281925,
+      "components": [
+        "board"
+      ],
+      "boundary_rule": "even repeat erodes; odd repeat dilates observed ROI support"
+    },
+    {
+      "id": "board_high_02",
+      "group": "board",
+      "strength": "high",
+      "repeat": 2,
+      "seed": 20281926,
+      "components": [
+        "board"
+      ],
+      "boundary_rule": "even repeat erodes; odd repeat dilates observed ROI support"
+    },
+    {
+      "id": "board_high_03",
+      "group": "board",
+      "strength": "high",
+      "repeat": 3,
+      "seed": 20281927,
+      "components": [
+        "board"
+      ],
+      "boundary_rule": "even repeat erodes; odd repeat dilates observed ROI support"
+    },
+    {
+      "id": "combined_low_00",
+      "group": "combined",
+      "strength": "low",
+      "repeat": 0,
+      "seed": 20290924,
+      "components": [
+        "boundary",
+        "spatial",
+        "board"
+      ],
+      "boundary_rule": "even repeat erodes; odd repeat dilates observed ROI support"
+    },
+    {
+      "id": "combined_low_01",
+      "group": "combined",
+      "strength": "low",
+      "repeat": 1,
+      "seed": 20290925,
+      "components": [
+        "boundary",
+        "spatial",
+        "board"
+      ],
+      "boundary_rule": "even repeat erodes; odd repeat dilates observed ROI support"
+    },
+    {
+      "id": "combined_low_02",
+      "group": "combined",
+      "strength": "low",
+      "repeat": 2,
+      "seed": 20290926,
+      "components": [
+        "boundary",
+        "spatial",
+        "board"
+      ],
+      "boundary_rule": "even repeat erodes; odd repeat dilates observed ROI support"
+    },
+    {
+      "id": "combined_low_03",
+      "group": "combined",
+      "strength": "low",
+      "repeat": 3,
+      "seed": 20290927,
+      "components": [
+        "boundary",
+        "spatial",
+        "board"
+      ],
+      "boundary_rule": "even repeat erodes; odd repeat dilates observed ROI support"
+    },
+    {
+      "id": "combined_high_00",
+      "group": "combined",
+      "strength": "high",
+      "repeat": 0,
+      "seed": 20291924,
+      "components": [
+        "boundary",
+        "spatial",
+        "board"
+      ],
+      "boundary_rule": "even repeat erodes; odd repeat dilates observed ROI support"
+    },
+    {
+      "id": "combined_high_01",
+      "group": "combined",
+      "strength": "high",
+      "repeat": 1,
+      "seed": 20291925,
+      "components": [
+        "boundary",
+        "spatial",
+        "board"
+      ],
+      "boundary_rule": "even repeat erodes; odd repeat dilates observed ROI support"
+    },
+    {
+      "id": "combined_high_02",
+      "group": "combined",
+      "strength": "high",
+      "repeat": 2,
+      "seed": 20291926,
+      "components": [
+        "boundary",
+        "spatial",
+        "board"
+      ],
+      "boundary_rule": "even repeat erodes; odd repeat dilates observed ROI support"
+    },
+    {
+      "id": "combined_high_03",
+      "group": "combined",
+      "strength": "high",
+      "repeat": 3,
+      "seed": 20291927,
+      "components": [
+        "boundary",
+        "spatial",
+        "board"
+      ],
+      "boundary_rule": "even repeat erodes; odd repeat dilates observed ROI support"
+    }
+  ],
+  "environment": {
+    "python": "3.12.14 (main, Sep  1 2026, 14:17:39) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "open3d": "0.19.0",
+    "threads": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    }
+  }
+}
